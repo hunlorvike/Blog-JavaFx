@@ -1,0 +1,219 @@
+package hung.pj.login.controller;
+
+import com.jfoenix.controls.JFXComboBox;
+import hung.pj.login.config.ConnectionProvider;
+import hung.pj.login.dao.user.UserDaoImpl;
+import hung.pj.login.exception.UnauthorizedAccessException;
+import hung.pj.login.model.UserModel;
+import hung.pj.login.singleton.UserSingleton;
+import hung.pj.login.ultis.ControllerUtils;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseButton;
+import javafx.scene.layout.VBox;
+
+import java.net.URL;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Optional;
+import java.util.ResourceBundle;
+
+public class MemberController implements Initializable {
+    ConnectionProvider connectionProvider = new ConnectionProvider();
+    UserDaoImpl userDao = new UserDaoImpl(connectionProvider.getConnection());
+    private UserSingleton userSingleton;
+    // Khai báo biến loggedInUser
+    UserModel loggedInUser;
+    public Button allButton, superAdminButton, adminButton, moderatorButton;
+    @FXML
+    private TableView<UserModel> tableView;
+
+    @FXML
+    private TableColumn<UserModel, Integer> idColumn;
+
+    @FXML
+    private TableColumn<UserModel, String> nameColumn;
+
+    @FXML
+    private TableColumn<UserModel, String> emailColumn;
+
+    @FXML
+    private TableColumn<UserModel, String> roleColumn;
+
+    @FXML
+    private TableColumn<UserModel, Timestamp> createColumn;
+
+    @FXML
+    private TableColumn<UserModel, Timestamp> updateColumn;
+
+    private ObservableList<UserModel> userModelObservableList = FXCollections.observableArrayList();
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        // Kiểm tra singleton đăng nhập
+        userSingleton = UserSingleton.getInstance();
+        loggedInUser = userSingleton.getLoggedInUser();
+
+        idColumn.setCellValueFactory(new PropertyValueFactory<>("user_id"));
+        nameColumn.setCellValueFactory(new PropertyValueFactory<>("fullname"));
+        emailColumn.setCellValueFactory(new PropertyValueFactory<>("email"));
+        roleColumn.setCellValueFactory(new PropertyValueFactory<>("role"));
+        createColumn.setCellValueFactory(new PropertyValueFactory<>("created_at"));
+        updateColumn.setCellValueFactory(new PropertyValueFactory<>("updated_at"));
+
+        refreshTableView();
+
+        // Tạo context menu
+        ContextMenu menu = new ContextMenu();
+        // Tạo các option cho menu vừa tạo
+        MenuItem editRoleItem = new MenuItem("Cập nhật role");
+        editRoleItem.setOnAction(event -> editRoleItem());
+        MenuItem lockUserAccount = new MenuItem("Khoá tài khoản");
+        lockUserAccount.setOnAction(event -> lockUserAccount());
+        MenuItem unlockUserAccount = new MenuItem("Mở khoá tài khoản");
+        unlockUserAccount.setOnAction(event -> unlockUserAccount());
+        tableView.setContextMenu(menu);
+
+        // Gán các option cho menu
+        menu.getItems().addAll(editRoleItem, lockUserAccount, unlockUserAccount);
+
+        // Ẩn menu khi chuột trái được nhấp bên ngoài menu
+        tableView.setOnMouseClicked(event -> {
+            if (event.getButton() == MouseButton.PRIMARY) {
+                menu.hide();
+            }
+        });
+    }
+
+    private void editRoleItem() {
+        UserModel selectedUser = tableView.getSelectionModel().getSelectedItem();
+        if (selectedUser == null) {
+            return;
+        }
+
+        // Kiểm tra quyền của người dùng hiện tại
+        if (!userDao.isUserSuperAdmin(loggedInUser.getEmail())) {
+            ControllerUtils.showAlertDialog("Không có quyền cập nhật chức năng này.", Alert.AlertType.WARNING);
+            return;
+        }
+
+        // Hiển thị dialog để chọn role mới
+        Dialog<String> dialog = new Dialog<>();
+        dialog.setTitle("Chọn Role Mới");
+        dialog.setHeaderText("Chọn role mới cho người dùng " + selectedUser.getFullname());
+
+        // Tạo một JFXComboBox để chọn role
+        JFXComboBox<String> comboBox = new JFXComboBox<>();
+        comboBox.getItems().addAll("Super Admin", "Admin", "Moderator"); // Danh sách role thực tế
+
+        // Tạo nút OK và Cancel
+        ButtonType okButtonType = new ButtonType("OK", ButtonBar.ButtonData.OK_DONE);
+        dialog.getDialogPane().getButtonTypes().addAll(okButtonType, ButtonType.CANCEL);
+
+        // Đặt nội dung của dialog
+        VBox vbox = new VBox(new Label("Chọn role mới:"), comboBox);
+        dialog.getDialogPane().setContent(vbox);
+
+        // Xử lý khi nút OK được bấm
+        dialog.setResultConverter(buttonType -> {
+            if (buttonType == okButtonType) {
+                String selectedRole = comboBox.getValue(); // Thay cho choiceBox
+                if (selectedRole != null && !selectedRole.isEmpty()) {
+                    try {
+                        userDao.assignUserRole(selectedUser.getEmail(), selectedRole);
+                        refreshTableView(); // Làm mới TableView sau khi cập nhật
+                    } catch (UnauthorizedAccessException ex) {
+                        // Xử lý khi người dùng không có quyền
+                        System.out.println("Không có quyền cập nhật role: " + ex.getMessage());
+                    }
+                }
+            }
+            return null;
+        });
+
+        dialog.showAndWait();
+    }
+
+    private void lockUserAccount() {
+        UserModel selectedUser = tableView.getSelectionModel().getSelectedItem();
+        if (selectedUser == null) {
+            return;
+        }
+
+        // Kiểm tra quyền của người dùng hiện tại
+        if (!userDao.isUserSuperAdmin(loggedInUser.getEmail())) {
+            ControllerUtils.showAlertDialog("Không có quyền cập nhật chức năng này.", Alert.AlertType.WARNING);
+            return;
+        }
+
+        // Hiển thị dialog để nhập thời gian khoá tài khoản
+        Optional<String> result = ControllerUtils.showTextInputDialog("Nhập thời gian khoá tài khoản",
+                "Nhập thời gian khoá tài khoản cho người dùng " + selectedUser.getFullname(),
+                "Thời gian khoá (số phút):");
+        if (result.isPresent()) {
+            String minutesString = result.get();
+            try {
+                int minutes = Integer.parseInt(minutesString);
+                LocalDateTime lockedUntil = LocalDateTime.now().plusMinutes(minutes);
+                userDao.lockUserAccount(selectedUser.getEmail(), lockedUntil);
+                ControllerUtils.refreshTableView(tableView, userDao.getAllUsers());
+                ControllerUtils.showAlertDialog("Tài khoản đã bị khoá thành công.", Alert.AlertType.INFORMATION);
+            } catch (NumberFormatException e) {
+                ControllerUtils.showAlertDialog("Vui lòng nhập một số nguyên hợp lệ cho thời gian khoá.", Alert.AlertType.ERROR);
+            }
+        }
+    }
+
+    private void unlockUserAccount() {
+        UserModel selectedUser = tableView.getSelectionModel().getSelectedItem();
+        if (selectedUser == null) {
+            return;
+        }
+
+        // Kiểm tra quyền của người dùng hiện tại
+        if (!userDao.isUserSuperAdmin(loggedInUser.getEmail())) {
+            ControllerUtils.showAlertDialog("Không có quyền cập nhật chức năng này.", Alert.AlertType.WARNING);
+            return;
+        }
+
+        userDao.unlockUserAccount(selectedUser.getEmail());
+        ControllerUtils.refreshTableView(tableView, userDao.getAllUsers());
+        ControllerUtils.showAlertDialog("Tài khoản đã được mở khóa.", Alert.AlertType.INFORMATION);
+    }
+
+    private void refreshTableView() {
+        ControllerUtils.refreshTableView(tableView, userDao.getAllUsers());
+    }
+
+    public void handleAllButtonClicked(ActionEvent event) {
+        refreshTableView();
+    }
+
+    public void handleRoleButtonClicked(ActionEvent event) {
+        String role = "";
+        String buttonId = ((Button) event.getSource()).getId();
+
+        switch (buttonId) {
+            case "superAdminButton":
+                role = "Super Admin";
+                break;
+            case "adminButton":
+                role = "Admin";
+                break;
+            case "moderatorButton":
+                role = "Moderator";
+                break;
+            default:
+                return;
+        }
+
+        List<UserModel> userModelList = userDao.getUsersByRole(role);
+        ControllerUtils.refreshTableView(tableView, userModelList);
+    }
+}

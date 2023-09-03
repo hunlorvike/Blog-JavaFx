@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+
+<Pane prefHeight="720.0" prefWidth="220.0" styleClass="linear-gradient" stylesheets="@../style/style.css"
+      BorderPane.alignment="CENTER"
+      xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="hung.pj.login.controller.MenuController">
+    <!--Logo-->
+    <ImageView fitHeight="40.0" fitWidth="175.0" layoutX="36.0" layoutY="20.0" pickOnBounds="true"
+               preserveRatio="true">
+        <Image url="@../image/logopj.png"/>
+    </ImageView>
+
+    <!--Overview-->
+    <Button layoutX="15.0" layoutY="120.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="190.0"
+            styleClass="b, transparent-button" onAction="#handleSwitchDashboard" stylesheets="@../style/style.css"
+            text="Dashboard"/>
+    <ImageView fitHeight="15.0" fitWidth="15.0" layoutX="53.0" layoutY="128.0" pickOnBounds="true"
+               preserveRatio="true">
+        <Image url="@../icon/ic_overview.png"/>
+    </ImageView>
+
+    <!--Post-->
+    <Button layoutX="15.0" layoutY="150.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="190.0"
+            styleClass="b, transparent-button" stylesheets="@../style/style.css" text="Post"/>
+    <ImageView fitHeight="15.0" fitWidth="15.0" layoutX="53.0" layoutY="158.0" pickOnBounds="true"
+               preserveRatio="true">
+        <Image url="@../icon/ic_post_white.png"/>
+    </ImageView>
+
+    <!--Tag-->
+    <Button layoutX="15.0" layoutY="180.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="190.0"
+            styleClass="b, transparent-button" stylesheets="@../style/style.css" text="Tag"/>
+    <ImageView fitHeight="15.0" fitWidth="15.0" layoutX="53.0" layoutY="188.0" pickOnBounds="true"
+               preserveRatio="true">
+        <Image url="@../icon/ic_tag_white.png"/>
+    </ImageView>
+
+    <!--Member-->
+    <Button layoutX="15.0" layoutY="210.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="190.0"
+            styleClass="b, transparent-button" onAction="#handleSwitchMember" stylesheets="@../style/style.css"
+            text="Member"/>
+    <ImageView fitHeight="15.0" fitWidth="15.0" layoutX="53.0" layoutY="217.0" pickOnBounds="true"
+               preserveRatio="true">
+        <Image url="@../icon/ic_user_white.png"/>
+    </ImageView>
+
+
+    <!--Help-->
+    <Button layoutX="15.0" layoutY="670.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="190.0"
+            styleClass="b, transparent-button" onAction="#handleHelper" stylesheets="@../style/style.css" text="Help Support"/>
+    <ImageView fitHeight="15.0" fitWidth="15.0" layoutX="46.0" layoutY="678.0" pickOnBounds="true"
+               preserveRatio="true">
+        <Image url="@../icon/ic_help.png"/>
+    </ImageView>
+</Pane>

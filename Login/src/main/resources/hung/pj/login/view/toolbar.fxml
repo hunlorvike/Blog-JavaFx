@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<Pane prefHeight="80.0" prefWidth="1060.0" style="-fx-background-color: white" xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="hung.pj.login.controller.ToolbarController">
+    <Label fx:id="labelName" layoutX="40.0" layoutY="25.0" styleClass="b, roboto-font"
+           stylesheets="@../style/style.css" text="Time"/>
+    <Label fx:id="labelDatetime" layoutX="40.0" layoutY="50.0" styleClass="small"/>
+    <TextField layoutX="732.0" layoutY="25.0" prefHeight="30.0" prefWidth="200.0"
+               promptText="Searching anything..." stylesheets="@../style/style.css"/>
+    <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="1010.0" layoutY="30.0"
+               pickOnBounds="true" preserveRatio="true">
+        <Image url="@../icon/ic_noti.png"/>
+    </ImageView>
+    <MenuButton layoutX="936.0" layoutY="16.0" mnemonicParsing="false" prefHeight="30.0"
+                prefWidth="30.0" style="-fx-background-color: white; -fx-background-radius: 50%"
+                stylesheets="@../style/style.css">
+        <graphic>
+            <ImageView fitHeight="30.0" fitWidth="30.0" styleClass="border10px">
+                <Image url="@../image/1.jpg"/>
+            </ImageView>
+        </graphic>
+        <items>
+            <MenuItem mnemonicParsing="false" styleClass="menu-item"
+                      onAction="#handleProfile" text="Quản lý tài khoản"/>
+            <MenuItem mnemonicParsing="false" styleClass="menu-item" text="Kênh của tôi"/>
+            <MenuItem mnemonicParsing="false" styleClass="menu-item" text="Hoạt động"/>
+            <MenuItem mnemonicParsing="false" styleClass="menu-item" onAction="#handleLogout" text="Logout"/>
+        </items>
+    </MenuButton>
+</Pane>
