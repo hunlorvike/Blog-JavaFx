@@ -1,6 +1,7 @@
 {+ Copyright: Aptech C2209G - Nhóm 6 +}
 
 I. Tổng quan về ứng dụng
+
 **Tên ứng dụng: Nhóm sẽ quyết định**
 
 **Công nghệ và phát triển:**
