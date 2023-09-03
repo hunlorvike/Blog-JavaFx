@@ -1,4 +1,4 @@
-Tên ứng dụng: Nhóm sẽ quyết định
+- {+ Tên ứng dụng: Nhóm sẽ quyết định +}
 
 Chức năng chính:
 
