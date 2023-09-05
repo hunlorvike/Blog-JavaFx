@@ -90,4 +90,8 @@ public class LoginController implements Initializable {
     public void handleClickSignUp(MouseEvent mouseEvent) throws IOException {
         AppMain.setRoot("signup.fxml", 1024, 600, false);
     }
+    // Chuyển trang
+    public void handleClickForgotPass(MouseEvent mouseEvent) throws IOException {
+        AppMain.setRoot("forgot_password.fxml", 1024, 600, false);
+    }
 }

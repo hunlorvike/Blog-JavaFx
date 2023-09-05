@@ -12,7 +12,8 @@
 <?import javafx.scene.layout.Pane?>
 
 <?import javafx.scene.control.Hyperlink?>
-<AnchorPane fx:id="rootAnchorPaneSignUp" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+<AnchorPane fx:id="rootAnchorPaneSignUp" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+            minWidth="-Infinity"
             prefHeight="600.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/20.0.1"
             xmlns:fx="http://javafx.com/fxml/1" fx:controller="hung.pj.login.controller.SignUpController">
     <children>
@@ -51,16 +52,19 @@
                                        prefWidth="283.0" promptText="Password..."/>
 
                         <Label layoutX="149.0" layoutY="310.0" styleClass="strong" text="Re-Password" textFill="WHITE"/>
-                        <PasswordField fx:id="repasswordField"  layoutX="149.0" layoutY="330.0" prefHeight="35.0"
+                        <PasswordField fx:id="repasswordField" layoutX="149.0" layoutY="330.0" prefHeight="35.0"
                                        prefWidth="283.0" promptText="Password..."/>
 
-                        <Label fx:id="alertMessage" layoutX="149.0" layoutY="375.0" styleClass="strong"  textFill="#D35D6E"/>
+                        <Label fx:id="alertMessage" layoutX="149.0" layoutY="375.0" styleClass="strong"
+                               textFill="#EF9595"/>
 
                         <CheckBox fx:id="checkbox" layoutX="149.0" layoutY="400.0" mnemonicParsing="false"
                                   styleClass="strong" text="I agree to the terms and conditions" textFill="WHITE"/>
 
-                        <Button fx:id="buttonSignUp" layoutX="149.0" layoutY="430.0" mnemonicParsing="false" prefHeight="30.0"
-                                prefWidth="283.0" styleClass="button-green" text="Sign Up" onAction="#handleClickSignUp"/>
+                        <Button fx:id="buttonSignUp" layoutX="149.0" layoutY="430.0" mnemonicParsing="false"
+                                prefHeight="30.0"
+                                prefWidth="283.0" styleClass="button-green" text="Sign Up"
+                                onAction="#handleClickSignUp"/>
 
                         <Label layoutX="220.0" layoutY="480.0" styleClass="strong" text="Have an account?"/>
                         <Label layoutX="325.0" layoutY="480.0" styleClass="strong" text="Login" textFill="#F7F7E8"

@@ -42,13 +42,13 @@
                                prefWidth="283.0" promptText="Password..."/>
 
                 <Label fx:id="alertMessage" layoutX="149.0" layoutY="315.0" styleClass="strong"
-                       textFill="#D35D6E"/>
+                       textFill="#EF9595"/>
 
                 <CheckBox layoutX="149.0" layoutY="340.0" mnemonicParsing="false" styleClass="strong"
                           text="Remember me" textFill="WHITE"/>
 
                 <Label layoutX="327.0" layoutY="340.0" styleClass="strong" text="Forgot password?"
-                       textFill="#eeeded"/>
+                       textFill="#eeeded" onMouseClicked="#handleClickForgotPass"/>
 
                 <Button layoutX="149.0" layoutY="370.0" mnemonicParsing="false" prefHeight="30.0"
                         prefWidth="283.0" styleClass="button-green" text="Login" onAction="#handleClickLogin"/>
