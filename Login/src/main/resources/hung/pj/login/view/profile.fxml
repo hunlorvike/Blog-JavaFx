@@ -3,47 +3,48 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/17.0.2-ea"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="hung.pj.login.controller.ProfileController">
+<AnchorPane prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hung.pj.login.controller.ProfileController">
     <BorderPane prefHeight="720.0" prefWidth="1280.0">
         <left>
-            <fx:include fx:id="menuLeft" source="menu_user.fxml"/>
+            <fx:include fx:id="menuLeft" source="menu_user.fxml" />
         </left>
         <center>
-            <Pane prefHeight="720.0" prefWidth="1060.0" BorderPane.alignment="CENTER" stylesheets="@../style/style.css">
+            <Pane prefHeight="720.0" prefWidth="1060.0" stylesheets="@../style/style.css" BorderPane.alignment="CENTER">
                 <!--Your infomation-->
-                <Label layoutX="60.0" layoutY="60.0" styleClass="b, h3" text="Edit Account"/>
+                <Label layoutX="60.0" layoutY="60.0" styleClass="b, h3" text="Edit Account" />
 
-                <Label layoutX="60.0" layoutY="116.0" text="Full name"/>
-                <TextField layoutX="120.0" layoutY="110.0" prefHeight="30.0" prefWidth="200.0" promptText="Name"/>
+                <Label layoutX="60.0" layoutY="116.0" text="Full name" />
+                <TextField layoutX="120.0" layoutY="110.0" prefHeight="30.0" prefWidth="200.0" promptText="Name" />
 
-                <Label layoutX="400.0" layoutY="116.0" text="Email"/>
-                <TextField layoutX="440.0" layoutY="110.0" prefHeight="30.0" prefWidth="200.0" promptText="Emaill"/>
+                <Label layoutX="400.0" layoutY="116.0" text="Email" />
+                <TextField layoutX="440.0" layoutY="110.0" prefHeight="30.0" prefWidth="200.0" promptText="Emaill" />
 
-                <Label layoutX="740.0" layoutY="116.0" text="Role"/>
-                <TextField layoutX="780.0" layoutY="110.0" prefHeight="30.0" prefWidth="200.0" promptText="Role"/>
+                <Label layoutX="740.0" layoutY="116.0" text="Role" />
+                <TextField layoutX="780.0" layoutY="110.0" prefHeight="30.0" prefWidth="200.0" promptText="Role" />
                 <!--Social Media-->
-                <Label layoutX="60.0" layoutY="200.0" styleClass="b, h3" text="Social Media"/>
+                <Label layoutX="60.0" layoutY="180.0" styleClass="b, h3" text="Social Media" />
 
-                <Label layoutX="60.0" layoutY="256.0" text="Facebook"/>
-                <TextField layoutX="120.0" layoutY="250.0" prefHeight="30.0" prefWidth="200.0" promptText="Faceboook"/>
+                <Label layoutX="60.0" layoutY="236.0" text="Facebook" />
+                <TextField layoutX="120.0" layoutY="230.0" prefHeight="30.0" prefWidth="200.0" promptText="Faceboook" />
 
-                <Label layoutX="400.0" layoutY="256.0" text="Instagram"/>
-                <TextField layoutX="460.0" layoutY="250.0" prefHeight="30.0" prefWidth="200.0" promptText="Instagram"/>
+                <Label layoutX="400.0" layoutY="236.0" text="Instagram" />
+                <TextField layoutX="460.0" layoutY="230.0" prefHeight="30.0" prefWidth="200.0" promptText="Instagram" />
 
-                <Label layoutX="60.0" layoutY="306.0" text="Twitter"/>
-                <TextField layoutX="120.0" layoutY="300.0" prefHeight="30.0" prefWidth="200.0" promptText="Twitter"/>
+                <Label layoutX="60.0" layoutY="286.0" text="Twitter" />
+                <TextField layoutX="120.0" layoutY="280.0" prefHeight="30.0" prefWidth="200.0" promptText="Twitter" />
 
-                <Label layoutX="400.0" layoutY="306.0" text="Pinterest"/>
-                <TextField layoutX="460.0" layoutY="300.0" prefHeight="30.0" prefWidth="200.0" promptText="Pinterest"/>
+                <Label layoutX="400.0" layoutY="286.0" text="Pinterest" />
+                <TextField layoutX="460.0" layoutY="280.0" prefHeight="30.0" prefWidth="200.0" promptText="Pinterest" />
 
-                <Label layoutX="60.0" layoutY="356.0" text="Github"/>
-                <TextField layoutX="120.0" layoutY="350.0" prefHeight="30.0" prefWidth="200.0" promptText="Github"/>
+                <Label layoutX="60.0" layoutY="336.0" text="Github" />
+                <TextField layoutX="120.0" layoutY="330.0" prefHeight="30.0" prefWidth="200.0" promptText="Github" />
 
-                <Label layoutX="400.0" layoutY="356.0" text="Gitlab"/>
-                <TextField layoutX="460.0" layoutY="350.0" prefHeight="30.0" prefWidth="200.0" promptText="Gitlab"/>
+                <Label layoutX="400.0" layoutY="336.0" text="Gitlab" />
+                <TextField layoutX="460.0" layoutY="330.0" prefHeight="30.0" prefWidth="200.0" promptText="Gitlab" />
                 <!--For me-->
-                <Label layoutX="60.0" layoutY="440.0" styleClass="b, h3" text="For abcccccccc"/>
+                <Label layoutX="60.0" layoutY="400.0" styleClass="b, h3" text="For me" />
+                <TextArea layoutX="60.0" layoutY="430.0" prefHeight="175.0" prefWidth="625.0" />
+                <Button layoutX="59.0" layoutY="644.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="222.0" styleClass="button-green" text="Button" />
 
 
             </Pane>

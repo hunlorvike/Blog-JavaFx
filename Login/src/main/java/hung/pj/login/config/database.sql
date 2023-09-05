@@ -65,6 +65,15 @@ CREATE TABLE IF NOT EXISTS scheduled_posts (
     FOREIGN KEY (post_id) REFERENCES post(post_id)
 );
 
+CREATE TABLE IF NOT EXISTS saved_posts (
+    saved_post_id INT PRIMARY KEY AUTO_INCREMENT,
+    user_id INT,
+    post_id INT,
+    FOREIGN KEY (user_id) REFERENCES users(user_id),
+    FOREIGN KEY (post_id) REFERENCES post(post_id)
+);
+
+
 -- Tạo bảng notifications
 CREATE TABLE IF NOT EXISTS notifications (
     notification_id INT PRIMARY KEY AUTO_INCREMENT,
