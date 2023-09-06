@@ -19,7 +19,7 @@ CREATE TABLE IF NOT EXISTS users (
 CREATE TABLE IF NOT EXISTS social_media (
     social_media_id INT PRIMARY KEY AUTO_INCREMENT,
     user_id INT,
-    platform VARCHAR(255) NOT NULL,
+    platform ENUM('Facebook', 'Instagram', 'Twitter', 'Pinterest', 'Github', 'GitLab') NOT NULL,
     profile_url VARCHAR(255) NOT NULL,
     FOREIGN KEY (user_id) REFERENCES users(user_id)
 );

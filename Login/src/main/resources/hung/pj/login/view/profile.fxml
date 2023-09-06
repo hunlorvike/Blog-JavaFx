@@ -14,33 +14,33 @@
                 <Label layoutX="60.0" layoutY="60.0" styleClass="b, h3" text="Edit Account" />
 
                 <Label layoutX="60.0" layoutY="116.0" text="Full name" />
-                <TextField layoutX="120.0" layoutY="110.0" prefHeight="30.0" prefWidth="200.0" promptText="Name" />
+                <TextField disable="true" fx:id="nameTextField" layoutX="120.0" layoutY="110.0" prefHeight="30.0" prefWidth="200.0" promptText="Name" />
 
                 <Label layoutX="400.0" layoutY="116.0" text="Email" />
-                <TextField layoutX="440.0" layoutY="110.0" prefHeight="30.0" prefWidth="200.0" promptText="Emaill" />
+                <TextField disable="true" fx:id="emailTextField" layoutX="440.0" layoutY="110.0" prefHeight="30.0" prefWidth="200.0" promptText="Emaill" />
 
                 <Label layoutX="740.0" layoutY="116.0" text="Role" />
-                <TextField layoutX="780.0" layoutY="110.0" prefHeight="30.0" prefWidth="200.0" promptText="Role" />
+                <TextField disable="true" fx:id="roleTextField" layoutX="780.0" layoutY="110.0" prefHeight="30.0" prefWidth="200.0" promptText="Role" />
                 <!--Social Media-->
                 <Label layoutX="60.0" layoutY="180.0" styleClass="b, h3" text="Social Media" />
 
                 <Label layoutX="60.0" layoutY="236.0" text="Facebook" />
-                <TextField layoutX="120.0" layoutY="230.0" prefHeight="30.0" prefWidth="200.0" promptText="Faceboook" />
+                <TextField fx:id="facebookTextField" layoutX="120.0" layoutY="230.0" prefHeight="30.0" prefWidth="200.0" promptText="Faceboook" />
 
                 <Label layoutX="400.0" layoutY="236.0" text="Instagram" />
-                <TextField layoutX="460.0" layoutY="230.0" prefHeight="30.0" prefWidth="200.0" promptText="Instagram" />
+                <TextField fx:id="instagramTextField" layoutX="460.0" layoutY="230.0" prefHeight="30.0" prefWidth="200.0" promptText="Instagram" />
 
                 <Label layoutX="60.0" layoutY="286.0" text="Twitter" />
-                <TextField layoutX="120.0" layoutY="280.0" prefHeight="30.0" prefWidth="200.0" promptText="Twitter" />
+                <TextField fx:id="twitterTextField" layoutX="120.0" layoutY="280.0" prefHeight="30.0" prefWidth="200.0" promptText="Twitter" />
 
                 <Label layoutX="400.0" layoutY="286.0" text="Pinterest" />
-                <TextField layoutX="460.0" layoutY="280.0" prefHeight="30.0" prefWidth="200.0" promptText="Pinterest" />
+                <TextField fx:id="pinterestTextField" layoutX="460.0" layoutY="280.0" prefHeight="30.0" prefWidth="200.0" promptText="Pinterest" />
 
                 <Label layoutX="60.0" layoutY="336.0" text="Github" />
-                <TextField layoutX="120.0" layoutY="330.0" prefHeight="30.0" prefWidth="200.0" promptText="Github" />
+                <TextField fx:id="githubTextField" layoutX="120.0" layoutY="330.0" prefHeight="30.0" prefWidth="200.0" promptText="Github" />
 
                 <Label layoutX="400.0" layoutY="336.0" text="Gitlab" />
-                <TextField layoutX="460.0" layoutY="330.0" prefHeight="30.0" prefWidth="200.0" promptText="Gitlab" />
+                <TextField fx:id="gitlabTextField" layoutX="460.0" layoutY="330.0" prefHeight="30.0" prefWidth="200.0" promptText="Gitlab" />
                 <!--For me-->
                 <Label layoutX="60.0" layoutY="400.0" styleClass="b, h3" text="For me" />
                 <TextArea layoutX="60.0" layoutY="430.0" prefHeight="175.0" prefWidth="625.0" />
