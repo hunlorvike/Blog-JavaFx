@@ -78,10 +78,13 @@ public class MemberController implements Initializable {
         lockUserAccount.setOnAction(event -> lockUserAccount());
         MenuItem unlockUserAccount = new MenuItem("Mở khoá tài khoản");
         unlockUserAccount.setOnAction(event -> unlockUserAccount());
+        MenuItem viewUserDetail = new MenuItem("Xem chi tiết");
+        viewUserDetail.setOnAction(event -> viewUserDetail());
+
         tableView.setContextMenu(menu);
 
         // Gán các option cho menu
-        menu.getItems().addAll(editRoleItem, lockUserAccount, unlockUserAccount);
+        menu.getItems().addAll(editRoleItem, lockUserAccount, unlockUserAccount, viewUserDetail);
 
         // Ẩn menu khi chuột trái được nhấp bên ngoài menu
         tableView.setOnMouseClicked(event -> {
@@ -90,6 +93,8 @@ public class MemberController implements Initializable {
             }
         });
     }
+
+
 
     private void editRoleItem() {
         UserModel selectedUser = tableView.getSelectionModel().getSelectedItem();
@@ -185,6 +190,9 @@ public class MemberController implements Initializable {
         userDao.unlockUserAccount(selectedUser.getEmail());
         ControllerUtils.refreshTableView(tableView, userDao.getAllUsers());
         ControllerUtils.showAlertDialog("Tài khoản đã được mở khóa.", Alert.AlertType.INFORMATION);
+    }
+
+    private void viewUserDetail() {
     }
 
     private void refreshTableView() {
