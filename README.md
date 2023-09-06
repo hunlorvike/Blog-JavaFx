@@ -92,14 +92,76 @@ c. Controller: Là nơi xử lý sự kiện của người dùng và là nơi t
 
 d. Dao: Là nơi làm việc với database. Dev sẽ xây dựng các phương thức để thực hiện như thêm, sửa, xoá, hiển thị dữ liệu.... Tuỳ theo nghiệp vụ mà xây dựng các phương thức bổ sung 
 
-6. Ví dụ thực tế 
-Quản lý users
-B1: Tạo một UserModel để làm việc với bảng users trên database 
-B2: Xây dựng dao (IUserDao và UserDaoImpl): trong đó I là viết tắt của interface, tại IUSerDao sẽ chứa các phướng thức (không có body/nội dung) ví dụ getAllUsers, getUserById, deleteUserById,... UserDaoImpl sẽ là nơi triển khai nội dung của IUserDao -> Mục đích khi tạo ra 2 file thay vì 1 nhằm giúp người khác dễ đọc xem mình đang xây dựng những phương thức nào để quản lý user đó, cũng sẽ dễ phát triển và mở rộng,
-B3: Xây dựng giao diện login.fxml. Chúng ta cần có một giao diện để có thể lấy được tài khoản và mật khẩu của người dùng rồi sử dụng phương thức phù hợp trong UserDaoImpl để xử lý logic đăng nhập
-B4. Xây dựng UserController để xử lý logic giữa phía Dao và view trên 
+
+**III. Xây dựng chương trình quản lý oto**
+1. Xác định được ý tưởng về nhiệm vụ mà chúng ta sẽ thực hiện
+Ví dụ chức năng của chúng ta chỉ có thêm, sửa, xóa, hiển thị (trong ứng dụng thực tế có thể ta sẽ độ xe, sơn xe, ...)
+Khi ta đã xác định được nhiệm vụ của chương trình thì mình sẽ xây dựng được các phương thức (method) để làm việc với database
+2. Xây dựng bảng trên database để quản lý dữ liệu về item: oto
+- Tạo bảng trong file: config/database.sql
+- Ví dụ: CREATE TABLE IF NOT EXISTS cars (
+    car_id INT PRIMARY KEY AUTO_INCREMENT,
+    car_name VARCHAR(255) NOT NULL,
+    car_color VARCHAR(255) NOT NULL,
+    car_price DOUBLE NOT NULL, 
+    status ENUM('DaBan', 'ChuaBan') NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+- Xác định được bảng cars của mình có 7 cột (car_id, car_name, car_color, car_price, status, created_at, updated_at) để tạo model trong package model 
+
+3. Xây dựng lớp model 
+- Tạo 1 class ItemModel.java -> CarModel.java
+- Trên bảng cars tạo ở bước 2 mình đã xây dựng một bảng có 7 cột thì trong class CarModel cũng có 7 thuộc tính 
+    private int car_id;
+    private String car_name;
+    private String car_color;
+    private double car_price;
+    private String status;
+    private Timestamp created_at;
+    private Timestamp updated_at;
+- Xây dựng các hàm khởi tạo tương thích (Tính đa hình cung cấp cho ta việc tạo một phương thức trùng tên nhiều lần nhưng khác tham số truyền vào) 
++ Để thực hiện việc thêm dữ liệu thì ta cần nắm bắt được car_name, car_color, car_price, status. Còn những thuộc tính id hay created_at và updated_at sẽ được mysql tạo mặc định khi ta thêm 1 bản ghi mới vào CSDL
+
+public CarModel(car_name, car_color, car_price) {
+    this.car_name = car_name;
+    this.car_color = car_color;
+    this.car_price = car_price;
+}
+
++ Để thực hiện việc lấy toàn bộ dữ liệu của bản ghi trên CSDL và hiển thị trong chương trình javafx ta cần tạo một hàm khởi tạo linh hoạt theo số bản ghi trên CDSL 
+Ví dụ tôi muốn của hàng của tôi hiển thị dữ liệu cars nhưng giấu đi thông tin sửa chữa gần nhất và chém gió với khách hàng là xe của tôi không đâm đụng, ngập nước nên không sửa 
+public CarModel(car_name, car_color, car_price, status, created_at) {
+    this.car_name = car_name;
+    this.car_color = car_color;
+    this.car_price = car_price;
+    this.status = status;
+    this.created_at = created_at;
+}
+--> Đa hình là một tính năng mạnh mẽ của lập trình hướng đối tượng do đó ta có thể linh hoạt khởi tạo ra các phương thức phù hợp mà không sợ ràng buộc
+
+- Có những thuộc tính nào tương ứng với số Getter và Setter + toString()
+
+4. Xây dựng các lớp dao và daoimpl 
+- Tạo một package car (quản lý về car) trong package dao 
+- Chúng ta đã có một lớp model làm bản mẫu ở trên, ta cần tiếp tục xây dựng động cơ để đón nhận những hành động mà ng dùng truyền đến
+
+- Tạo một interface IItemDAO (Trong đó I đầu tiên là viết tắt của Interface/ đây là một quy tắc đặt tên giúp các thành viên trong team đọc code dễ dàng) -> ICarDao 
++ Tại lớp interface này ta sẽ nhớ lại ta cần tạo các chức năng nào để làm việc với "nhiệm vụ" được giao. Ví dụ: Tôi sẽ cần các phương thức hiển thị toàn bộ sản phẩm trong kho hàng (getAllCars), hiển thị theo màu sắc (getCarsByColor), hiển thị theo giá (getCarsByPrice),
+hiển thị theo id (getCarById) <Note: Những thứ mà ta hình dung được nó sẽ trả ra một danh sách thì trong tên của phương thức sẽ có 's' còn chỉ trả ra một bản ghi duy nhất thì không cần 's'>, thêm một car (insertCar), sửa một car (updateCar)....
+~ Linh hoạt trong việc tạo ra các phương thức để làm việc 
+
+- Tạo ra một lớp ItemDaoImpl (Trong đó impl là viết tắt của implements dùng để triển khai phần nội dung của các phương thức trên)
+
+5. Xây dụng view (fxml)
+- Sau khi đã có lõi của động cơ ta cần tạo ra một lớp vỏ để người dùng có thể tương tác với database 
+- Thiết kế giao diện sẽ lên các trang collectui, dribbble, để tìm ý tưởng giao diện...
+
+6. Xây dựng controller 
+- Tạo một lớp ItemController -> CarController 
 
 
 Tất nhiên trong ứng dụng thực tế ta cần xử lý nhiều vấn đề hơn là ví dụ trên nhưng mong từ những ví dụ trên đã giúp bạn hình thành được sơ đồ và luồng của ứng dụng 
 
-Vamos 😘
+Vamossssssss 😘
