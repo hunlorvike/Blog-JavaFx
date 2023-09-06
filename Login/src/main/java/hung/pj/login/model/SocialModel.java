@@ -8,6 +8,11 @@ public class SocialModel {
     public SocialModel() {
 
     }
+
+    public SocialModel(String platform, String profile) {
+        this.platform = platform;
+        this.profileUrl = profile;
+    }
     public SocialModel(int userId, String platform, String profileUrl) {
         this.userId = userId;
         this.platform = platform;

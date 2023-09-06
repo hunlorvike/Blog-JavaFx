@@ -27,9 +27,9 @@
         <Image url="@../icon/ic_settting.png"/>
     </ImageView>
 
-    <!--History log-->
+    <!--Saved-->
     <Button layoutX="15.0" layoutY="150.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="190.0"
-            styleClass="b, transparent-button" stylesheets="@../style/style.css" text="History log"/>
+            styleClass="b, transparent-button" stylesheets="@../style/style.css" text="Saved"/>
     <ImageView fitHeight="15.0" fitWidth="15.0" layoutX="53.0" layoutY="158.0" pickOnBounds="true"
                preserveRatio="true">
         <Image url="@../icon/ic_management.png"/>

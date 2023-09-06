@@ -12,21 +12,27 @@ import java.util.List;
 
 public class SocialDaoImpl implements ISocialDao {
     private Connection connection;
+
     public SocialDaoImpl(Connection connection) {
         this.connection = connection;
     }
+
     @Override
-    public void addSocialMedia(SocialModel socialModel) {
+    public void addSocialMedia(List<SocialModel> socialModels) {
         String query = "INSERT INTO social_media (user_id, platform, profile_url) VALUES (?, ?, ?)";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setInt(1, socialModel.getUserId());
-            statement.setString(2, socialModel.getPlatform());
-            statement.setString(3, socialModel.getProfileUrl());
-            statement.executeUpdate();
+            for (SocialModel socialModel : socialModels) {
+                statement.setInt(1, socialModel.getUserId());
+                statement.setString(2, socialModel.getPlatform());
+                statement.setString(3, socialModel.getProfileUrl());
+                statement.addBatch(); // Thêm câu lệnh INSERT vào lô (batch)
+            }
+            statement.executeBatch(); // Thực thi tất cả các câu lệnh INSERT trong lô
         } catch (SQLException e) {
-            throw new DatabaseException("Error while inserting social media into the database.", e);
+            throw new DatabaseException("Error while inserting social media records into the database.", e);
         }
     }
+
 
     @Override
     public SocialModel getSocialMediaByPlatform(int userId, String platform) {
@@ -50,7 +56,6 @@ public class SocialDaoImpl implements ISocialDao {
 
         return null; // Trả về null nếu không tìm thấy bản ghi nào cho nền tảng và user_id đã cho
     }
-
 
 
     @Override
@@ -86,6 +91,7 @@ public class SocialDaoImpl implements ISocialDao {
             throw new DatabaseException("Error while updating social media record in the database.", e);
         }
     }
+
     // Xóa một bản ghi SocialMedia từ cơ sở dữ liệu
     public void deleteSocialMedia(int socialMediaId) {
         String query = "DELETE FROM social_media WHERE social_media_id = ?";
