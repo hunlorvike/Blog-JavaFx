@@ -5,6 +5,7 @@
 <?import javafx.scene.layout.*?>
 
 
+<?import javafx.scene.shape.Circle?>
 <Pane prefHeight="80.0" prefWidth="1060.0" style="-fx-background-color: white" xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="hung.pj.login.controller.ToolbarController">
@@ -22,6 +23,9 @@
                 stylesheets="@../style/style.css">
         <graphic>
             <ImageView fitHeight="30.0" fitWidth="30.0" styleClass="border10px">
+                <clip>
+                    <Circle centerX="15.0" centerY="15.0" radius="15.0" />
+                </clip>
                 <Image url="@../image/1.jpg"/>
             </ImageView>
         </graphic>
