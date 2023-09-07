@@ -40,7 +40,7 @@ public class AppMain extends Application {
             scene.setRoot(splashRoot);
 
             // Tạo một PauseTransition để chờ 5 giây trước khi chuyển trang
-            PauseTransition splashPause = new PauseTransition(Duration.seconds(1));
+            PauseTransition splashPause = new PauseTransition(Duration.seconds(2));
             splashPause.setOnFinished(event -> {
                 try {
                     // Sau khi kết thúc thời gian chờ, chuyển đến trang Dashboard

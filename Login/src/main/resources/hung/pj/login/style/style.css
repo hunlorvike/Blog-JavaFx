@@ -14,6 +14,10 @@
 .linear-gradient {
     -fx-background-color:  linear-gradient(to bottom, #5c8984, #548487, #507e89, #507889, #537188);
 }
+.linear-gradient-splash{
+    -fx-background-color: linear-gradient(to right, #5670a6, #7f8eba, #a5aece, #cbd0e2, #f1f2f7);
+}
+
 
 .transparent-button, .transparent-button:hover, .transparent-button:pressed  {
     -fx-background-color: transparent;

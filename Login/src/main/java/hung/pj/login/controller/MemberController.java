@@ -1,10 +1,12 @@
 package hung.pj.login.controller;
 
 import com.jfoenix.controls.JFXComboBox;
+import hung.pj.login.AppMain;
 import hung.pj.login.config.ConnectionProvider;
 import hung.pj.login.dao.user.UserDaoImpl;
 import hung.pj.login.exception.UnauthorizedAccessException;
 import hung.pj.login.model.UserModel;
+import hung.pj.login.singleton.DataHolder;
 import hung.pj.login.singleton.UserSingleton;
 import hung.pj.login.ultis.ControllerUtils;
 import javafx.collections.FXCollections;
@@ -17,6 +19,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.VBox;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
@@ -79,7 +82,13 @@ public class MemberController implements Initializable {
         MenuItem unlockUserAccount = new MenuItem("Mở khoá tài khoản");
         unlockUserAccount.setOnAction(event -> unlockUserAccount());
         MenuItem viewUserDetail = new MenuItem("Xem chi tiết");
-        viewUserDetail.setOnAction(event -> viewUserDetail());
+        viewUserDetail.setOnAction(event -> {
+            try {
+                viewUserDetail();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
 
         tableView.setContextMenu(menu);
 
@@ -93,7 +102,6 @@ public class MemberController implements Initializable {
             }
         });
     }
-
 
 
     private void editRoleItem() {
@@ -192,7 +200,14 @@ public class MemberController implements Initializable {
         ControllerUtils.showAlertDialog("Tài khoản đã được mở khóa.", Alert.AlertType.INFORMATION);
     }
 
-    private void viewUserDetail() {
+    private void viewUserDetail() throws IOException {
+        UserModel selectedUser = tableView.getSelectionModel().getSelectedItem();
+        if (selectedUser != null) {
+            String selectedId = selectedUser.getEmail();
+
+            DataHolder.getInstance().setData(selectedId);
+            AppMain.setRoot("profile_detail.fxml", 1300, 750, false);
+        }
     }
 
     private void refreshTableView() {
