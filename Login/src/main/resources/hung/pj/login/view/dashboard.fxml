@@ -4,7 +4,7 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane fx:id="dashboardAnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
             minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/11.0.14-internal"
             xmlns:fx="http://javafx.com/fxml/1" fx:controller="hung.pj.login.controller.DashboardController">
     <BorderPane prefHeight="720.0" prefWidth="1600.0">
@@ -75,20 +75,24 @@
                     <Label layoutX="83.0" layoutY="14.0" styleClass="b" text="Member Overview"
                            textFill="white"/>
 
-                    <Label fx:id="numberOfUsersLabel" layoutX="83.0" layoutY="34.0" styleClass="small" text="2,003 Members"
+                    <Label fx:id="numberOfUsersLabel" layoutX="83.0" layoutY="34.0" styleClass="small"
+                           text="2,003 Members"
                            textFill="white"/>
 
                     <!-- Số lượng Super Admin -->
-                    <Label fx:id="numberOfSuperAdmin" layoutX="30.0" layoutY="70.0" styleClass="small, b" text="50" textFill="white"/>
+                    <Label fx:id="numberOfSuperAdmin" layoutX="30.0" layoutY="70.0" styleClass="small, b" text="50"
+                           textFill="white"/>
                     <Label layoutX="45.0" layoutY="70.0" styleClass="small" text="Super Admins"
                            textFill="white"/>
 
                     <!-- Số lượng Admin -->
-                    <Label fx:id="numberOfAdmin" layoutX="120.0" layoutY="70.0" styleClass="small, b" text="15" textFill="white"/>
+                    <Label fx:id="numberOfAdmin" layoutX="120.0" layoutY="70.0" styleClass="small, b" text="15"
+                           textFill="white"/>
                     <Label layoutX="135.0" layoutY="70.0" styleClass="small" text="Admins" textFill="white"/>
 
                     <!-- Số lượng Moderator -->
-                    <Label fx:id="numberOfModerator" layoutX="200.0" layoutY="70.0" styleClass="small, b" text="48" textFill="white"/>
+                    <Label fx:id="numberOfModerator" layoutX="200.0" layoutY="70.0" styleClass="small, b" text="48"
+                           textFill="white"/>
                     <Label layoutX="215.0" layoutY="70.0" styleClass="small" text="Moderators"
                            textFill="white"/>
 
@@ -133,18 +137,6 @@
                                 <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
                             </columnResizePolicy>
                         </TableView>
-                        <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="109.0" layoutY="413.0"
-                                   pickOnBounds="true" preserveRatio="true">
-                            <Image url="@../icon/ic_facebook_black.png"/>
-                        </ImageView>
-                        <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="165.0" layoutY="413.0"
-                                   pickOnBounds="true" preserveRatio="true">
-                            <Image url="@../icon/ic_github_black.png"/>
-                        </ImageView>
-                        <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="228.0" layoutY="413.0"
-                                   pickOnBounds="true" preserveRatio="true">
-                            <Image url="@../icon/ic_instagram_black.png"/>
-                        </ImageView>
                     </Pane>
                 </Pane>
             </Pane>

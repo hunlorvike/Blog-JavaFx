@@ -4,21 +4,22 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<StackPane alignment="CENTER" prefHeight="750" prefWidth="1300" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hung.pj.login.controller.SplashController">
-    <AnchorPane id="AnchorPane" prefHeight="750" prefWidth="1300" stylesheets="@../style/style.css">
+<StackPane alignment="CENTER" prefHeight="750" prefWidth="1300" xmlns="http://javafx.com/javafx/11.0.14-internal"
+           xmlns:fx="http://javafx.com/fxml/1" fx:controller="hung.pj.login.controller.SplashController">
+    <AnchorPane id="AnchorPane" prefHeight="750" prefWidth="1300" stylesheets="@../style/style.css"
+                style="-fx-background-color: white">
         <Pane>
             <VBox alignment="CENTER" layoutY="280.0" prefWidth="1300">
                 <ImageView fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-                    <image>
-                        <Image url="@../image/loading.gif" />
-                    </image>
+                    <Image url="@../image/loading.gif"/>
                 </ImageView>
             </VBox>
         </Pane>
-         <VBox alignment="CENTER" layoutY="665.0" prefWidth="1300">
-             <Label contentDisplay="RIGHT" style="-fx-font-size: 18px; -fx-font-weight: bold;" text="Mạng xã hội gắn kết yêu thương" textAlignment="RIGHT" />
-             <Label style="-fx-font-size: 14px;" text="Version 1.0 - By: Group 6 (C2209G)" />
-         </VBox>
+        <VBox alignment="CENTER" layoutY="665.0" prefWidth="1300">
+            <Label contentDisplay="RIGHT" style="-fx-font-size: 18px; -fx-font-weight: bold;"
+                   text="Mạng xã hội gắn kết yêu thương" textAlignment="RIGHT"/>
+            <Label style="-fx-font-size: 14px;" text="Version 1.0 - By: Group 6 (C2209G)"/>
+        </VBox>
 
     </AnchorPane>
 </StackPane>
