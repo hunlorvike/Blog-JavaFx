@@ -22,6 +22,14 @@ public class MenuUserController implements Initializable {
         UserModel loggedInUser = userSingleton.getLoggedInUser();
     }
 
+    public void handleSwitchEditAccount(ActionEvent event) {
+        switchToScene("profile.fxml", 1300, 750, false);
+    }
+
+    public void handleSwitchChangePass(ActionEvent event) {
+        switchToScene("change_password.fxml", 1300, 750, false);
+    }
+
     public void handleBackDashboard(ActionEvent event) {
         switchToScene("dashboard.fxml", 1300, 750, false);
     }

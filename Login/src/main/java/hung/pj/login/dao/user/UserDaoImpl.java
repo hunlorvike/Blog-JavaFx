@@ -95,22 +95,49 @@ public class UserDaoImpl implements IUserDao {
 
     @Override
     public void changeUserPassword(String email, String oldPass, String newPass) {
-        String query = "UPDATE users SET password = ? WHERE email = ? AND password = ?";
+        // Lấy mật khẩu hiện tại từ cơ sở dữ liệu
+        String query = "SELECT password FROM users WHERE email = ?";
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-            preparedStatement.setString(1, newPass);
-            preparedStatement.setString(2, email);
-            preparedStatement.setString(3, oldPass);
-            int rowsAffected = preparedStatement.executeUpdate();
+            preparedStatement.setString(1, email);
 
-            if (rowsAffected == 0) {
-                // Handle password change failure
-                throw new DatabaseException("Password change failed.");
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    String hashedPassword = resultSet.getString("password");
+                    // Kiểm tra xem mật khẩu cũ có khớp với mật khẩu hiện tại không
+                    if (BCrypt.checkpw(oldPass, hashedPassword)) {
+                        // Nếu khớp, tiến hành cập nhật mật khẩu mới
+                        String newHashedPassword = BCrypt.hashpw(newPass, BCrypt.gensalt());
+                        updatePassword(email, newHashedPassword);
+                    } else {
+                        // Nếu không khớp, ném ngoại lệ hoặc xử lý lỗi tùy ý
+                        throw new DatabaseException("Mật khẩu hiện tại không đúng.");
+                    }
+                }
             }
         } catch (SQLException e) {
-            throw new DatabaseException("Error while changing user's password.", e);
+            throw new DatabaseException("Lỗi khi thay đổi mật khẩu người dùng.", e);
         }
     }
+
+    private void updatePassword(String email, String newHashedPassword) {
+        String updateQuery = "UPDATE users SET password = ? WHERE email = ?";
+
+        try (PreparedStatement updateStatement = connection.prepareStatement(updateQuery)) {
+            updateStatement.setString(1, newHashedPassword);
+            updateStatement.setString(2, email);
+            int rowsAffected = updateStatement.executeUpdate();
+
+            if (rowsAffected == 0) {
+                // Xử lý khi thay đổi mật khẩu thất bại
+                throw new DatabaseException("Lỗi khi thay đổi mật khẩu người dùng.");
+            }
+        } catch (SQLException e) {
+            throw new DatabaseException("Lỗi khi thay đổi mật khẩu người dùng.", e);
+        }
+    }
+
+
 
     @Override
     public boolean authenticateUser(String email, String password) {

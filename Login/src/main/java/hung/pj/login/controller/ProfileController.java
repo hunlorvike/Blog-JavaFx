@@ -6,6 +6,7 @@ import hung.pj.login.model.SocialModel;
 import hung.pj.login.model.UserModel;
 import hung.pj.login.singleton.UserSingleton;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TextField;
 
@@ -15,7 +16,8 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class ProfileController implements Initializable {
-    public TextField nameTextField, emailTextField, roleTextField, facebookTextField, instagramTextField, twitterTextField, pinterestTextField, githubTextField, gitlabTextField;
+    @FXML
+    private TextField nameTextField, emailTextField, roleTextField, facebookTextField, instagramTextField, twitterTextField, pinterestTextField, githubTextField, gitlabTextField;
     private UserSingleton userSingleton = UserSingleton.getInstance();
     ConnectionProvider connectionProvider = new ConnectionProvider();
     SocialDaoImpl socialDao = new SocialDaoImpl(connectionProvider.getConnection());

@@ -78,6 +78,23 @@ public class SocialDaoImpl implements ISocialDao {
         }
         return socialModelList;
     }
+    @Override
+    public String getProfileUrlByIdAndPlatform(int userId, String platform) {
+        String query = "SELECT profile_url FROM social_media WHERE user_id = ? AND platform = ?";
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setInt(1, userId);
+            statement.setString(2, platform);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    return resultSet.getString("profile_url");
+                }
+            }
+        } catch (SQLException e) {
+            throw new DatabaseException("Error while fetching profile URL from the database.", e);
+        }
+        return null; // Trả về null nếu không tìm thấy dữ liệu
+    }
+
 
     @Override
     public void updateSocialMedia(int userId, SocialModel socialModel) {

@@ -21,7 +21,7 @@
     </ImageView>
     <!--Edit account-->
     <Button layoutX="15.0" layoutY="120.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="190.0"
-            styleClass="b, transparent-button" stylesheets="@../style/style.css" text="Edit account"/>
+            styleClass="b, transparent-button" stylesheets="@../style/style.css" onAction="#handleSwitchEditAccount" text="Edit account"/>
     <ImageView fitHeight="15.0" fitWidth="15.0" layoutX="53.0" layoutY="128.0" pickOnBounds="true"
                preserveRatio="true">
         <Image url="@../icon/ic_settting.png"/>
@@ -37,7 +37,7 @@
 
     <!--Change password-->
     <Button layoutX="15.0" layoutY="180.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="190.0"
-            styleClass="b, transparent-button" stylesheets="@../style/style.css" text="Change pass"/>
+            styleClass="b, transparent-button" stylesheets="@../style/style.css" onAction="#handleSwitchChangePass" text="Change pass"/>
     <ImageView fitHeight="15.0" fitWidth="15.0" layoutX="53.0" layoutY="188.0" pickOnBounds="true"
                preserveRatio="true">
         <Image url="@../icon/ic_settting.png"/>
