@@ -17,10 +17,15 @@ module hung.pj.login {
     // Xuất các gói mà bạn muốn sử dụng từ bên ngoài module
     exports hung.pj.login;
     exports hung.pj.login.controller;
+    exports hung.pj.login.endpoint;
+    opens hung.pj.login.endpoint to javafx.fxml;
 
     // Cấu hình module cho JavaFX
     // Thay vì 'javafx.base', bạn cần chỉ định tên module JavaFX cụ thể
     requires javafx.base;
     requires javafx.graphics;
+    requires org.glassfish.tyrus.server;
+    requires org.glassfish.tyrus.client;
+    requires javax.websocket.api;
 
 }

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+
+<Pane prefHeight="720.0" prefWidth="80.0" styleClass="linear-gradient" stylesheets="@../style/style.css"
+      BorderPane.alignment="CENTER" xmlns="http://javafx.com/javafx/11.0.14-internal"
+      xmlns:fx="http://javafx.com/fxml/1" fx:controller="hung.pj.login.controller.MenuController">
+
+    <!--Overview-->
+    <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="30.0" layoutY="128.0" onMouseClicked="#handleSwitchDashboard"
+               pickOnBounds="true" preserveRatio="true" styleClass="b, transparent-button">
+        <Image url="@../icon/ic_overview.png"/>
+    </ImageView>
+
+    <!--Post-->
+
+    <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="30.0" layoutY="168.0" pickOnBounds="true" preserveRatio="true"
+               styleClass="b, transparent-button">
+        <Image url="@../icon/ic_post_white.png"/>
+    </ImageView>
+
+    <!--Tag-->
+
+    <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="30.0" layoutY="208.0" pickOnBounds="true" preserveRatio="true"
+               styleClass="b, transparent-button">
+        <Image url="@../icon/ic_tag_white.png"/>
+    </ImageView>
+
+    <!--Member-->
+    <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="30.0" layoutY="248.0" onMouseClicked="#handleSwitchMember"
+               pickOnBounds="true" preserveRatio="true" styleClass="b, transparent-button">
+        <Image url="@../icon/ic_user_white.png"/>
+    </ImageView>
+
+    <!--Messenger-->
+    <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="30.0" layoutY="288.0" onMouseClicked="#handleSwitchMessenger"
+               pickOnBounds="true" preserveRatio="true" styleClass="b, transparent-button">
+        <Image url="@../icon/ic_messenger_white.png"/>
+    </ImageView>
+
+
+    <!--Help-->
+    <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="30.0" layoutY="678.0" onMouseClicked="#handleHelper"
+               pickOnBounds="true" preserveRatio="true" styleClass="b, transparent-button">
+        <Image url="@../icon/ic_help.png"/>
+    </ImageView>
+</Pane>

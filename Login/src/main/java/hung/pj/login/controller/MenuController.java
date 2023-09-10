@@ -6,6 +6,7 @@ import hung.pj.login.singleton.UserSingleton;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.input.MouseEvent;
 
 import java.awt.*;
 import java.io.IOException;
@@ -23,11 +24,15 @@ public class MenuController implements Initializable {
         UserModel loggedInUser = userSingleton.getLoggedInUser();
     }
 
-    public void handleSwitchMember(ActionEvent actionEvent) {
+    public void handleSwitchMessenger() {
+        switchToScene("messenger.fxml", 1300, 750, false);
+    }
+
+    public void handleSwitchMember() {
         switchToScene("member.fxml", 1300, 750, false);
     }
 
-    public void handleSwitchDashboard(ActionEvent actionEvent) {
+    public void handleSwitchDashboard() {
         switchToScene("dashboard.fxml", 1300, 750, false);
     }
 
@@ -48,4 +53,6 @@ public class MenuController implements Initializable {
             e.printStackTrace();
         }
     }
+
+
 }
