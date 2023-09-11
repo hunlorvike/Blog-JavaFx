@@ -3,27 +3,20 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane fx:id="dashboardAnchorPane" prefHeight="720.0" prefWidth="1280.0"
-            xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="hung.pj.login.controller.MessengerController">
+<AnchorPane fx:id="dashboardAnchorPane" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hung.pj.login.controller.MessengerController">
     <BorderPane prefHeight="720.0" prefWidth="1280.0">
         <left>
-            <fx:include fx:id="menuLeft" source="menu_short.fxml"/>
+            <fx:include fx:id="menuLeft" source="menu_short.fxml" />
         </left>
         <center>
-            <Pane prefHeight="720.0" prefWidth="1200.0" style="-fx-background-color: white" styleClass="button-green"
-                  BorderPane.alignment="CENTER">
-                <Label layoutX="36.0" layoutY="20.0" styleClass="b, h5" text="Tên nhóm chat"/>
-                <Separator layoutY="60.0" prefHeight="0.0" prefWidth="1200.0"/>
-                <ScrollPane fx:id="mainScrollPane" fitToWidth="true" layoutY="65.0" prefHeight="615.0" prefWidth="900.0"
-                            stylesheets="@../style/style.css">
-                    <VBox fx:id="messengerVBox" minHeight="0.0" minWidth="0.0" prefHeight="615.0" prefWidth="898.0"/>
+            <Pane prefHeight="720.0" prefWidth="1200.0" style="-fx-background-color: white" styleClass="button-green" BorderPane.alignment="CENTER">
+                <Label layoutX="36.0" layoutY="20.0" styleClass="b, h5" text="Tên nhóm chat" />
+                <Separator layoutY="60.0" prefHeight="0.0" prefWidth="1200.0" />
+                <ScrollPane fx:id="mainScrollPane" fitToWidth="true" layoutY="65.0" prefHeight="615.0" prefWidth="900.0" stylesheets="@../style/style.css">
+                    <VBox fx:id="messengerVBox" minHeight="0.0" minWidth="0.0" prefHeight="615.0" prefWidth="898.0" />
                 </ScrollPane>
-                <TextField fx:id="messageTextField" layoutY="680.0" prefHeight="30.0" prefWidth="800.0"
-                           promptText="Nhập tin nhắn"/>
-                <Button fx:id="sendMessage" styleClass="button-green" layoutX="800.0" layoutY="680.0"
-                        mnemonicParsing="false" prefHeight="30.0" prefWidth="100.0"
-                        text="Send" stylesheets="@../style/style.css"/>
+                <TextField fx:id="messageTextField" layoutY="680.0" prefHeight="30.0" prefWidth="900.0" promptText="Nhập tin nhắn" />
+                <Button fx:id="sendMessage" layoutX="798.0" layoutY="683.0" mnemonicParsing="false" prefHeight="5.0" prefWidth="100.0" styleClass="button-green" stylesheets="@../style/style.css" text="Send" />
             </Pane>
         </center>
     </BorderPane>

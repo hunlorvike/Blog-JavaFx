@@ -1,3 +1,5 @@
+package hung.pj.login.controller;
+
 import hung.pj.login.singleton.WebSocketClientSingleton;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

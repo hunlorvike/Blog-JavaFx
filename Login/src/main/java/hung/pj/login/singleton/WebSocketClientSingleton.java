@@ -6,7 +6,6 @@ import jakarta.websocket.Session;
 import org.glassfish.tyrus.client.ClientManager;
 import org.glassfish.tyrus.client.ClientProperties;
 
-import javax.websocket.*;
 import java.io.IOException;
 import java.net.URI;
 import java.util.concurrent.CountDownLatch;
