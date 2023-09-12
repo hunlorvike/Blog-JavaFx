@@ -8,6 +8,7 @@ import hung.pj.login.dao.user.UserDaoImpl;
 import hung.pj.login.model.PostModel;
 import hung.pj.login.model.UserModel;
 import hung.pj.login.singleton.DataHolder;
+import hung.pj.login.singleton.UserSingleton;
 import hung.pj.login.ultis.ControllerUtils;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -21,11 +22,18 @@ import javafx.scene.input.MouseButton;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Timestamp;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class PostController implements Initializable {
     ConnectionProvider connectionProvider = new ConnectionProvider();
     IPostDao postDao = new PostDaoImpl(connectionProvider.getConnection());
+    private UserSingleton userSingleton;
+    // Khai báo biến loggedInUser
+    UserModel loggedInUser;
+
+    @FXML
+    private Button allPostButton, publicPostButton, scheduledButton, draftPostButton, addPostButton;
 
     @FXML
     private TableView<PostModel> tableView;
@@ -51,10 +59,8 @@ public class PostController implements Initializable {
     @FXML
     private TableColumn<PostModel, Timestamp> updateColumn;
 
-    // tự động cập nhật
     private ObservableList<PostModel> postModelObservableList = FXCollections.observableArrayList();
 
-    // chuyển trang
     @FXML
     private void handleAddPost(ActionEvent event) {
         switchToScene("add_post.fxml", 1300, 750, false);
@@ -67,8 +73,13 @@ public class PostController implements Initializable {
             e.printStackTrace();
         }
     }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        // Kiểm tra singleton đăng nhập
+        userSingleton = UserSingleton.getInstance();
+        loggedInUser = userSingleton.getLoggedInUser();
+
         idColumn.setCellValueFactory(new PropertyValueFactory<>("post_id"));
         titleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
         statusColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
@@ -82,23 +93,12 @@ public class PostController implements Initializable {
         // tạo menu edit
         ContextMenu menuPost = new ContextMenu();
 
-        MenuItem delete_post = new MenuItem("DeletePost");
-        delete_post.setOnAction(event -> {
-            PostModel selectedPost = tableView.getSelectionModel().getSelectedItem();
-            if (selectedPost != null) {
-                int post_id = selectedPost.getPost_id();
-                int deleted = postDao.deletePost(post_id);
-                if (deleted == 1) {
-                    refreshTableView();
-                } else {
-                    showAlert("Error", "Lỗi khi xóa post.", Alert.AlertType.ERROR);
-                }
-            }
-        });
-        MenuItem edit_post = new MenuItem("EditPost");
-        edit_post.setOnAction(event -> {
+        MenuItem deletePost = new MenuItem("Xoá bài viết");
+        deletePost.setOnAction(event -> deletePost());
+        MenuItem editPost = new MenuItem("Sửa bài viết");
+        editPost.setOnAction(event -> {
             try {
-                viewEditPost();
+                EditPost();
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -106,7 +106,7 @@ public class PostController implements Initializable {
 
         tableView.setContextMenu(menuPost);
 
-        menuPost.getItems().addAll(edit_post,delete_post);
+        menuPost.getItems().addAll(editPost, deletePost);
 
         tableView.setOnMouseClicked(event -> {
             if (event.getButton() == MouseButton.PRIMARY) {
@@ -116,27 +116,60 @@ public class PostController implements Initializable {
 
     }
 
-    // cập nhật dữ liệu
     private void refreshTableView() {
         ControllerUtils.refreshTableView(tableView, postDao.getAllPosts());
     }
 
-    private void showAlert(String title, String content, Alert.AlertType alertType) {
-        Alert alert = new Alert(alertType);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(content);
-        alert.showAndWait();
-    }
-
-    private void viewEditPost() throws IOException {
+    private void EditPost() throws IOException {
         PostModel selectedPost = tableView.getSelectionModel().getSelectedItem();
-        if (selectedPost != null) {
+        if (selectedPost.getCreator_id() == loggedInUser.getUser_id() || loggedInUser.getRole().equals("Super Admin")) {
             int selectedId = selectedPost.getPost_id();
             DataHolder.getInstance().setData(String.valueOf(selectedId));
             AppMain.setRoot("edit_post.fxml", 1300, 750, false);
+        } else {
+            ControllerUtils.showAlertDialog("Bạn không có quyền sửa bài viết này", Alert.AlertType.WARNING);
+            return;
         }
+        refreshTableView();
     }
 
+    private void deletePost() {
+        PostModel selectedPost = tableView.getSelectionModel().getSelectedItem();
+        if (selectedPost.getCreator_id() == loggedInUser.getUser_id() || loggedInUser.getRole().equals("Super Admin")) {
+            postDao.deletePost(selectedPost.getPost_id());
+            ControllerUtils.showAlertDialog("Xoá thành công", Alert.AlertType.INFORMATION);
 
+        } else {
+            ControllerUtils.showAlertDialog("Bạn không có quyền xoá bài viết này", Alert.AlertType.WARNING);
+            return;
+        }
+        refreshTableView();
+    }
+
+    public void handleAllButtonClicked(ActionEvent event) {
+        refreshTableView();
+    }
+
+    public void handleStatusButtonClicked(ActionEvent event) {
+        String status = "";
+        String buttonId = ((Button) event.getSource()).getId();
+
+        switch (buttonId) {
+            case "publicPostButton":
+                status = "Published";
+                break;
+            case "scheduledButton":
+                status = "Scheduled";
+                break;
+            case "draftPostButton":
+                status = "Draft";
+                break;
+            default:
+                return;
+        }
+
+        List<PostModel> postModelList = postDao.getPostsByStatus(status);
+        ControllerUtils.refreshTableView(tableView, postModelList);
+
+    }
 }

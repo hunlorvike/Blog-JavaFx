@@ -12,37 +12,41 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.collections.FXCollections?>
 <?import java.lang.String?>
-<AnchorPane prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hung.pj.login.controller.EditPostController">
+<AnchorPane prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/20.0.1"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="hung.pj.login.controller.EditPostController">
     <BorderPane prefHeight="720.0" prefWidth="1280.0">
         <left>
-            <fx:include fx:id="menuUserLeft" source="menu.fxml" />
+            <fx:include fx:id="menuUserLeft" source="menu.fxml"/>
         </left>
         <center>
             <Pane prefHeight="720.0" prefWidth="1060.0" stylesheets="@../style/style.css" BorderPane.alignment="CENTER">
                 <!--Your infomation-->
                 <Label layoutX="60.0" layoutY="60.0" styleClass="b, h3" text="Edit Post">
-                   <font>
-                      <Font name="Blackadder ITC" size="24.0" />
-                   </font>
+                    <font>
+                        <Font name="Blackadder ITC" size="24.0"/>
+                    </font>
                 </Label>
 
-                <Label layoutX="58.0" layoutY="133.0" prefHeight="17.0" prefWidth="48.0" text="Tiêu đề" />
-                <TextField fx:id="titleTextField" layoutX="113.0" layoutY="127.0" prefHeight="30.0" prefWidth="200.0" promptText="Tiêu đề" />
+                <Label layoutX="58.0" layoutY="133.0" prefHeight="17.0" prefWidth="48.0" text="Tiêu đề"/>
+                <TextField fx:id="titleTextField" layoutX="113.0" layoutY="127.0" prefHeight="30.0" prefWidth="200.0"
+                           promptText="Tiêu đề"/>
                 <!--                nỘi dung-->
-                <Label layoutX="59.0" layoutY="207.0" styleClass="b, h3" text="Nội dung" />
-                <TextArea fx:id="contentTextField" layoutX="58.0" layoutY="245.0" prefHeight="175.0" prefWidth="625.0" promptText="Nội dung" />
+                <Label layoutX="59.0" layoutY="207.0" styleClass="b, h3" text="Nội dung"/>
+                <TextArea fx:id="contentTextField" layoutX="58.0" layoutY="245.0" prefHeight="175.0" prefWidth="625.0"
+                          promptText="Nội dung"/>
 
-                <Label layoutX="58.0" layoutY="476.0" text="Status" />
+                <Label layoutX="58.0" layoutY="476.0" text="Status"/>
                 <ComboBox fx:id="statusComboBox" layoutX="116.0" layoutY="472.0">
                     <items>
                         <FXCollections fx:factory="observableArrayList">
-                            <String fx:value="Draft" />
-                            <String fx:value="Published" />
-                            <String fx:value="Scheduled" />
+                            <String fx:value="Draft"/>
+                            <String fx:value="Published"/>
+                            <String fx:value="Scheduled"/>
                         </FXCollections>
                     </items>
                 </ComboBox>
-                <Button fx:id="editPostButton" layoutX="59.0" layoutY="580.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="108.0" styleClass="button-green" text="Edit"  onAction="#handleEditPost"  />
+                <Button fx:id="editPostButton" layoutX="59.0" layoutY="580.0" mnemonicParsing="false" prefHeight="25.0"
+                        prefWidth="108.0" styleClass="button-green" text="Edit" onAction="#handleEditPost"/>
             </Pane>
         </center>
     </BorderPane>

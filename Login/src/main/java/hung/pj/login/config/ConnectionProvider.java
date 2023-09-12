@@ -22,6 +22,8 @@ public class ConnectionProvider implements IConnectionProvider, AutoCloseable {
             throw new DatabaseException("Lỗi khi thiết lập kết nối cơ sở dữ liệu", e);
         }
     }
+
+    @Override
     public Connection getConnection() {
         return this.connection;
     }
@@ -33,3 +35,4 @@ public class ConnectionProvider implements IConnectionProvider, AutoCloseable {
         }
     }
 }
+

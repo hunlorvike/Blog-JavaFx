@@ -4,16 +4,20 @@ import hung.pj.login.model.PostModel;
 
 import java.util.List;
 
-public interface IPostDao{
+public interface IPostDao {
     List<PostModel> getAllPosts();
 
-    int insertPost(PostModel postModel);
+    List<PostModel> getPostsByTag(String tag);
 
-    int deletePost(int post_id);
+    List<PostModel> getPostsByStatus(String status);
 
-    void editPost(int post_id, String title, String content, String status);
+    PostModel getPostById(int post_id);
 
-    PostModel  getPostById(int post_id);
+    boolean insertPost(PostModel postModel);
 
-    int updatePost(PostModel existingPost);
+    boolean deletePost(int post_id);
+
+    boolean editPost(int post_id, String title, String content, String status);
+
+    boolean updatePost(int post_id, PostModel existingPost);
 }

@@ -3,6 +3,7 @@ package hung.pj.login.controller;
 
 import hung.pj.login.AppMain;
 import hung.pj.login.config.ConnectionProvider;
+import hung.pj.login.dao.post.PostDaoImpl;
 import hung.pj.login.dao.user.UserDaoImpl;
 import hung.pj.login.model.UserModel;
 import hung.pj.login.singleton.UserSingleton;
@@ -25,9 +26,10 @@ public class DashboardController implements Initializable {
 
     ConnectionProvider connectionProvider = new ConnectionProvider();
     UserDaoImpl userDao = new UserDaoImpl(connectionProvider.getConnection());
+    PostDaoImpl postDao = new PostDaoImpl(connectionProvider.getConnection());
 
     @FXML
-    private Label numberOfUsersLabel, numberOfSuperAdmin, numberOfAdmin, numberOfModerator; // Đối tượng Label trên giao diện người dùng
+    private Label numberOfUsersLabel, numberOfSuperAdmin, numberOfAdmin, numberOfModerator, numberOfTaks, numberOfScheduled; // Đối tượng Label trên giao diện người dùng
 
 
     @Override
@@ -49,6 +51,7 @@ public class DashboardController implements Initializable {
         numberOfSuperAdmin.setText(String.valueOf(numberOfUsersSuperAdmin));
         numberOfAdmin.setText(String.valueOf(numberOfUsersAdmin));
         numberOfModerator.setText(String.valueOf(numberOfUsersModerator));
+
 
     }
 }

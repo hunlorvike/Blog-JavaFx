@@ -106,6 +106,7 @@ public class MemberController implements Initializable {
 
     private void editRoleItem() {
         UserModel selectedUser = tableView.getSelectionModel().getSelectedItem();
+        System.out.println(selectedUser.toString());
         if (selectedUser == null) {
             return;
         }
