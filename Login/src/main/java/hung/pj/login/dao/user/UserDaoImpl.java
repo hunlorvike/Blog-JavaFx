@@ -79,6 +79,34 @@ public class UserDaoImpl implements IUserDao {
     }
 
     @Override
+    public List<UserModel> getUsersByPostCountDescending(int limit) {
+        List<UserModel> users = new ArrayList<>();
+        try (PreparedStatement preparedStatement = connection.prepareStatement(
+                "SELECT u.fullname, COUNT(p.post_id) AS post_count " +
+                        "FROM users u " +
+                        "LEFT JOIN post p ON u.user_id = p.creator_id " +
+                        "GROUP BY u.fullname " +
+                        "ORDER BY post_count DESC " +
+                        "LIMIT ?"
+        )) {
+            preparedStatement.setInt(1, limit);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                String fullname = resultSet.getString("fullname");
+                int postCount = resultSet.getInt("post_count");
+
+                UserModel userModel = new UserModel(fullname, postCount);
+                users.add(userModel);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return users;
+    }
+
+
+
+    @Override
     public void insertUser(UserModel userModel) {
         String query = "INSERT INTO users (fullname, email, password, role) VALUES (?, ?, ?, ?)";
 
@@ -136,7 +164,6 @@ public class UserDaoImpl implements IUserDao {
             throw new DatabaseException("Lỗi khi thay đổi mật khẩu người dùng.", e);
         }
     }
-
 
 
     @Override

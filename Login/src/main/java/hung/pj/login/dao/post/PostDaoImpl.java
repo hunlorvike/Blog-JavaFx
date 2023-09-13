@@ -51,7 +51,7 @@ public class PostDaoImpl implements IPostDao {
             preparedStatement.setString(1, tag);
 
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                if (resultSet.next()) {
+                while (resultSet.next()) {
                     int id = resultSet.getInt("post_id");
                     String title = resultSet.getString("title");
                     String content = resultSet.getString("content");
@@ -82,7 +82,7 @@ public class PostDaoImpl implements IPostDao {
             preparedStatement.setString(1, statusInput);
 
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                if (resultSet.next()) {
+                while (resultSet.next()) {
                     int id = resultSet.getInt("post_id");
                     String title = resultSet.getString("title");
                     String content = resultSet.getString("content");

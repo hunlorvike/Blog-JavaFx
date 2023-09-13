@@ -28,7 +28,7 @@
                         <TableColumn fx:id="idColumn" minWidth="100.0" prefWidth="50.0" text="ID" />
                         <TableColumn fx:id="titleColumn" minWidth="200.0" prefWidth="250.0" text="Title" />
                         <TableColumn fx:id="statusColumn" minWidth="150.0" prefWidth="150.0" text="Status" />
-                        <TableColumn fx:id="viewColumn" minWidth="150.0" prefWidth="150.0" text="View_count" />
+                        <TableColumn fx:id="viewColumn" minWidth="150.0" prefWidth="150.0" text="View" />
                         <TableColumn fx:id="creatorColumn" minWidth="150.0" prefWidth="150.0" text="Creator" />
                         <TableColumn fx:id="createColumn" minWidth="80.0" prefWidth="200.0" text="Create At" />
                         <TableColumn fx:id="updateColumn" minWidth="80.0" prefWidth="200.0" text="Update At" />

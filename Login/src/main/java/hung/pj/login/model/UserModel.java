@@ -10,11 +10,17 @@ public class UserModel {
     private String password;
     private String role;
     private LocalDateTime lockedUntil;
+    private int postCount;
     private Timestamp created_at;
     private Timestamp updated_at;
 
     public UserModel() {
 
+    }
+
+    public UserModel(String fullName, int postCount) {
+        this.fullname = fullName;
+        this.postCount = postCount;
     }
 
     public UserModel(String fullname, String email, String password, String role) {
@@ -91,6 +97,14 @@ public class UserModel {
 
     public void setLockedUntil(LocalDateTime lockedUntil) {
         this.lockedUntil = lockedUntil;
+    }
+
+    public int getPostCount() {
+        return postCount;
+    }
+
+    public void setPostCount(int postCount) {
+        this.postCount = postCount;
     }
 
     public Timestamp getCreated_at() {

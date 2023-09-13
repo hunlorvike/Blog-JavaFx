@@ -8,6 +8,8 @@ import java.util.List;
 public interface IUserDao {
     List<UserModel> getAllUsers();
     UserModel getUserByEmail(String email);
+    List<UserModel> getUsersByPostCountDescending(int limit);
+
     void insertUser(UserModel userModel);
     void changeUserPassword(String email, String oldPassword, String newPassword);
     boolean authenticateUser(String email, String password);

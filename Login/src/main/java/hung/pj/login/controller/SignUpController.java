@@ -4,6 +4,7 @@ import hung.pj.login.AppMain;
 import hung.pj.login.config.ConnectionProvider;
 import hung.pj.login.dao.user.UserDaoImpl;
 import hung.pj.login.model.UserModel;
+import hung.pj.login.ultis.ControllerUtils;
 import hung.pj.login.ultis.ValidationUtils;
 
 import javafx.animation.KeyFrame;
@@ -83,8 +84,7 @@ public class SignUpController implements Initializable {
         userDao.insertUser(user);
 
         clearFields();
-
-        showAlert("Data added successfully.");
+        ControllerUtils.showAlertDialog("Đã tạo tài khoản thành công", Alert.AlertType.INFORMATION);
         AppMain.setRoot("login.fxml", 1024, 600, false);
 
     }
