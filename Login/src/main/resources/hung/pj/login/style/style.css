@@ -152,3 +152,11 @@
     -fx-background-color: #5C8374;
     /* Các thuộc tính khác cho hiệu ứng hover */
 }
+/* Trong tệp CSS hoặc phần mở rộng .css của tệp FXML */
+.notification-label {
+    /* Định nghĩa các thuộc tính kiểu mà bạn muốn áp dụng cho các Label trong class "notification-label" */
+    -fx-font-size: 18px; /* Kích thước font chữ */
+    -fx-text-fill: #ff0000; /* Màu chữ (ví dụ: đỏ) */
+    /* Thêm các thuộc tính khác tùy chỉnh của bạn */
+}
+
