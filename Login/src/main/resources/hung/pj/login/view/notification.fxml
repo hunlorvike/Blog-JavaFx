@@ -7,41 +7,44 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="574.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hung.pj.login.controller.NotificationController">
-   <children>
-      <BorderPane layoutX="315.0" prefHeight="574.0" prefWidth="277.0">
-         <top>
-            <Label alignment="CENTER" contentDisplay="TOP" lineSpacing="10.0" prefHeight="86.0" prefWidth="282.0" text="Thông báo" textAlignment="CENTER" BorderPane.alignment="CENTER">
-               <font>
-                  <Font size="30.0" />
-               </font>
-               <opaqueInsets>
-                  <Insets />
-               </opaqueInsets>
-               <effect>
-                  <Glow level="0.21" />
-               </effect>
-               <cursor>
-                  <Cursor fx:constant="NONE" />
-               </cursor>
-            </Label>
-         </top>
-         <bottom>
-            <Label alignment="CENTER" prefHeight="68.0" prefWidth="282.0" text="Xem tất cả" underline="true" BorderPane.alignment="CENTER">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Label>
-         </bottom>
-         <center>
-            <ScrollPane>
-               <content>
-                  <VBox fx:id="labelContainer">
-                     <!-- Placeholder for Labels created dynamically in Java -->
-                  </VBox>
-               </content>
-            </ScrollPane>
-         </center>
-      </BorderPane>
-   </children>
+<AnchorPane prefHeight="574.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="hung.pj.login.controller.NotificationController">
+    <children>
+        <BorderPane layoutX="315.0" prefHeight="574.0" prefWidth="277.0">
+            <top>
+                <Label alignment="CENTER" contentDisplay="TOP" lineSpacing="10.0" prefHeight="86.0" prefWidth="282.0"
+                       text="Thông báo" textAlignment="CENTER" BorderPane.alignment="CENTER">
+                    <font>
+                        <Font size="30.0"/>
+                    </font>
+                    <opaqueInsets>
+                        <Insets/>
+                    </opaqueInsets>
+                    <effect>
+                        <Glow level="0.21"/>
+                    </effect>
+                    <cursor>
+                        <Cursor fx:constant="NONE"/>
+                    </cursor>
+                </Label>
+            </top>
+            <bottom>
+                <Label alignment="CENTER" prefHeight="68.0" prefWidth="282.0" text="Xem tất cả" underline="true"
+                       BorderPane.alignment="CENTER">
+                    <font>
+                        <Font size="18.0"/>
+                    </font>
+                </Label>
+            </bottom>
+            <center>
+                <ScrollPane>
+                    <content>
+                        <VBox fx:id="labelContainer">
+                            <!-- Placeholder for Labels created dynamically in Java -->
+                        </VBox>
+                    </content>
+                </ScrollPane>
+            </center>
+        </BorderPane>
+    </children>
 </AnchorPane>

@@ -1,24 +1,37 @@
 package hung.pj.login.controller;
 
 import hung.pj.login.AppMain;
+import hung.pj.login.config.ConnectionProvider;
+import hung.pj.login.dao.user.UserDaoImpl;
 import hung.pj.login.model.UserModel;
+import hung.pj.login.singleton.DataHolder;
 import hung.pj.login.singleton.UserSingleton;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 
 import java.io.IOException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class ToolbarController implements Initializable {
     @FXML
     private Label labelDatetime, labelName;
     private UserSingleton userSingleton;
+    @FXML
+    private ChoiceBox<String> choiceBox;
+    @FXML
+    private TextField textField;
+    ConnectionProvider connectionProvider = new ConnectionProvider();
+    UserDaoImpl userDao = new UserDaoImpl(connectionProvider.getConnection());
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -53,6 +66,29 @@ public class ToolbarController implements Initializable {
         }
     }
 
+    public void handleSearch() {
+        // Lấy giá trị từ ChoiceBox và TextField
+        String selectedValue = choiceBox.getValue().trim();
+        String searchText = textField.getText().trim();
+
+        // Thực hiện xử lý tìm kiếm dựa trên giá trị đã lấy
+        switch (selectedValue) {
+            case "Member":
+                List<UserModel> userModelList = userDao.getUsersByName(searchText);
+                DataHolder.getInstance().setDataList(userModelList);
+                DataHolder.getInstance().setData(searchText);
+                switchToScene("result_search.fxml", 1300, 750, false);
+                break;
+            case "Post":
+                break;
+            case "Tag":
+                break;
+            default:
+                break;
+        }
+        // switchToScene("result_search.fxml", 1300, 750, false);
+    }
+
     private void switchToScene(String fxmlFileName, int width, int height, Boolean useSplash) {
         try {
             AppMain.setRoot(fxmlFileName, width, height, useSplash);
@@ -64,4 +100,6 @@ public class ToolbarController implements Initializable {
     public void handleProfile(ActionEvent event) {
         switchToScene("profile.fxml", 1300, 750, true);
     }
+
+
 }

@@ -4,11 +4,13 @@ import hung.pj.login.config.ConnectionProvider;
 import hung.pj.login.dao.user.UserDaoImpl;
 import hung.pj.login.model.UserModel;
 import hung.pj.login.singleton.UserSingleton;
+import hung.pj.login.ultis.ControllerUtils;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -49,22 +51,13 @@ public class ChangePasswordController implements Initializable {
         String renewPassword = reNewPassTextField.getText().trim();
         if (newPassword.equals(renewPassword)) {
             userDao.changeUserPassword(loggedInUser.getEmail().trim(), currentPassword, newPassword);
-            alertLabel.setText("Đổi mật khẩu thành công");
+            ControllerUtils.showAlertDialog("Đổi mật khẩu thành công", Alert.AlertType.INFORMATION);
+
         } else {
-            showAlert("Mật khẩu không giống nhau");
+            ControllerUtils.showAlertDialog("Mật không không giống nhau", Alert.AlertType.ERROR);
+
         }
 
-    }
-
-    private void showAlert(String message) {
-        alertLabel.setText(message);
-        Timeline timeline = new Timeline(
-                new KeyFrame(Duration.seconds(5), timelineEvent -> {
-                    alertLabel.setText(null);
-                })
-        );
-        timeline.setCycleCount(1);
-        timeline.play();
     }
 
 }

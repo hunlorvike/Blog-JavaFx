@@ -58,6 +58,28 @@
 .menu-item:hover {
     -fx-background-color: #94A684;
 }
+.choice-box {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-border-width: 0;
+    -fx-padding: 5px;
+    -fx-text-fill: white;
+}
+
+.choice-box:hover {
+    -fx-background-color: #94A684;
+    -fx-border-radius: 50px;
+}
+
+.choice-box .list-cell {
+    -fx-text-fill: white;
+    -fx-background-color: transparent;
+}
+
+.choice-box .list-cell:hover {
+    -fx-background-color: #94A684;
+}
+
 
 .small {
     -fx-font-size: 10px;

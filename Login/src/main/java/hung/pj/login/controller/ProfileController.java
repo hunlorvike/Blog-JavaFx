@@ -5,9 +5,11 @@ import hung.pj.login.dao.social.SocialDaoImpl;
 import hung.pj.login.model.SocialModel;
 import hung.pj.login.model.UserModel;
 import hung.pj.login.singleton.UserSingleton;
+import hung.pj.login.ultis.ControllerUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 
 import java.net.URL;
@@ -18,7 +20,7 @@ import java.util.ResourceBundle;
 public class ProfileController implements Initializable {
     @FXML
     private TextField nameTextField, emailTextField, roleTextField, facebookTextField, instagramTextField, twitterTextField, pinterestTextField, githubTextField, gitlabTextField;
-    private UserSingleton userSingleton = UserSingleton.getInstance();
+    private final UserSingleton userSingleton = UserSingleton.getInstance();
     ConnectionProvider connectionProvider = new ConnectionProvider();
     SocialDaoImpl socialDao = new SocialDaoImpl(connectionProvider.getConnection());
     private UserModel loggedInUser; // Đặt biến loggedInUser ở mức lớp để nó có thể được truy cập từ các phương thức
@@ -65,6 +67,9 @@ public class ProfileController implements Initializable {
         checkAndUpdateSocialMedia(loggedInUser.getUser_id(), "Pinterest", pinterest);
         checkAndUpdateSocialMedia(loggedInUser.getUser_id(), "Github", github);
         checkAndUpdateSocialMedia(loggedInUser.getUser_id(), "Gitlab", gitlab);
+
+        ControllerUtils.showAlertDialog("Lưu thông tin thành công", Alert.AlertType.INFORMATION);
+
     }
 
     private void checkAndUpdateSocialMedia(int userId, String platform, String profileUrl) {

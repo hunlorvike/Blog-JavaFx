@@ -1,39 +1,62 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.collections.*?>
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.shape.*?>
 
-<Pane prefHeight="80.0" prefWidth="1060.0" style="-fx-background-color: white" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hung.pj.login.controller.ToolbarController">
-    <Label fx:id="labelName" layoutX="40.0" layoutY="25.0" styleClass="b, roboto-font" stylesheets="@../style/style.css" text="Time" />
-    <Label fx:id="labelDatetime" layoutX="40.0" layoutY="50.0" styleClass="small" />
-    <VBox layoutX="624.0" layoutY="25.0" prefHeight="30.0" prefWidth="261.0">
+<Pane prefHeight="80.0" prefWidth="1060.0" style="-fx-background-color: white"
+      xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="hung.pj.login.controller.ToolbarController">
+    <Label fx:id="labelName" layoutX="40.0" layoutY="25.0" styleClass="b, roboto-font" stylesheets="@../style/style.css"
+           text="Time"/>
+    <Label fx:id="labelDatetime" layoutX="40.0" layoutY="50.0" styleClass="small"/>
+    <VBox layoutX="555.0" layoutY="27.0" prefHeight="30.0" prefWidth="350.0" stylesheets="@../style/style.css">
         <HBox alignment="CENTER" style="-fx-border-radius: 50; -fx-border-color: #93B1A6;">
-            <TextField prefHeight="28.0" prefWidth="226.0" promptText="Searching anything..." style="-fx-background-color: transparent" stylesheets="@../style/style.css" />
-            <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
-                <Image url="@../icon/ic_search.png" />
+            <ChoiceBox fx:id="choiceBox" prefWidth="80.0" value="Member">
+                <items>
+                    <FXCollections fx:factory="observableArrayList">
+                        <String fx:value="Member"/>
+                        <String fx:value="Post"/>
+                        <String fx:value="Tag"/>
+                    </FXCollections>
+                </items>
+                <padding>
+                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                </padding>
+            </ChoiceBox>
+            <TextField fx:id="textField" prefHeight="28.0" prefWidth="226.0" promptText="Searching anything..."
+                       style="-fx-background-color: transparent" stylesheets="@../style/style.css"/>
+            <ImageView onMouseClicked="#handleSearch" fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                <Image url="@../icon/ic_search.png"/>
             </ImageView>
         </HBox>
+
     </VBox>
 
-    <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="1010.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true">
-        <Image url="@../icon/ic_noti.png" />
+    <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="1010.0" layoutY="30.0" pickOnBounds="true"
+               preserveRatio="true">
+        <Image url="@../icon/ic_noti.png"/>
     </ImageView>
-    <MenuButton layoutX="936.0" layoutY="16.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" style="-fx-background-color: white; -fx-background-radius: 50%" stylesheets="@../style/style.css">
+    <MenuButton layoutX="936.0" layoutY="16.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0"
+                style="-fx-background-color: white; -fx-background-radius: 50%" stylesheets="@../style/style.css">
         <graphic>
             <ImageView fitHeight="30.0" fitWidth="30.0" styleClass="border10px">
                 <clip>
-                    <Circle centerX="15.0" centerY="15.0" radius="15.0" />
+                    <Circle centerX="15.0" centerY="15.0" radius="15.0"/>
                 </clip>
-                <Image url="@../image/1.jpg" />
+                <Image url="@../image/1.jpg"/>
             </ImageView>
         </graphic>
         <items>
-            <MenuItem mnemonicParsing="false" onAction="#handleProfile" styleClass="menu-item" text="Quản lý tài khoản" />
-            <MenuItem mnemonicParsing="false" styleClass="menu-item" text="Kênh của tôi" />
-            <MenuItem mnemonicParsing="false" styleClass="menu-item" text="Hoạt động" />
-            <MenuItem mnemonicParsing="false" onAction="#handleLogout" styleClass="menu-item" text="Logout" />
+            <MenuItem mnemonicParsing="false" onAction="#handleProfile" styleClass="menu-item"
+                      text="Quản lý tài khoản"/>
+            <MenuItem mnemonicParsing="false" styleClass="menu-item" text="Kênh của tôi"/>
+            <MenuItem mnemonicParsing="false" styleClass="menu-item" text="Hoạt động"/>
+            <MenuItem mnemonicParsing="false" onAction="#handleLogout" styleClass="menu-item" text="Logout"/>
         </items>
     </MenuButton>
 </Pane>

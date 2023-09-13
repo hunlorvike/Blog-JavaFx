@@ -14,10 +14,9 @@ import java.util.List;
 public class NotificationController {
     ConnectionProvider connectionProvider = new ConnectionProvider();
     NotificationsImpl notification = new NotificationsImpl(connectionProvider.getConnection());
+
     @FXML
     private VBox labelContainer;
-
-
 
     public NotificationController() {
     }

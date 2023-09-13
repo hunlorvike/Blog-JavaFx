@@ -79,6 +79,35 @@ public class UserDaoImpl implements IUserDao {
     }
 
     @Override
+    public List<UserModel> getUsersByName(String name) {
+        List<UserModel> users = new ArrayList<>();
+        String query = "SELECT * FROM users WHERE fullname LIKE ?";
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setString(1, "%" + name + "%"); // Sử dụng '%' để tìm kiếm theo phần của tên người dùng
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    Integer id = resultSet.getInt("user_id");
+                    String fullname = resultSet.getString("fullname");
+                    String email = resultSet.getString("email");
+                    String password = resultSet.getString("password");
+                    String role = resultSet.getString("role");
+                    Timestamp created_at = resultSet.getTimestamp("created_at");
+                    Timestamp updated_at = resultSet.getTimestamp("updated_at");
+                    UserModel userModel = new UserModel(id, fullname, email, password, role, created_at, updated_at);
+                    users.add(userModel);
+                }
+            }
+        } catch (SQLException e) {
+            throw new DatabaseException("Error while fetching users by name.", e);
+        }
+
+        return users;
+    }
+
+
+    @Override
     public List<UserModel> getUsersByPostCountDescending(int limit) {
         List<UserModel> users = new ArrayList<>();
         try (PreparedStatement preparedStatement = connection.prepareStatement(
