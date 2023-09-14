@@ -1,9 +1,11 @@
 package hung.pj.login.controller;
 
+import hung.pj.login.AppMain;
 import hung.pj.login.config.ConnectionProvider;
 import hung.pj.login.dao.user.UserDaoImpl;
 import hung.pj.login.model.UserModel;
 import hung.pj.login.singleton.UserSingleton;
+import hung.pj.login.ultis.Constants;
 import hung.pj.login.ultis.ControllerUtils;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -16,6 +18,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.util.Duration;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -43,7 +46,7 @@ public class ChangePasswordController implements Initializable {
     }
 
 
-    public void handleClickSave(ActionEvent event) {
+    public void handleClickSave(ActionEvent event) throws IOException {
         loggedInUser = userSingleton.getLoggedInUser();
 
         String currentPassword = currentPassTextField.getText().trim();
@@ -52,7 +55,7 @@ public class ChangePasswordController implements Initializable {
         if (newPassword.equals(renewPassword)) {
             userDao.changeUserPassword(loggedInUser.getEmail().trim(), currentPassword, newPassword);
             ControllerUtils.showAlertDialog("Đổi mật khẩu thành công", Alert.AlertType.INFORMATION);
-
+            AppMain.setRoot("login.fxml", Constants.DEFAULT_WIDTH, Constants.DEFAULT_HEIGHT, false);
         } else {
             ControllerUtils.showAlertDialog("Mật không không giống nhau", Alert.AlertType.ERROR);
 

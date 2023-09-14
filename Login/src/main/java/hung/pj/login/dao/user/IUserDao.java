@@ -22,6 +22,7 @@ public interface IUserDao {
     void lockUserAccount(String email, LocalDateTime lockedUntil);
     void unlockUserAccount(String email);
     void resetLockedAccountRoles(String email, String role);
+    void resetPassword(String email, String password);
 }
 
 

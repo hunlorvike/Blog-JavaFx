@@ -6,6 +6,7 @@ import hung.pj.login.dao.post.IPostDao;
 import hung.pj.login.dao.post.PostDaoImpl;
 import hung.pj.login.model.PostModel;
 import hung.pj.login.singleton.DataHolder;
+import hung.pj.login.ultis.Constants;
 import hung.pj.login.ultis.ControllerUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -78,7 +79,7 @@ public class EditPostController implements Initializable {
 
                 if (updateSuccess) {
                     ControllerUtils.showAlertDialog("Sửa bài viết thành công", Alert.AlertType.INFORMATION);
-                    AppMain.setRoot("post.fxml", 1300, 750, false);
+                    AppMain.setRoot("post.fxml", Constants.CUSTOM_WIDTH, Constants.CUSTOM_HEIGHT, false);
                 } else {
                     ControllerUtils.showAlertDialog("Sửa bài viết thất bại", Alert.AlertType.ERROR);
                 }

@@ -3,6 +3,7 @@ package hung.pj.login.controller;
 import hung.pj.login.AppMain;
 import hung.pj.login.model.UserModel;
 import hung.pj.login.singleton.UserSingleton;
+import hung.pj.login.ultis.Constants;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -24,19 +25,19 @@ public class MenuController implements Initializable {
     }
 
     public void handleSwitchMember() {
-        switchToScene("member.fxml", 1300, 750, false);
+        switchToScene("member.fxml", Constants.CUSTOM_WIDTH, Constants.CUSTOM_HEIGHT, false);
     }
 
     public void handleSwitchPost() {
-        switchToScene("post.fxml", 1300, 750, false);
+        switchToScene("post.fxml", Constants.CUSTOM_WIDTH, Constants.CUSTOM_HEIGHT,false);
     }
 
     public void handleSwitchDashboard() {
-        switchToScene("dashboard.fxml", 1300, 750, false);
+        switchToScene("dashboard.fxml", Constants.CUSTOM_WIDTH, Constants.CUSTOM_HEIGHT,false);
     }
 
     public void handleSwitchMessenger() {
-        switchToScene("messenger.fxml", 1300, 750, false);
+        switchToScene("messenger.fxml", Constants.CUSTOM_WIDTH, Constants.CUSTOM_HEIGHT,false);
     }
 
     // Phương thức dùng chung cho việc switch-case chuyển trang

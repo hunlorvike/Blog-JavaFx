@@ -134,7 +134,6 @@ public class UserDaoImpl implements IUserDao {
     }
 
 
-
     @Override
     public void insertUser(UserModel userModel) {
         String query = "INSERT INTO users (fullname, email, password, role) VALUES (?, ?, ?, ?)";
@@ -177,7 +176,7 @@ public class UserDaoImpl implements IUserDao {
         }
     }
 
-    private void updatePassword(String email, String newHashedPassword) {
+    public void updatePassword(String email, String newHashedPassword) {
         String updateQuery = "UPDATE users SET password = ? WHERE email = ?";
 
         try (PreparedStatement updateStatement = connection.prepareStatement(updateQuery)) {
@@ -355,5 +354,10 @@ public class UserDaoImpl implements IUserDao {
         }
     }
 
+    @Override
+    public void resetPassword(String email, String password) {
+        String newHashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
+        updatePassword(email, newHashedPassword);
+    }
 
 }

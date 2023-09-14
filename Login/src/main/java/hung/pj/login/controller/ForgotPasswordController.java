@@ -1,14 +1,21 @@
 package hung.pj.login.controller;
 
 import hung.pj.login.AppMain;
-import javafx.event.ActionEvent;
+import hung.pj.login.config.ConnectionProvider;
+import hung.pj.login.dao.user.UserDaoImpl;
+import hung.pj.login.model.UserModel;
+import hung.pj.login.singleton.DataHolder;
+import hung.pj.login.ultis.Constants;
+import hung.pj.login.ultis.ControllerUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import hung.pj.login.ultis.EmailUtil;
+
 import java.io.IOException;
 import java.net.URL;
 import java.util.Random;
@@ -16,27 +23,33 @@ import java.util.ResourceBundle;
 
 public class ForgotPasswordController implements Initializable {
     @FXML
-    private TextField emailTextField;
-
+    private TextField emailTextField, otpTextField;
     @FXML
-    private Button sendButton;
-
+    private Button sendButton, buttonSubmit;
     @FXML
     private Label alertMessage;
+    private String generatedOTP; // Biến để lưu mã OTP đã tạo
+    private long otpExpirationTimeMillis; // Thời gian hết hạn của mã OTP
+    ConnectionProvider connectionProvider = new ConnectionProvider();
+    UserDaoImpl userDao = new UserDaoImpl(connectionProvider.getConnection());
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        
+
     }
 
-    public void handleSendButtonAction(ActionEvent actionEvent) {
+    public void handleSendButtonAction() {
         // Lấy địa chỉ email từ emailTextField
         String toEmail = emailTextField.getText().trim();
 
         // Tạo mã OTP (ở đây, tạo mã ngẫu nhiên, bạn có thể thay bằng logic tạo mã OTP thực tế)
-        String otp = generateOTP();
+        generatedOTP = generateOTP();
+
+        // Lưu thời gian tạo mã OTP và thời gian hết hạn (2 phút sau) vào biến
+        otpExpirationTimeMillis = System.currentTimeMillis() + (2 * 60 * 1000); // 2 phút
 
         // Tiến hành gửi email với mã OTP
-        boolean emailSent = sendOTPByEmail(toEmail, otp);
+        boolean emailSent = sendOTPByEmail(toEmail, generatedOTP);
 
         if (emailSent) {
             // Nếu email gửi thành công, hiển thị thông báo cho người dùng
@@ -46,11 +59,37 @@ public class ForgotPasswordController implements Initializable {
             alertMessage.setText("Error sending OTP. Please try again.");
         }
     }
+
+    public void handleSubmitButtonAction() throws IOException {
+        // Lấy mã OTP mà người dùng đã nhập
+        String enteredOTP = otpTextField.getText().trim();
+
+        // Lấy thời gian hiện tại
+        long currentTimeMillis = System.currentTimeMillis();
+
+        // Kiểm tra xem thời gian hiện tại có còn trong khoảng 2 phút sau khi mã OTP được tạo hay không
+        if (currentTimeMillis <= otpExpirationTimeMillis && enteredOTP.equals(generatedOTP)) {
+            // Xác thực thành công, bạn có thể thực hiện hành động cần thiết ở đây
+            UserModel userModel = userDao.getUserByEmail(emailTextField.getText());
+
+            if (userModel != null) {
+                DataHolder.getInstance().setData(emailTextField.getText());
+                AppMain.setRoot("forgot_password2.fxml", Constants.DEFAULT_WIDTH, Constants.DEFAULT_HEIGHT,  false);
+            } else {
+                ControllerUtils.showAlertDialog("Email của bạn không tồn tại trong hệ thống", Alert.AlertType.ERROR);
+            }
+
+        } else {
+            // Xác thực thất bại hoặc mã OTP đã hết hạn, hiển thị thông báo lỗi
+            alertMessage.setText("Invalid or expired OTP. Please try again.");
+        }
+    }
+
     // Phương thức để gửi OTP qua email
     private boolean sendOTPByEmail(String toEmail, String otp) {
         try {
             // Gọi phương thức sendEmail từ EmailUtil (hoặc class bạn đã tạo)
-            EmailUtil.sendEmail(toEmail, "OTP Verification", "Your OTP is: " + otp);
+            EmailUtil.sendEmail(toEmail, "Verify your identity", "OTP của bạn là: " + otp + ". Mã xác thực trên chỉ có hiệu lực tròng vòng 2 phút. Vui lòng không cung cấp OTP cho người khác tránh bị lừa đảo!");
             return true;
         } catch (Exception e) {
             e.printStackTrace();
@@ -83,7 +122,7 @@ public class ForgotPasswordController implements Initializable {
     }
 
     public void handleClickLogin(MouseEvent mouseEvent) throws IOException {
-        AppMain.setRoot("login.fxml", 1024, 600, false);
+        AppMain.setRoot("login.fxml", Constants.DEFAULT_WIDTH, Constants.DEFAULT_HEIGHT,  false);
     }
 
 

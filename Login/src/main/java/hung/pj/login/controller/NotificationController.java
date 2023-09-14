@@ -1,9 +1,7 @@
 package hung.pj.login.controller;
 
 import hung.pj.login.config.ConnectionProvider;
-import hung.pj.login.dao.Notifications.INotifications;
-import hung.pj.login.dao.Notifications.NotificationsImpl;
-import hung.pj.login.dao.social.SocialDaoImpl;
+import hung.pj.login.dao.notifications.NotificationsImpl;
 import hung.pj.login.model.Notification;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;

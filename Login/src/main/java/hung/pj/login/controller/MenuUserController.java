@@ -3,6 +3,7 @@ package hung.pj.login.controller;
 import hung.pj.login.AppMain;
 import hung.pj.login.model.UserModel;
 import hung.pj.login.singleton.UserSingleton;
+import hung.pj.login.ultis.Constants;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 
@@ -23,15 +24,15 @@ public class MenuUserController implements Initializable {
     }
 
     public void handleSwitchEditAccount(ActionEvent event) {
-        switchToScene("profile.fxml", 1300, 750, false);
+        switchToScene("profile.fxml", Constants.CUSTOM_WIDTH, Constants.CUSTOM_HEIGHT, false);
     }
 
     public void handleSwitchChangePass(ActionEvent event) {
-        switchToScene("change_password.fxml", 1300, 750, false);
+        switchToScene("change_password.fxml", Constants.CUSTOM_WIDTH, Constants.CUSTOM_HEIGHT,false);
     }
 
     public void handleBackDashboard(ActionEvent event) {
-        switchToScene("dashboard.fxml", 1300, 750, false);
+        switchToScene("dashboard.fxml", Constants.CUSTOM_WIDTH, Constants.CUSTOM_HEIGHT, false);
     }
 
     private void switchToScene(String fxmlFileName, int width, int height, Boolean useSplash) {

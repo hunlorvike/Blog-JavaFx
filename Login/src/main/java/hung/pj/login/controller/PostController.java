@@ -9,6 +9,7 @@ import hung.pj.login.model.PostModel;
 import hung.pj.login.model.UserModel;
 import hung.pj.login.singleton.DataHolder;
 import hung.pj.login.singleton.UserSingleton;
+import hung.pj.login.ultis.Constants;
 import hung.pj.login.ultis.ControllerUtils;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -125,7 +126,7 @@ public class PostController implements Initializable {
         if (selectedPost.getCreator_id() == loggedInUser.getUser_id() || loggedInUser.getRole().equals("Super Admin")) {
             int selectedId = selectedPost.getPost_id();
             DataHolder.getInstance().setData(String.valueOf(selectedId));
-            AppMain.setRoot("edit_post.fxml", 1300, 750, false);
+            AppMain.setRoot("edit_post.fxml", Constants.CUSTOM_WIDTH, Constants.CUSTOM_HEIGHT,false);
         } else {
             ControllerUtils.showAlertDialog("Bạn không có quyền sửa bài viết này", Alert.AlertType.WARNING);
             return;

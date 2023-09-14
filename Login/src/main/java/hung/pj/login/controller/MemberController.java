@@ -8,6 +8,7 @@ import hung.pj.login.exception.UnauthorizedAccessException;
 import hung.pj.login.model.UserModel;
 import hung.pj.login.singleton.DataHolder;
 import hung.pj.login.singleton.UserSingleton;
+import hung.pj.login.ultis.Constants;
 import hung.pj.login.ultis.ControllerUtils;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -207,7 +208,7 @@ public class MemberController implements Initializable {
             String selectedId = selectedUser.getEmail();
 
             DataHolder.getInstance().setData(selectedId);
-            AppMain.setRoot("profile_detail.fxml", 1300, 750, false);
+            AppMain.setRoot("profile_detail.fxml", Constants.CUSTOM_WIDTH, Constants.CUSTOM_HEIGHT,false);
         }
     }
 

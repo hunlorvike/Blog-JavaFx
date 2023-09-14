@@ -1,4 +1,6 @@
 package hung.pj.login;
+
+import hung.pj.login.ultis.Constants;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -27,8 +29,18 @@ public class AppMain extends Application {
         scene = new Scene(fxmlLoader.load(), 1024, 600);
         scene.getStylesheets().add(BootstrapFX.bootstrapFXStylesheet()); // BootstrapFX
         stage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResourceAsStream("image/1.jpg")))); //Icon App
-        stage.setTitle("Nguyen Viet Hung");
+        stage.setTitle(Constants.APP_NAME);
         stage.setScene(scene);
+        stage.setWidth(1024);
+        stage.setHeight(600);
+
+        // Tính toán tọa độ để đặt màn hình ở chính giữa
+        double newStageX = (screenWidth - 1024) / 2;
+        double newStageY = (screenHeight - 600) / 2;
+
+        stage.setX(newStageX);
+        stage.setY(newStageY);
+        
         stage.show();
     }
 

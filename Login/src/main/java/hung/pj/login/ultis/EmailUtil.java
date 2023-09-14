@@ -8,7 +8,7 @@ public class EmailUtil {
     public static void sendEmail(String toEmail, String subject, String body) {
         // Thông tin đăng nhập email
         final String username = "uielih@gmail.com";
-        final String password = "dsvikrbwkceaoxzk"; // Sử dụng mật khẩu ứng dụng đã tạo
+        final String password = "xpdorjnrvpexkkbe"; // Sử dụng mật khẩu ứng dụng đã tạo
 
         Properties prop = new Properties();
         prop.put("mail.smtp.host", "smtp.gmail.com");

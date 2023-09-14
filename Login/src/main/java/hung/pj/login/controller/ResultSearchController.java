@@ -3,6 +3,7 @@ package hung.pj.login.controller;
 import hung.pj.login.AppMain;
 import hung.pj.login.model.UserModel;
 import hung.pj.login.singleton.DataHolder;
+import hung.pj.login.ultis.Constants;
 import hung.pj.login.ultis.CustomListCell;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -74,7 +75,7 @@ public class ResultSearchController implements Initializable {
 
     private void viewUserDetail() {
         try {
-            AppMain.setRoot("profile_detail.fxml", 1300, 750, false);
+            AppMain.setRoot("profile_detail.fxml", Constants.CUSTOM_WIDTH, Constants.CUSTOM_HEIGHT,false);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

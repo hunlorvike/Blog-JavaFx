@@ -7,6 +7,7 @@ import hung.pj.login.dao.post.PostDaoImpl;
 import hung.pj.login.model.PostModel;
 import hung.pj.login.model.UserModel;
 import hung.pj.login.singleton.UserSingleton;
+import hung.pj.login.ultis.Constants;
 import hung.pj.login.ultis.ControllerUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -51,7 +52,7 @@ public class AddPostController implements Initializable {
         boolean insertSuccess = postDao.insertPost(post);
         if (insertSuccess) {
             ControllerUtils.showAlertDialog("Tạo bài viết thành công", Alert.AlertType.INFORMATION);
-            AppMain.setRoot("post.fxml", 1300, 750, false);
+            AppMain.setRoot("post.fxml", Constants.CUSTOM_WIDTH, Constants.CUSTOM_HEIGHT, false);
 
         } else {
             ControllerUtils.showAlertDialog("Tạo bài viết thất bại", Alert.AlertType.INFORMATION);

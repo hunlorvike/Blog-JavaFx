@@ -6,6 +6,7 @@ import hung.pj.login.dao.user.UserDaoImpl;
 import hung.pj.login.model.UserModel;
 import hung.pj.login.singleton.DataHolder;
 import hung.pj.login.singleton.UserSingleton;
+import hung.pj.login.ultis.Constants;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -62,7 +63,7 @@ public class ToolbarController implements Initializable {
         userSingleton.clearSingleton();
 
         if (userSingleton.getLoggedInUser() == null) {
-            switchToScene("login.fxml", 1024, 600, false);
+            switchToScene("login.fxml", Constants.DEFAULT_WIDTH, Constants.DEFAULT_HEIGHT,  false);
         }
     }
 
@@ -77,7 +78,7 @@ public class ToolbarController implements Initializable {
                 List<UserModel> userModelList = userDao.getUsersByName(searchText);
                 DataHolder.getInstance().setDataList(userModelList);
                 DataHolder.getInstance().setData(searchText);
-                switchToScene("result_search.fxml", 1300, 750, false);
+                switchToScene("result_search.fxml", Constants.CUSTOM_WIDTH, Constants.CUSTOM_HEIGHT, false);
                 break;
             case "Post":
                 break;
@@ -98,7 +99,7 @@ public class ToolbarController implements Initializable {
     }
 
     public void handleProfile(ActionEvent event) {
-        switchToScene("profile.fxml", 1300, 750, true);
+        switchToScene("profile.fxml", Constants.CUSTOM_WIDTH, Constants.CUSTOM_HEIGHT, true);
     }
 
 

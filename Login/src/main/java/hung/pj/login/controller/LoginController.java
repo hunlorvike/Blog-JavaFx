@@ -5,6 +5,7 @@ import hung.pj.login.config.ConnectionProvider;
 import hung.pj.login.dao.user.UserDaoImpl;
 import hung.pj.login.model.UserModel;
 import hung.pj.login.singleton.UserSingleton;
+import hung.pj.login.ultis.Constants;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
@@ -61,7 +62,7 @@ public class LoginController implements Initializable {
                         UserSingleton userSingleton = UserSingleton.getInstance();
                         userSingleton.setLoggedInUser(user);
                         // Sử dụng splash khi chuyển đến dashboard.fxml
-                        AppMain.setRoot("dashboard.fxml", 1300, 750, true);
+                        AppMain.setRoot("dashboard.fxml", Constants.CUSTOM_WIDTH, Constants.CUSTOM_HEIGHT, true);
                     } else {
                         showAlert("Incorrect password.");
                     }
@@ -88,10 +89,11 @@ public class LoginController implements Initializable {
 
     // Chuyển trang
     public void handleClickSignUp(MouseEvent mouseEvent) throws IOException {
-        AppMain.setRoot("signup.fxml", 1024, 600, false);
+        AppMain.setRoot("signup.fxml", Constants.DEFAULT_WIDTH, Constants.DEFAULT_HEIGHT, false);
     }
+
     // Chuyển trang
     public void handleClickForgotPass(MouseEvent mouseEvent) throws IOException {
-        AppMain.setRoot("forgot_password.fxml", 1024, 600, false);
+        AppMain.setRoot("forgot_password.fxml", Constants.DEFAULT_WIDTH, Constants.DEFAULT_HEIGHT, false);
     }
 }

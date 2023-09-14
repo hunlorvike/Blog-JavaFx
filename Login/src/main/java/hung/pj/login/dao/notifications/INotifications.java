@@ -1,4 +1,4 @@
-package hung.pj.login.dao.Notifications;
+package hung.pj.login.dao.notifications;
 
 import hung.pj.login.model.Notification;
 
