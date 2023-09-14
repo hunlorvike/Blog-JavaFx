@@ -64,7 +64,7 @@ public class PostController implements Initializable {
 
     @FXML
     private void handleAddPost(ActionEvent event) {
-        switchToScene("add_post.fxml", 1300, 750, false);
+        switchToScene("add_post.fxml", Constants.CUSTOM_WIDTH, Constants.CUSTOM_HEIGHT, false);
     }
 
     private void switchToScene(String fxmlFileName, int width, int height, Boolean useSplash) {

@@ -49,7 +49,7 @@ public class SignUpController implements Initializable {
     }
 
     public void handleClickLogin(MouseEvent mouseEvent) throws IOException {
-        AppMain.setRoot("login.fxml", 1024, 600, false);
+        AppMain.setRoot("login.fxml", Constants.DEFAULT_WIDTH, Constants.DEFAULT_HEIGHT,  false);
     }
 
     public void handleClickSignUp(ActionEvent event) throws IOException {
