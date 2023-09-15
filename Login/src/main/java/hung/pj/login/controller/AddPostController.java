@@ -62,7 +62,7 @@ public class AddPostController implements Initializable {
     }
 
 
-    public void handleAddPost(ActionEvent event) throws IOException {
+    public void handleAddPost() throws IOException {
         UserModel loggedInUser = userSingleton.getLoggedInUser();
 
         // Lấy dữ liệu

@@ -27,7 +27,7 @@ public class MessengerController {
     }
 
     @FXML
-    private void handleSendMessage(ActionEvent event) {
+    private void handleSendMessage() {
         // Xử lý sự kiện khi người dùng nhấn nút "Send"
         String message = messageTextField.getText();
         if (!message.isEmpty()) {

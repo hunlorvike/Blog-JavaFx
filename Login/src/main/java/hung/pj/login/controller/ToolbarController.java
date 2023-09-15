@@ -98,7 +98,7 @@ public class ToolbarController implements Initializable {
         }
     }
 
-    public void handleProfile(ActionEvent event) {
+    public void handleProfile() {
         switchToScene("profile.fxml", Constants.CUSTOM_WIDTH, Constants.CUSTOM_HEIGHT, true);
     }
 

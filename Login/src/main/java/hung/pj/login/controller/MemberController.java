@@ -216,7 +216,7 @@ public class MemberController implements Initializable {
         ControllerUtils.refreshTableView(tableView, userDao.getAllUsers());
     }
 
-    public void handleAllButtonClicked(ActionEvent event) {
+    public void handleAllButtonClicked() {
         refreshTableView();
     }
 

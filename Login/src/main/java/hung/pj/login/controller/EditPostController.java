@@ -63,7 +63,7 @@ public class EditPostController implements Initializable {
         }
     }
 
-    public void handleEditPost(ActionEvent event) throws IOException {
+    public void handleEditPost() throws IOException {
         if (postId >= 0) {
             PostModel existingPost = postDao.getPostById(postId);
             if (existingPost != null) {

@@ -47,7 +47,7 @@ public class ChangePasswordController implements Initializable {
     }
 
 
-    public void handleClickSave(ActionEvent event) throws IOException {
+    public void handleClickSave() throws IOException {
         loggedInUser = userSingleton.getLoggedInUser();
 
         String currentPassword = currentPassTextField.getText().trim();
