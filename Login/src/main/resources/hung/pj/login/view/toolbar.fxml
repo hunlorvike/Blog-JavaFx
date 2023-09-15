@@ -56,8 +56,7 @@
         <items>
             <MenuItem mnemonicParsing="false" onAction="#handleProfile" styleClass="menu-item"
                       text="Quản lý tài khoản"/>
-            <MenuItem mnemonicParsing="false" styleClass="menu-item" text="Kênh của tôi"/>
-            <MenuItem mnemonicParsing="false" styleClass="menu-item" text="Hoạt động"/>
+            <MenuItem mnemonicParsing="false" styleClass="menu-item" text="Trang cá nhân"/>
             <MenuItem mnemonicParsing="false" onAction="#handleLogout" styleClass="menu-item" text="Logout"/>
         </items>
     </MenuButton>

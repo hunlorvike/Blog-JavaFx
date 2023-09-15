@@ -360,4 +360,87 @@ public class UserDaoImpl implements IUserDao {
         updatePassword(email, newHashedPassword);
     }
 
+    @Override
+    public boolean isFollowing(int userId, int followerUserId) {
+        String query = "SELECT COUNT(*) FROM user_followers WHERE user_id = ? AND follower_user_id = ?";
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setInt(1, userId);
+            preparedStatement.setInt(2, followerUserId);
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    int count = resultSet.getInt(1);
+                    return count > 0;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
+    @Override
+    public boolean followUser(int userId, int followerUserId) {
+        String query = "INSERT INTO user_followers (user_id, follower_user_id) VALUES (?, ?)";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setInt(1, userId);
+            preparedStatement.setInt(2, followerUserId);
+            int rowsAffected = preparedStatement.executeUpdate();
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    @Override
+    public boolean unfollowUser(int userId, int followerUserId) {
+        String query = "DELETE FROM user_followers WHERE user_id = ? AND follower_user_id = ?";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setInt(1, userId);
+            preparedStatement.setInt(2, followerUserId);
+            int rowsAffected = preparedStatement.executeUpdate();
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    @Override
+    public List<Integer> getFollowers(int userId) {
+        List<Integer> followers = new ArrayList<>();
+        String query = "SELECT follower_user_id FROM user_followers WHERE user_id = ?";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setInt(1, userId);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    followers.add(resultSet.getInt("follower_user_id"));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return followers;
+    }
+
+    @Override
+    public List<Integer> getFollowing(int userId) {
+        List<Integer> following = new ArrayList<>();
+        String query = "SELECT user_id FROM user_followers WHERE follower_user_id = ?";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setInt(1, userId);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    following.add(resultSet.getInt("user_id"));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return following;
+    }
+
 }

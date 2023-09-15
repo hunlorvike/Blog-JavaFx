@@ -23,6 +23,15 @@ public interface IUserDao {
     void unlockUserAccount(String email);
     void resetLockedAccountRoles(String email, String role);
     void resetPassword(String email, String password);
+    boolean isFollowing(int userId, int followerUserId);
+
+    boolean followUser(int userId, int followerUserId);
+
+    boolean unfollowUser(int userId, int followerUserId);
+
+    List<Integer> getFollowers(int userId);
+
+    List<Integer> getFollowing(int userId);
 }
 
 

@@ -12,9 +12,20 @@ CREATE TABLE IF NOT EXISTS users (
     password VARCHAR(255) NOT NULL,
     role ENUM('Super Admin', 'Admin', 'Moderator') NOT NULL,
     locked_until DATETIME,
+    followers_count INT DEFAULT 0,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
+
+CREATE TABLE IF NOT EXISTS user_followers (
+    follower_id INT PRIMARY KEY AUTO_INCREMENT,
+    user_id INT NOT NULL,
+    follower_user_id INT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(user_id),
+    FOREIGN KEY (follower_user_id) REFERENCES users(user_id)
+);
+
 
 CREATE TABLE IF NOT EXISTS social_media (
     social_media_id INT PRIMARY KEY AUTO_INCREMENT,
@@ -38,8 +49,6 @@ CREATE TABLE IF NOT EXISTS post (
     FOREIGN KEY (creator_id) REFERENCES users(user_id)
 );
 
-
-
 -- Tạo bảng tags
 CREATE TABLE IF NOT EXISTS tags (
     tag_id INT PRIMARY KEY AUTO_INCREMENT,
@@ -57,17 +66,6 @@ CREATE TABLE IF NOT EXISTS post_tag (
     FOREIGN KEY (tag_id) REFERENCES tags(tag_id)
 );
 
--- Tạo bảng scheduled_posts
-CREATE TABLE IF NOT EXISTS scheduled_posts (
-    scheduled_post_id INT PRIMARY KEY AUTO_INCREMENT,
-    post_id INT,
-    scheduled_datetime DATETIME NOT NULL,
-    status ENUM('Scheduled', 'Published') NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (post_id) REFERENCES post(post_id)
-);
-
 CREATE TABLE IF NOT EXISTS saved_posts (
     saved_post_id INT PRIMARY KEY AUTO_INCREMENT,
     user_id INT,
@@ -75,7 +73,6 @@ CREATE TABLE IF NOT EXISTS saved_posts (
     FOREIGN KEY (user_id) REFERENCES users(user_id),
     FOREIGN KEY (post_id) REFERENCES post(post_id)
 );
-
 
 -- Tạo bảng notifications
 CREATE TABLE IF NOT EXISTS notifications (
@@ -87,12 +84,3 @@ CREATE TABLE IF NOT EXISTS notifications (
     FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
 
--- Tạo bảng admin_logs
-CREATE TABLE IF NOT EXISTS admin_logs (
-    log_id INT PRIMARY KEY AUTO_INCREMENT,
-    admin_id INT,
-    action VARCHAR(255) NOT NULL,
-    details TEXT,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (admin_id) REFERENCES users(user_id)
-);

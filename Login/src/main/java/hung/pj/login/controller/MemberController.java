@@ -1,5 +1,6 @@
 package hung.pj.login.controller;
 
+import com.jfoenix.controls.JFXBadge;
 import com.jfoenix.controls.JFXComboBox;
 import hung.pj.login.AppMain;
 import hung.pj.login.config.ConnectionProvider;
@@ -55,6 +56,8 @@ public class MemberController implements Initializable {
 
     @FXML
     private TableColumn<UserModel, Timestamp> updateColumn;
+    @FXML
+    private MenuItem followUserMenuItem;
 
     private ObservableList<UserModel> userModelObservableList = FXCollections.observableArrayList();
 
@@ -76,6 +79,8 @@ public class MemberController implements Initializable {
         // Tạo context menu
         ContextMenu menu = new ContextMenu();
         // Tạo các option cho menu vừa tạo
+        MenuItem followUserMenuItem = new MenuItem("Theo dõi");
+        followUserMenuItem.setOnAction(event -> followUser());
         MenuItem editRoleItem = new MenuItem("Cập nhật role");
         editRoleItem.setOnAction(event -> editRoleItem());
         MenuItem lockUserAccount = new MenuItem("Khoá tài khoản");
@@ -94,14 +99,55 @@ public class MemberController implements Initializable {
         tableView.setContextMenu(menu);
 
         // Gán các option cho menu
-        menu.getItems().addAll(editRoleItem, lockUserAccount, unlockUserAccount, viewUserDetail);
+        menu.getItems().addAll(followUserMenuItem, editRoleItem, lockUserAccount, unlockUserAccount, viewUserDetail);
+        this.followUserMenuItem = followUserMenuItem;
 
         // Ẩn menu khi chuột trái được nhấp bên ngoài menu
         tableView.setOnMouseClicked(event -> {
+            if (event.getButton() == MouseButton.PRIMARY && event.getClickCount() == 1) {
+                // Đây là hành động khi người dùng nhấp chuột trái vào một bản ghi
+                UserModel selectedUser = tableView.getSelectionModel().getSelectedItem();
+
+                int followerUserId = selectedUser.getUser_id();
+                int userId = loggedInUser.getUser_id();
+
+                // Kiểm tra xem đã theo dõi hay chưa
+                if (userDao.isFollowing(userId, followerUserId)) {
+                    followUserMenuItem.setText("Hủy theo dõi"); // Đặt nhãn "Hủy theo dõi" khi thực hiện theo dõi
+                } else {
+                    followUserMenuItem.setText("Theo dõi"); // Đặt nhãn "Theo dõi" khi hủy theo dõi
+                }
+
+            }
             if (event.getButton() == MouseButton.PRIMARY) {
                 menu.hide();
             }
         });
+
+    }
+
+
+    private void followUser() {
+        UserModel selectedUser = tableView.getSelectionModel().getSelectedItem();
+        if (selectedUser == null) {
+            // Không có người dùng được chọn trong bảng
+            return;
+        }
+
+        int followerUserId = selectedUser.getUser_id();
+        int userId = loggedInUser.getUser_id();
+
+        // Kiểm tra xem đã theo dõi hay chưa
+        if (userDao.isFollowing(userId, followerUserId)) {
+
+            // Nếu đã theo dõi, thực hiện hủy theo dõi
+            userDao.unfollowUser(userId, followerUserId);
+            ControllerUtils.showAlertDialog("Hủy theo dõi thành công", Alert.AlertType.INFORMATION);
+        } else {
+            // Nếu chưa theo dõi, thực hiện theo dõi
+            userDao.followUser(userId, followerUserId);
+            ControllerUtils.showAlertDialog("Theo dõi thành công", Alert.AlertType.INFORMATION);
+        }
     }
 
 
@@ -208,7 +254,7 @@ public class MemberController implements Initializable {
             String selectedId = selectedUser.getEmail();
 
             DataHolder.getInstance().setData(selectedId);
-            AppMain.setRoot("profile_detail.fxml", Constants.CUSTOM_WIDTH, Constants.CUSTOM_HEIGHT,false);
+            AppMain.setRoot("profile_detail.fxml", Constants.CUSTOM_WIDTH, Constants.CUSTOM_HEIGHT, false);
         }
     }
 

@@ -11,6 +11,7 @@ public class UserModel {
     private String role;
     private LocalDateTime lockedUntil;
     private int postCount;
+    private int followCount;
     private Timestamp created_at;
     private Timestamp updated_at;
 
@@ -71,6 +72,14 @@ public class UserModel {
         return email;
     }
 
+    public int getFollowCount() {
+        return followCount;
+    }
+
+    public void setFollowCount(int followCount) {
+        this.followCount = followCount;
+    }
+
     public void setEmail(String email) {
         this.email = email;
     }
@@ -125,11 +134,17 @@ public class UserModel {
 
     @Override
     public String toString() {
-        return "User{" +
-                "fullname='" + fullname + '\'' +
+        return "UserModel{" +
+                "user_id=" + user_id +
+                ", fullname='" + fullname + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", role='" + role + '\'' +
+                ", lockedUntil=" + lockedUntil +
+                ", postCount=" + postCount +
+                ", followCount=" + followCount +
+                ", created_at=" + created_at +
+                ", updated_at=" + updated_at +
                 '}';
     }
 }
