@@ -2,6 +2,7 @@ package hung.pj.login.dao.post;
 
 import hung.pj.login.model.PostModel;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 public interface IPostDao {
@@ -17,7 +18,7 @@ public interface IPostDao {
 
     boolean deletePost(int post_id);
 
-    boolean editPost(int post_id, String title, String content, String status);
-
     boolean updatePost(int post_id, PostModel existingPost);
+    boolean updatePostStatusToPublic(int post_id, Timestamp currentTimestamp);
+
 }

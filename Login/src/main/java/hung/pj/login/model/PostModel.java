@@ -1,5 +1,6 @@
 package hung.pj.login.model;
 
+import java.sql.Time;
 import java.sql.Timestamp;
 
 public class PostModel {
@@ -9,45 +10,41 @@ public class PostModel {
     private String status;
     private int view_count;
     private int creator_id;
+    private Timestamp scheduledDate;
     private Timestamp created_at;
     private Timestamp updated_at;
 
     public PostModel() {
 
     }
+
     public PostModel(String title, String content, String status) {
         this.title = title;
         this.content = content;
         this.status = status;
     }
-    public PostModel(String title, String content, String status, int creator_id) {
+    
+
+    public PostModel(String title, String content, String status, Timestamp scheduledDate, int creator_id) {
         this.title = title;
         this.content = content;
         this.status = status;
+        this.scheduledDate = scheduledDate;
         this.creator_id = creator_id;
     }
 
-    public PostModel(int post_id, String title, String content, String status,int creator_id, Timestamp created_at, Timestamp updated_at) {
-        this.post_id = post_id;
-        this.title = title;
-        this.content = content;
-        this.status = status;
-        this.creator_id = creator_id;
-        this.created_at = created_at;
-        this.updated_at = updated_at;
-    }
 
-    public PostModel(int post_id, String title, String content, String status, int view_count,int creator_id, Timestamp created_at, Timestamp updated_at) {
+    public PostModel(int post_id, String title, String content, String status, int view_count, int creator_id, Timestamp scheduledDate, Timestamp created_at, Timestamp updated_at) {
         this.post_id = post_id;
         this.title = title;
         this.content = content;
         this.status = status;
         this.view_count = view_count;
         this.creator_id = creator_id;
+        this.scheduledDate = scheduledDate;
         this.created_at = created_at;
         this.updated_at = updated_at;
     }
-
 
     public int getPost_id() {
         return post_id;
@@ -97,6 +94,14 @@ public class PostModel {
         this.creator_id = creator_id;
     }
 
+    public Timestamp getScheduledDate() {
+        return scheduledDate;
+    }
+
+    public void setScheduledDate(Timestamp scheduledDate) {
+        this.scheduledDate = scheduledDate;
+    }
+
     public Timestamp getCreated_at() {
         return created_at;
     }
@@ -122,6 +127,7 @@ public class PostModel {
                 ", status='" + status + '\'' +
                 ", view_count=" + view_count +
                 ", creator_id=" + creator_id +
+                ", scheduledDate=" + scheduledDate +
                 ", created_at=" + created_at +
                 ", updated_at=" + updated_at +
                 '}';

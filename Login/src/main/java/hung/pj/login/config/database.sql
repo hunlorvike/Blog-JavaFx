@@ -32,10 +32,13 @@ CREATE TABLE IF NOT EXISTS post (
     status ENUM('Draft', 'Published', 'Scheduled') NOT NULL,
     view_count INT DEFAULT 0,
     creator_id INT,
+    scheduled_datetime TIMESTAMP, -- Thêm trường scheduled_datetime kiểu TIMESTAMP
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (creator_id) REFERENCES users(user_id)
 );
+
+
 
 -- Tạo bảng tags
 CREATE TABLE IF NOT EXISTS tags (

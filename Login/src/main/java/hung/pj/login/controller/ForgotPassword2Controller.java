@@ -6,6 +6,7 @@ import hung.pj.login.dao.user.UserDaoImpl;
 import hung.pj.login.singleton.DataHolder;
 import hung.pj.login.ultis.Constants;
 import hung.pj.login.ultis.ControllerUtils;
+import hung.pj.login.ultis.ValidationUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -36,10 +37,15 @@ public class ForgotPassword2Controller implements Initializable {
         String reEnteredPassword = rePasswordField.getText().trim();
 
         if (newPassword.equals(reEnteredPassword)) {
+            if (!ValidationUtils.isValidPassword(newPassword)) {
+                ControllerUtils.showAlertDialog("Password must be at least 8 characters.", Alert.AlertType.ERROR);
+                return;
+            }
+
             String hashedPassword = BCrypt.hashpw(newPassword, BCrypt.gensalt());
             userDao.updatePassword(email, hashedPassword);
             ControllerUtils.showAlertDialog("Đổi mật khẩu thành công", Alert.AlertType.INFORMATION);
-            AppMain.setRoot("login.fxml", Constants.DEFAULT_WIDTH, Constants.DEFAULT_HEIGHT,  false);
+            AppMain.setRoot("login.fxml", Constants.DEFAULT_WIDTH, Constants.DEFAULT_HEIGHT, false);
         } else {
             ControllerUtils.showAlertDialog("Mật khẩu không giống nhau", Alert.AlertType.ERROR);
         }

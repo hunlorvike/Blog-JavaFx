@@ -126,7 +126,7 @@ public class DashboardController implements Initializable {
     }
 
     private void refreshTableViewMember() {
-        ControllerUtils.refreshTableView(tableViewMember, userDao.getUsersByPostCountDescending(10));
+        ControllerUtils.refreshTableView(tableViewMember, userDao.getUsersByPostCountDescending(15));
     }
 
     private void setLabelValue(Label label, String text) {

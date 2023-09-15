@@ -7,6 +7,7 @@ import hung.pj.login.model.UserModel;
 import hung.pj.login.singleton.UserSingleton;
 import hung.pj.login.ultis.Constants;
 import hung.pj.login.ultis.ControllerUtils;
+import hung.pj.login.ultis.ValidationUtils;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
@@ -53,6 +54,12 @@ public class ChangePasswordController implements Initializable {
         String newPassword = newPassTextField.getText().trim();
         String renewPassword = reNewPassTextField.getText().trim();
         if (newPassword.equals(renewPassword)) {
+
+            if (!ValidationUtils.isValidPassword(newPassword)) {
+                ControllerUtils.showAlertDialog("Password must be at least 8 characters.", Alert.AlertType.ERROR);
+                return;
+            }
+
             userDao.changeUserPassword(loggedInUser.getEmail().trim(), currentPassword, newPassword);
             ControllerUtils.showAlertDialog("Đổi mật khẩu thành công", Alert.AlertType.INFORMATION);
             AppMain.setRoot("login.fxml", Constants.DEFAULT_WIDTH, Constants.DEFAULT_HEIGHT, false);
