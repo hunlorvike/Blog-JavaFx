@@ -79,7 +79,7 @@ public class MemberController implements Initializable {
         // Tạo context menu
         ContextMenu menu = new ContextMenu();
         // Tạo các option cho menu vừa tạo
-        MenuItem followUserMenuItem = new MenuItem("Theo dõi");
+        MenuItem followUserMenuItem = new MenuItem("Theo dõi/Huỷ");
         followUserMenuItem.setOnAction(event -> followUser());
         MenuItem editRoleItem = new MenuItem("Cập nhật role");
         editRoleItem.setOnAction(event -> editRoleItem());
