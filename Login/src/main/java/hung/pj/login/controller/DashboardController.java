@@ -25,6 +25,7 @@ public class DashboardController implements Initializable {
     private UserDaoImpl userDao = new UserDaoImpl(connectionProvider.getConnection());
     private PostDaoImpl postDao = new PostDaoImpl(connectionProvider.getConnection());
 
+
     @FXML
     private Label numberOfUsersLabel, numberOfSuperAdmin, numberOfAdmin, numberOfModerator, numberOfAllPosts, numberOfPublished, numberOfScheduled, numberOfDrafts;
 
@@ -32,13 +33,13 @@ public class DashboardController implements Initializable {
     private TableView<PostModel> tableViewPost;
 
     @FXML
-    private TableColumn<PostModel, Integer> idColumn, viewColumn, creatorColumn;
+    private TableColumn<PostModel, Integer> idColumn, idMemberColumn, viewColumn, creatorColumn;
 
     @FXML
-    private TableColumn<PostModel, String> titleColumn, statusColumn;
+    private TableColumn<PostModel, String> titleColumn, statusColumn, categoryColumn;
 
     @FXML
-    private TableColumn<PostModel, Timestamp> createColumn, updateColumn;
+    private TableColumn<PostModel, Timestamp> createdAtColumn, updatedAtColumn;
 
     @FXML
     private TableView<UserModel> tableViewMember;
@@ -48,9 +49,24 @@ public class DashboardController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        idColumn.setCellValueFactory(new PropertyValueFactory<>("post_id"));
+        titleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
+        statusColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
+        categoryColumn.setCellValueFactory(new PropertyValueFactory<>("category"));
+        viewColumn.setCellValueFactory(new PropertyValueFactory<>("view_count"));
+        creatorColumn.setCellValueFactory(new PropertyValueFactory<>("creator_id"));
+        createdAtColumn.setCellValueFactory(new PropertyValueFactory<>("created_at"));
+        updatedAtColumn.setCellValueFactory(new PropertyValueFactory<>("updated_at"));
+
+        refreshTablePostView();
+
         setDataTabPost();
         setDataTabMember();
         setDataTableMember();
+    }
+
+    private void refreshTablePostView() {
+        ControllerUtils.refreshTableView(tableViewPost, postDao.getAllPosts());
     }
 
     private void setDataTabPost() {
@@ -65,6 +81,8 @@ public class DashboardController implements Initializable {
 
         int draftPostsCount = postDao.getPostsByStatus("Draft").size();
         setLabelValue(numberOfDrafts, String.valueOf(draftPostsCount));
+
+
     }
 
     private void setDataTabMember() {
@@ -82,8 +100,10 @@ public class DashboardController implements Initializable {
     }
 
     private void setDataTableMember() {
+        idMemberColumn.setCellValueFactory(new PropertyValueFactory<>("user_id"));
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("fullname"));
         postColumn.setCellValueFactory(new PropertyValueFactory<>("postCount"));
+
         refreshTableViewMember();
     }
 
@@ -95,4 +115,3 @@ public class DashboardController implements Initializable {
         label.setText(text);
     }
 }
-

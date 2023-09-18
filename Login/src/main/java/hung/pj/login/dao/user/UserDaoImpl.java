@@ -111,7 +111,7 @@ public class UserDaoImpl implements IUserDao {
     public List<UserModel> getUsersByPostCountDescending(int limit) {
         List<UserModel> users = new ArrayList<>();
         try (PreparedStatement preparedStatement = connection.prepareStatement(
-                "SELECT u.fullname, COUNT(p.post_id) AS post_count " +
+                "SELECT u.*, COUNT(p.post_id) AS post_count " +
                         "FROM users u " +
                         "LEFT JOIN post p ON u.user_id = p.creator_id " +
                         "GROUP BY u.fullname " +
@@ -121,10 +121,11 @@ public class UserDaoImpl implements IUserDao {
             preparedStatement.setInt(1, limit);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
+                int id = resultSet.getInt("user_id");
                 String fullname = resultSet.getString("fullname");
                 int postCount = resultSet.getInt("post_count");
 
-                UserModel userModel = new UserModel(fullname, postCount);
+                UserModel userModel = new UserModel(id, fullname, postCount);
                 users.add(userModel);
             }
         } catch (SQLException e) {

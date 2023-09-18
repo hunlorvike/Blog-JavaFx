@@ -10,6 +10,7 @@ public class PostModel {
     private String status;
     private int view_count;
     private int creator_id;
+    private String creator_name;
     private String category;
     private Timestamp scheduledDate;
     private Timestamp created_at;
@@ -64,6 +65,18 @@ public class PostModel {
         this.updated_at = updated_at;
     }
 
+    public PostModel(int id, String title, String content, String status, int viewCount, String userName, Timestamp scheduledTime, String category, Timestamp createdAt, Timestamp updatedAt) {
+        this.post_id = post_id;
+        this.title = title;
+        this.content = content;
+        this.status = status;
+        this.view_count = view_count;
+        this.creator_name = userName;
+        this.scheduledDate = scheduledDate;
+        this.category = category;
+        this.created_at = created_at;
+        this.updated_at = updated_at;
+    }
 
 
     public int getPost_id() {
@@ -112,6 +125,14 @@ public class PostModel {
 
     public void setCreator_id(int creator_id) {
         this.creator_id = creator_id;
+    }
+
+    public String getCreator_name() {
+        return creator_name;
+    }
+
+    public void setCreator_name(String creator_name) {
+        this.creator_name = creator_name;
     }
 
     public Timestamp getScheduledDate() {

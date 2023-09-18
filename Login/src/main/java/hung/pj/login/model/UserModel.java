@@ -19,7 +19,8 @@ public class UserModel {
 
     }
 
-    public UserModel(String fullName, int postCount) {
+    public UserModel(int id, String fullName, int postCount) {
+        this.user_id = id;
         this.fullname = fullName;
         this.postCount = postCount;
     }

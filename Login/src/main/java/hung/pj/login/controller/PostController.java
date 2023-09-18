@@ -64,7 +64,7 @@ public class PostController implements Initializable {
     private ObservableList<PostModel> postModelObservableList = FXCollections.observableArrayList();
 
     @FXML
-    private void handleAddPost(ActionEvent event) {
+    private void handleAddPost() {
         switchToScene("add_post.fxml", Constants.CUSTOM_WIDTH, Constants.CUSTOM_HEIGHT, false);
     }
 
