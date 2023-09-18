@@ -7,6 +7,7 @@ import hung.pj.login.model.UserModel;
 import hung.pj.login.singleton.DataHolder;
 import hung.pj.login.ultis.Constants;
 import hung.pj.login.ultis.ControllerUtils;
+import hung.pj.login.ultis.ValidationUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -15,6 +16,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import hung.pj.login.ultis.EmailUtil;
+import javafx.scene.layout.AnchorPane;
 
 import java.io.IOException;
 import java.net.URL;
@@ -22,6 +24,8 @@ import java.util.Random;
 import java.util.ResourceBundle;
 
 public class ForgotPasswordController implements Initializable {
+    @FXML
+    public AnchorPane rootAnchorPane;
     @FXML
     private TextField emailTextField, otpTextField;
     @FXML
@@ -53,10 +57,10 @@ public class ForgotPasswordController implements Initializable {
 
         if (emailSent) {
             // Nếu email gửi thành công, hiển thị thông báo cho người dùng
-            alertMessage.setText("OTP sent successfully!");
+            alertMessage.setText("OTP gửi thành công!");
         } else {
             // Nếu gửi email thất bại, hiển thị thông báo lỗi
-            alertMessage.setText("Error sending OTP. Please try again.");
+            alertMessage.setText("Lỗi khi gửi OTP. Vui lòng thử lại.");
         }
     }
 
@@ -74,14 +78,14 @@ public class ForgotPasswordController implements Initializable {
 
             if (userModel != null) {
                 DataHolder.getInstance().setData(emailTextField.getText());
-                AppMain.setRoot("forgot_password2.fxml", Constants.DEFAULT_WIDTH, Constants.DEFAULT_HEIGHT,  false);
+                AppMain.setRoot("forgot_password2.fxml", Constants.DEFAULT_WIDTH, Constants.DEFAULT_HEIGHT, false);
             } else {
-                ControllerUtils.showAlertDialog("Email của bạn không tồn tại trong hệ thống", Alert.AlertType.ERROR);
+                ControllerUtils.showAlertDialog("Email của bạn không tồn tại trong hệ thống", Alert.AlertType.ERROR, rootAnchorPane.getScene().getWindow());
             }
 
         } else {
             // Xác thực thất bại hoặc mã OTP đã hết hạn, hiển thị thông báo lỗi
-            alertMessage.setText("Invalid or expired OTP. Please try again.");
+            alertMessage.setText("OTP không hợp lệ hoặc đã hết hạn. Vui lòng thử lại.");
         }
     }
 
@@ -89,7 +93,7 @@ public class ForgotPasswordController implements Initializable {
     private boolean sendOTPByEmail(String toEmail, String otp) {
         try {
             // Gọi phương thức sendEmail từ EmailUtil (hoặc class bạn đã tạo)
-            EmailUtil.sendEmail(toEmail, "Verify your identity", "OTP của bạn là: " + otp + ". Mã xác thực trên chỉ có hiệu lực tròng vòng 2 phút. Vui lòng không cung cấp OTP cho người khác tránh bị lừa đảo!");
+            EmailUtil.sendEmail(toEmail, "Xác minh danh tính của bạn", "Mã OTP của bạn là: " + otp + ". Mã xác thực này chỉ có hiệu lực trong vòng 2 phút. Vui lòng không chia sẻ mã OTP này với người khác để tránh bị lừa đảo!");
             return true;
         } catch (Exception e) {
             e.printStackTrace();
@@ -122,8 +126,6 @@ public class ForgotPasswordController implements Initializable {
     }
 
     public void handleClickLogin(MouseEvent mouseEvent) throws IOException {
-        AppMain.setRoot("login.fxml", Constants.DEFAULT_WIDTH, Constants.DEFAULT_HEIGHT,  false);
+        AppMain.setRoot("login.fxml", Constants.DEFAULT_WIDTH, Constants.DEFAULT_HEIGHT, false);
     }
-
-
 }

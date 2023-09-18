@@ -150,7 +150,7 @@ public class UserDaoImpl implements IUserDao {
     }
 
     @Override
-    public void changeUserPassword(String email, String oldPass, String newPass) {
+    public boolean changeUserPassword(String email, String oldPass, String newPass) {
         // Lấy mật khẩu hiện tại từ cơ sở dữ liệu
         String query = "SELECT password FROM users WHERE email = ?";
 
@@ -165,16 +165,21 @@ public class UserDaoImpl implements IUserDao {
                         // Nếu khớp, tiến hành cập nhật mật khẩu mới
                         String newHashedPassword = BCrypt.hashpw(newPass, BCrypt.gensalt());
                         updatePassword(email, newHashedPassword);
+                        return true; // Password change successful
                     } else {
-                        // Nếu không khớp, ném ngoại lệ hoặc xử lý lỗi tùy ý
-                        throw new DatabaseException("Mật khẩu hiện tại không đúng.");
+                        // Nếu không khớp, trả về false để chỉ ra rằng thay đổi mật khẩu thất bại
+                        return false;
                     }
                 }
             }
         } catch (SQLException e) {
             throw new DatabaseException("Lỗi khi thay đổi mật khẩu người dùng.", e);
         }
+
+        // In case of an unexpected error, you can add a default return statement
+        return false;
     }
+
 
     public void updatePassword(String email, String newHashedPassword) {
         String updateQuery = "UPDATE users SET password = ? WHERE email = ?";

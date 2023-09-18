@@ -3,7 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/11.0.14-internal"
+<AnchorPane fx:id="rootAnchorPane" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/11.0.14-internal"
             xmlns:fx="http://javafx.com/fxml/1" fx:controller="hung.pj.login.controller.ProfileController">
     <BorderPane prefHeight="720.0" prefWidth="1280.0">
         <left>

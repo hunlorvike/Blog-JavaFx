@@ -11,6 +11,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -19,23 +20,22 @@ import java.util.ResourceBundle;
 
 public class ProfileController implements Initializable {
     @FXML
+    private AnchorPane rootAnchorPane;
+    @FXML
     private TextField nameTextField, emailTextField, roleTextField, facebookTextField, instagramTextField, twitterTextField, pinterestTextField, githubTextField, gitlabTextField;
     private final UserSingleton userSingleton = UserSingleton.getInstance();
     ConnectionProvider connectionProvider = new ConnectionProvider();
     SocialDaoImpl socialDao = new SocialDaoImpl(connectionProvider.getConnection());
-    private UserModel loggedInUser; // Đặt biến loggedInUser ở mức lớp để nó có thể được truy cập từ các phương thức
+    private UserModel loggedInUser;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        // Kiểm tra singleton đăng nhập
         loggedInUser = userSingleton.getLoggedInUser();
 
-        // Đặt giá trị của các TextField dựa trên thông tin người dùng
         nameTextField.setText(loggedInUser.getFullname());
         emailTextField.setText(loggedInUser.getEmail());
         roleTextField.setText(loggedInUser.getRole());
 
-        // Lấy thông tin xã hội từ cơ sở dữ liệu và đặt giá trị của các TextField
         setSocialMediaTextField("Facebook", facebookTextField);
         setSocialMediaTextField("Instagram", instagramTextField);
         setSocialMediaTextField("Twitter", twitterTextField);
@@ -52,7 +52,6 @@ public class ProfileController implements Initializable {
     public void handleClickSave(ActionEvent event) {
         UserModel loggedInUser = userSingleton.getLoggedInUser();
 
-        // Lấy thông tin từ các TextField và loại bỏ khoảng trắng không cần thiết
         String facebook = facebookTextField.getText().trim();
         String instagram = instagramTextField.getText().trim();
         String twitter = twitterTextField.getText().trim();
@@ -60,7 +59,6 @@ public class ProfileController implements Initializable {
         String github = githubTextField.getText().trim();
         String gitlab = gitlabTextField.getText().trim();
 
-        // Kiểm tra và cập nhật hoặc thêm dữ liệu xã hội vào cơ sở dữ liệu
         checkAndUpdateSocialMedia(loggedInUser.getUser_id(), "Facebook", facebook);
         checkAndUpdateSocialMedia(loggedInUser.getUser_id(), "Instagram", instagram);
         checkAndUpdateSocialMedia(loggedInUser.getUser_id(), "Twitter", twitter);
@@ -68,8 +66,7 @@ public class ProfileController implements Initializable {
         checkAndUpdateSocialMedia(loggedInUser.getUser_id(), "Github", github);
         checkAndUpdateSocialMedia(loggedInUser.getUser_id(), "Gitlab", gitlab);
 
-        ControllerUtils.showAlertDialog("Lưu thông tin thành công", Alert.AlertType.INFORMATION);
-
+        ControllerUtils.showAlertDialog("Lưu thông tin thành công", Alert.AlertType.INFORMATION, rootAnchorPane.getScene().getWindow());
     }
 
     private void checkAndUpdateSocialMedia(int userId, String platform, String profileUrl) {
@@ -77,23 +74,15 @@ public class ProfileController implements Initializable {
             SocialModel existingSocialMedia = socialDao.getSocialMediaByPlatform(userId, platform);
 
             if (existingSocialMedia != null) {
-                // Nếu bản ghi đã tồn tại, kiểm tra xem profileUrl có thay đổi hay không
                 if (!profileUrl.equals(existingSocialMedia.getProfileUrl())) {
-                    // Nếu có sự thay đổi, cập nhật profileUrl trong cơ sở dữ liệu
                     existingSocialMedia.setProfileUrl(profileUrl);
                     socialDao.updateSocialMedia(existingSocialMedia.getUserId(), existingSocialMedia);
                 }
             } else {
-                // Nếu không có bản ghi nào tồn tại, thêm một bản ghi mới vào cơ sở dữ liệu
                 List<SocialModel> socialModels = new ArrayList<>();
                 socialModels.add(new SocialModel(userId, platform, profileUrl));
-
-                // Pass the list to the addSocialMedia method
                 socialDao.addSocialMedia(socialModels);
             }
         }
     }
-
-
-
 }

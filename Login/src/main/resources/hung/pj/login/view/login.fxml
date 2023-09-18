@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.Pane?>
 
-<AnchorPane fx:id="rootPaneLogin" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+<AnchorPane fx:id="rootAnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
             prefHeight="600.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/20.0.1"
             xmlns:fx="http://javafx.com/fxml/1" fx:controller="hung.pj.login.controller.LoginController">
     <BorderPane prefHeight="600.0" prefWidth="1024.0">

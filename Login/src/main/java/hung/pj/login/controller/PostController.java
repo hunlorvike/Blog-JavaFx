@@ -4,7 +4,6 @@ import hung.pj.login.AppMain;
 import hung.pj.login.config.ConnectionProvider;
 import hung.pj.login.dao.post.IPostDao;
 import hung.pj.login.dao.post.PostDaoImpl;
-import hung.pj.login.dao.user.UserDaoImpl;
 import hung.pj.login.model.PostModel;
 import hung.pj.login.model.UserModel;
 import hung.pj.login.singleton.DataHolder;
@@ -19,6 +18,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseButton;
+import javafx.scene.layout.AnchorPane;
 
 import java.io.IOException;
 import java.net.URL;
@@ -27,10 +27,11 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class PostController implements Initializable {
+    @FXML
+    private AnchorPane rootAnchorPane;
     ConnectionProvider connectionProvider = new ConnectionProvider();
     IPostDao postDao = new PostDaoImpl(connectionProvider.getConnection());
     private UserSingleton userSingleton;
-    // Khai báo biến loggedInUser
     UserModel loggedInUser;
 
     @FXML
@@ -77,7 +78,6 @@ public class PostController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        // Kiểm tra singleton đăng nhập
         userSingleton = UserSingleton.getInstance();
         loggedInUser = userSingleton.getLoggedInUser();
 
@@ -91,7 +91,6 @@ public class PostController implements Initializable {
 
         refreshTableView();
 
-        // tạo menu edit
         ContextMenu menuPost = new ContextMenu();
 
         MenuItem deletePost = new MenuItem("Xoá bài viết");
@@ -114,7 +113,6 @@ public class PostController implements Initializable {
                 menuPost.hide();
             }
         });
-
     }
 
     private void refreshTableView() {
@@ -126,9 +124,9 @@ public class PostController implements Initializable {
         if (selectedPost.getCreator_id() == loggedInUser.getUser_id() || loggedInUser.getRole().equals("Super Admin")) {
             int selectedId = selectedPost.getPost_id();
             DataHolder.getInstance().setData(String.valueOf(selectedId));
-            AppMain.setRoot("edit_post.fxml", Constants.CUSTOM_WIDTH, Constants.CUSTOM_HEIGHT,false);
+            AppMain.setRoot("edit_post.fxml", Constants.CUSTOM_WIDTH, Constants.CUSTOM_HEIGHT, false);
         } else {
-            ControllerUtils.showAlertDialog("Bạn không có quyền sửa bài viết này", Alert.AlertType.WARNING);
+            ControllerUtils.showAlertDialog("Bạn không có quyền sửa bài viết này", Alert.AlertType.WARNING, rootAnchorPane.getScene().getWindow());
             return;
         }
         refreshTableView();
@@ -138,10 +136,9 @@ public class PostController implements Initializable {
         PostModel selectedPost = tableView.getSelectionModel().getSelectedItem();
         if (selectedPost.getCreator_id() == loggedInUser.getUser_id() || loggedInUser.getRole().equals("Super Admin")) {
             postDao.deletePost(selectedPost.getPost_id());
-            ControllerUtils.showAlertDialog("Xoá thành công", Alert.AlertType.INFORMATION);
-
+            ControllerUtils.showAlertDialog("Xoá thành công", Alert.AlertType.INFORMATION, rootAnchorPane.getScene().getWindow());
         } else {
-            ControllerUtils.showAlertDialog("Bạn không có quyền xoá bài viết này", Alert.AlertType.WARNING);
+            ControllerUtils.showAlertDialog("Bạn không có quyền xoá bài viết này", Alert.AlertType.WARNING, rootAnchorPane.getScene().getWindow());
             return;
         }
         refreshTableView();
@@ -171,6 +168,5 @@ public class PostController implements Initializable {
 
         List<PostModel> postModelList = postDao.getPostsByStatus(status);
         ControllerUtils.refreshTableView(tableView, postModelList);
-
     }
 }

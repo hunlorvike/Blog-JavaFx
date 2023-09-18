@@ -13,7 +13,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.input.MouseEvent;
 
 import java.io.IOException;
 import java.net.URL;
@@ -48,13 +47,9 @@ public class ToolbarController implements Initializable {
 
         // Định dạng ngày tháng
         SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM dd, yyyy");
-        labelDatetime.setText(String.valueOf(dateFormat));
-
-        // Đặt định dạng và hiển thị trong Label
         labelDatetime.setText(dateFormat.format(date));
 
-        // Đặt định dạng và hiển thị trong Label
-
+        // Hiển thị thông tin người dùng
         labelName.setText("Welcome back, " + loggedInUser.getFullname() + " - " + loggedInUser.getRole());
     }
 
@@ -63,7 +58,7 @@ public class ToolbarController implements Initializable {
         userSingleton.clearSingleton();
 
         if (userSingleton.getLoggedInUser() == null) {
-            switchToScene("login.fxml", Constants.DEFAULT_WIDTH, Constants.DEFAULT_HEIGHT,  false);
+            switchToScene("login.fxml", Constants.DEFAULT_WIDTH, Constants.DEFAULT_HEIGHT, false);
         }
     }
 
@@ -81,13 +76,14 @@ public class ToolbarController implements Initializable {
                 switchToScene("result_search.fxml", Constants.CUSTOM_WIDTH, Constants.CUSTOM_HEIGHT, false);
                 break;
             case "Post":
+                // Xử lý tìm kiếm bài viết
                 break;
-            case "Tag":
+            case "Category":
+                // Xử lý tìm kiếm theo danh mục
                 break;
             default:
                 break;
         }
-        // switchToScene("result_search.fxml", 1300, 750, false);
     }
 
     private void switchToScene(String fxmlFileName, int width, int height, Boolean useSplash) {
@@ -101,6 +97,4 @@ public class ToolbarController implements Initializable {
     public void handleProfile() {
         switchToScene("profile.fxml", Constants.CUSTOM_WIDTH, Constants.CUSTOM_HEIGHT, true);
     }
-
-
 }

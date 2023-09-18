@@ -7,7 +7,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/11.0.14-internal"
+<AnchorPane fx:id="rootAnchorPane" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/11.0.14-internal"
             xmlns:fx="http://javafx.com/fxml/1" fx:controller="hung.pj.login.controller.AddPostController">
     <BorderPane prefHeight="720.0" prefWidth="1280.0">
         <left>
@@ -31,6 +31,7 @@
                 <TextField fx:id="linkTextField" layoutX="119.0" layoutY="351.0" prefHeight="35.0" prefWidth="475.0"
                            promptText="Đường dẫn đến báo...."/>
 
+                <!--Status-->
                 <Label layoutX="57.0" layoutY="410.0" text="● Status:"/>
                 <ChoiceBox fx:id="statusComboBox" layoutX="119.0" layoutY="400.0" prefHeight="30.0" prefWidth="110.0"
                            style=" -fx-background-color: #93B1A6;" value="Published">
@@ -45,8 +46,9 @@
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                     </padding>
                 </ChoiceBox>
-                <Label layoutX="57.0" layoutY="465.0" text="● Tag:"/>
-                <ChoiceBox fx:id="tagComboBox" layoutX="119.0" layoutY="455.0" prefHeight="30.0" prefWidth="110.0"
+                <!--Category-->
+                <Label layoutX="57.0" layoutY="465.0" text="● Cate:"/>
+                <ChoiceBox fx:id="categoryChoiceBox" layoutX="119.0" layoutY="455.0" prefHeight="30.0" prefWidth="110.0"
                            style=" -fx-background-color: #93B1A6;" value="Góc nhìn">
                     <items>
                         <FXCollections fx:factory="observableArrayList">
@@ -61,11 +63,13 @@
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                     </padding>
                 </ChoiceBox>
-                <DatePicker fx:id="datePicker" layoutX="395.0" layoutY="401.0" prefHeight="35.0" prefWidth="200.0"
+                <!--DatePicker-->
+                <DatePicker fx:id="datePicker" layoutX="395.0" layoutY="400.0" prefHeight="35.0" prefWidth="200.0"
                             promptText="01/06/2023" visible="false"/>
+                <!--Button-->
                 <Button layoutX="59.0" layoutY="580.0" mnemonicParsing="false"
                         onAction="#handleAddPost" prefHeight="30.0" prefWidth="150.0" styleClass="button-green"
-                        text="Add"/>
+                        text="Save"/>
             </Pane>
         </center>
     </BorderPane>

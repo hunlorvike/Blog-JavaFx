@@ -19,6 +19,7 @@ public interface IPostDao {
     boolean deletePost(int post_id);
 
     boolean updatePost(int post_id, PostModel existingPost);
+
     boolean updatePostStatusToPublic(int post_id, Timestamp currentTimestamp);
 
 }

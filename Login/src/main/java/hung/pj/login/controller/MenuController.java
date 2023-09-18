@@ -24,20 +24,24 @@ public class MenuController implements Initializable {
         UserModel loggedInUser = userSingleton.getLoggedInUser();
     }
 
+    public void handleSwitchDashboard() {
+        switchToScene("dashboard.fxml", Constants.CUSTOM_WIDTH, Constants.CUSTOM_HEIGHT, false);
+    }
+
+    public void handleSwitchPost() {
+        switchToScene("post.fxml", Constants.CUSTOM_WIDTH, Constants.CUSTOM_HEIGHT, false);
+    }
+
+    public void handleSwitchCategory() {
+        switchToScene("category.fxml", Constants.CUSTOM_WIDTH, Constants.CUSTOM_HEIGHT, false);
+    }
+
     public void handleSwitchMember() {
         switchToScene("member.fxml", Constants.CUSTOM_WIDTH, Constants.CUSTOM_HEIGHT, false);
     }
 
-    public void handleSwitchPost() {
-        switchToScene("post.fxml", Constants.CUSTOM_WIDTH, Constants.CUSTOM_HEIGHT,false);
-    }
-
-    public void handleSwitchDashboard() {
-        switchToScene("dashboard.fxml", Constants.CUSTOM_WIDTH, Constants.CUSTOM_HEIGHT,false);
-    }
-
     public void handleSwitchMessenger() {
-        switchToScene("messenger.fxml", Constants.CUSTOM_WIDTH, Constants.CUSTOM_HEIGHT,false);
+        switchToScene("messenger.fxml", Constants.CUSTOM_WIDTH, Constants.CUSTOM_HEIGHT, false);
     }
 
     // Phương thức dùng chung cho việc switch-case chuyển trang

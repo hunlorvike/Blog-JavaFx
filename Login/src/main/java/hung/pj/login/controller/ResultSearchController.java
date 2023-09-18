@@ -5,8 +5,6 @@ import hung.pj.login.model.UserModel;
 import hung.pj.login.singleton.DataHolder;
 import hung.pj.login.ultis.Constants;
 import hung.pj.login.ultis.CustomListCell;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ContextMenu;
@@ -19,7 +17,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
-
 
 public class ResultSearchController implements Initializable {
     @FXML
@@ -44,7 +41,7 @@ public class ResultSearchController implements Initializable {
     private void configureListView(List<UserModel> userModelList) {
         // Gán danh sách dữ liệu cho ListView
         listViewResult.getItems().addAll(userModelList);
-        System.out.println(userModelList);
+
         // Gán giao diện từ item.fxml cho các mục trong ListView
         listViewResult.setCellFactory(param -> new CustomListCell());
 
@@ -81,5 +78,3 @@ public class ResultSearchController implements Initializable {
         }
     }
 }
-
-

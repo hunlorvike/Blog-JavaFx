@@ -8,16 +8,13 @@ import hung.pj.login.singleton.UserSingleton;
 import hung.pj.login.ultis.Constants;
 import hung.pj.login.ultis.ControllerUtils;
 import hung.pj.login.ultis.ValidationUtils;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.util.Duration;
+import javafx.scene.layout.AnchorPane;
 
 import java.io.IOException;
 import java.net.URL;
@@ -25,19 +22,25 @@ import java.util.ResourceBundle;
 
 public class ChangePasswordController implements Initializable {
     @FXML
+    public AnchorPane rootAnchorPane;
+    @FXML
     private Label alertLabel;
     @FXML
     private TextField nameTextField, emailTextField, roleTextField;
     @FXML
     private PasswordField currentPassTextField, newPassTextField, reNewPassTextField;
-    private UserSingleton userSingleton = UserSingleton.getInstance();
-    private UserModel loggedInUser; // Đặt biến loggedInUser ở mức lớp để nó có thể được truy cập từ các phương thức
-    ConnectionProvider connectionProvider = new ConnectionProvider();
-    UserDaoImpl userDao = new UserDaoImpl(connectionProvider.getConnection());
+
+    private final UserSingleton userSingleton = UserSingleton.getInstance();
+    private UserModel loggedInUser;
+    private final UserDaoImpl userDao;
+
+    public ChangePasswordController() {
+        ConnectionProvider connectionProvider = new ConnectionProvider();
+        userDao = new UserDaoImpl(connectionProvider.getConnection());
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        // Kiểm tra singleton đăng nhập
         loggedInUser = userSingleton.getLoggedInUser();
 
         // Đặt giá trị của các TextField dựa trên thông tin người dùng
@@ -46,28 +49,29 @@ public class ChangePasswordController implements Initializable {
         roleTextField.setText(loggedInUser.getRole());
     }
 
-
     public void handleClickSave() throws IOException {
         loggedInUser = userSingleton.getLoggedInUser();
 
         String currentPassword = currentPassTextField.getText().trim();
         String newPassword = newPassTextField.getText().trim();
         String renewPassword = reNewPassTextField.getText().trim();
-        if (newPassword.equals(renewPassword)) {
 
+        if (newPassword.equals(renewPassword)) {
             if (!ValidationUtils.isValidPassword(newPassword)) {
-                ControllerUtils.showAlertDialog("Password must be at least 8 characters.", Alert.AlertType.ERROR);
+                ControllerUtils.showAlertDialog("Password must be at least 8 characters.", Alert.AlertType.ERROR, rootAnchorPane.getScene().getWindow());
                 return;
             }
 
-            userDao.changeUserPassword(loggedInUser.getEmail().trim(), currentPassword, newPassword);
-            ControllerUtils.showAlertDialog("Đổi mật khẩu thành công", Alert.AlertType.INFORMATION);
-            AppMain.setRoot("login.fxml", Constants.DEFAULT_WIDTH, Constants.DEFAULT_HEIGHT, false);
+            boolean passwordChanged = userDao.changeUserPassword(loggedInUser.getEmail().trim(), currentPassword, newPassword);
+
+            if (passwordChanged) {
+                ControllerUtils.showAlertDialog("Đổi mật khẩu thành công", Alert.AlertType.INFORMATION, rootAnchorPane.getScene().getWindow());
+                AppMain.setRoot("login.fxml", Constants.DEFAULT_WIDTH, Constants.DEFAULT_HEIGHT, false);
+            } else {
+                ControllerUtils.showAlertDialog("Mật khẩu hiện tại không đúng", Alert.AlertType.ERROR, rootAnchorPane.getScene().getWindow());
+            }
         } else {
-            ControllerUtils.showAlertDialog("Mật không không giống nhau", Alert.AlertType.ERROR);
-
+            ControllerUtils.showAlertDialog("Mật khẩu mới không giống nhau", Alert.AlertType.ERROR, rootAnchorPane.getScene().getWindow());
         }
-
     }
-
 }

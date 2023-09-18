@@ -107,7 +107,7 @@ public class PostDaoImpl implements IPostDao {
 
     @Override
     public boolean insertPost(PostModel postModel) {
-        String query = "INSERT INTO post (title, content, status, scheduled_datetime, creator_id) VALUES (?, ?,?, ?, ?)";
+        String query = "INSERT INTO post (title, content, status, scheduled_datetime, creator_id, category) VALUES (?, ?, ?, ?, ?, ?)";
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setString(1, postModel.getTitle());
@@ -115,7 +115,7 @@ public class PostDaoImpl implements IPostDao {
             preparedStatement.setString(3, postModel.getStatus());
             preparedStatement.setTimestamp(4, postModel.getScheduledDate());
             preparedStatement.setInt(5, postModel.getCreator_id());
-
+            preparedStatement.setString(6, postModel.getCategory());
             int rowsAffected = preparedStatement.executeUpdate();
             return rowsAffected > 0;
         } catch (SQLException e) {
@@ -141,8 +141,8 @@ public class PostDaoImpl implements IPostDao {
 
     @Override
     public PostModel getPostById(int post_id) {
-        String sql = "SELECT title, content, status FROM post WHERE post_id = ?";
-        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+        String query = "SELECT * FROM post WHERE post_id = ?";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setInt(1, post_id);
 
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
@@ -150,7 +150,8 @@ public class PostDaoImpl implements IPostDao {
                     String title = resultSet.getString("title");
                     String content = resultSet.getString("content");
                     String status = resultSet.getString("status");
-                    return new PostModel(title, content, status);
+                    String category = resultSet.getString("category");
+                    return new PostModel(title, content, status, category);
                 }
             }
         } catch (SQLException e) {
@@ -161,13 +162,15 @@ public class PostDaoImpl implements IPostDao {
     }
 
     @Override
-    public boolean updatePost(int id, PostModel existingPost) {
-        String query = "UPDATE post SET title = ?, content = ?, status = ? WHERE post_id = ?";
+    public boolean updatePost(int id, PostModel postModel) {
+        String query = "UPDATE post SET title = ?, content = ?, status = ?, category = ?, scheduled_datetime = ? WHERE post_id = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-            preparedStatement.setString(1, existingPost.getTitle());
-            preparedStatement.setString(2, existingPost.getContent());
-            preparedStatement.setString(3, existingPost.getStatus());
-            preparedStatement.setInt(4, id);
+            preparedStatement.setString(1, postModel.getTitle());
+            preparedStatement.setString(2, postModel.getContent());
+            preparedStatement.setString(3, postModel.getStatus());
+            preparedStatement.setString(4, postModel.getCategory());
+            preparedStatement.setTimestamp(5, postModel.getScheduledDate());
+            preparedStatement.setInt(6, id);
             int rowsAffected = preparedStatement.executeUpdate();
             return rowsAffected > 0;
         } catch (SQLException e) {

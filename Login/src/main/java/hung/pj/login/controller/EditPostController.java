@@ -8,31 +8,38 @@ import hung.pj.login.model.PostModel;
 import hung.pj.login.singleton.DataHolder;
 import hung.pj.login.ultis.Constants;
 import hung.pj.login.ultis.ControllerUtils;
-import javafx.event.ActionEvent;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.layout.AnchorPane;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.ResourceBundle;
 
 public class EditPostController implements Initializable {
     @FXML
-    private TextField titleTextField;
-
+    public AnchorPane rootAnchorPane;
+    @FXML
+    private TextField titleTextField, linkTextField;
     @FXML
     private TextArea contentTextField;
-
     @FXML
-    private ComboBox<String> statusComboBox;
+    private ChoiceBox<String> statusComboBox, categoryChoiceBox;
+    @FXML
+    private DatePicker datePicker;
 
-    ConnectionProvider connectionProvider = new ConnectionProvider();
-    IPostDao postDao = new PostDaoImpl(connectionProvider.getConnection());
-    int postId = -1;
+    private final IPostDao postDao;
+    private int postId = -1;
+
+    public EditPostController() {
+        ConnectionProvider connectionProvider = new ConnectionProvider();
+        postDao = new PostDaoImpl(connectionProvider.getConnection());
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -47,19 +54,20 @@ public class EditPostController implements Initializable {
         if (postId >= 0) {
             loadPostData(postId);
         }
+
+        statusComboBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            datePicker.setVisible("Scheduled".equals(newValue));
+        });
     }
 
     // Hiển thị giá trị cũ
     private void loadPostData(int postId) {
         PostModel selectedPost = postDao.getPostById(postId);
         if (selectedPost != null) {
-            String title = selectedPost.getTitle();
-            String content = selectedPost.getContent();
-            String status = selectedPost.getStatus();
-
-            titleTextField.setText(title);
-            contentTextField.setText(content);
-            statusComboBox.setValue(status);
+            titleTextField.setText(selectedPost.getTitle());
+            contentTextField.setText(selectedPost.getContent());
+            statusComboBox.setValue(selectedPost.getStatus());
+            categoryChoiceBox.setValue(selectedPost.getCategory());
         }
     }
 
@@ -70,18 +78,24 @@ public class EditPostController implements Initializable {
                 String title = titleTextField.getText().trim();
                 String content = contentTextField.getText().trim();
                 String status = statusComboBox.getValue().trim();
+                String category = categoryChoiceBox.getValue().trim();
+                Timestamp scheduledDate = null;
 
-                existingPost.setTitle(title);
-                existingPost.setContent(content);
-                existingPost.setStatus(status);
+                if ("Scheduled".equals(status)) {
+                    LocalDate selectedDate = datePicker.getValue();
+                    if (selectedDate != null) {
+                        scheduledDate = Timestamp.valueOf(selectedDate.atStartOfDay());
+                    }
+                }
 
-                boolean updateSuccess = postDao.updatePost(postId, existingPost);
+                PostModel post = new PostModel(title, content, status, scheduledDate, category);
 
+                boolean updateSuccess = postDao.updatePost(postId, post);
                 if (updateSuccess) {
-                    ControllerUtils.showAlertDialog("Sửa bài viết thành công", Alert.AlertType.INFORMATION);
+                    ControllerUtils.showAlertDialog("Sửa bài viết thành công", Alert.AlertType.INFORMATION, rootAnchorPane.getScene().getWindow());
                     AppMain.setRoot("post.fxml", Constants.CUSTOM_WIDTH, Constants.CUSTOM_HEIGHT, false);
                 } else {
-                    ControllerUtils.showAlertDialog("Sửa bài viết thất bại", Alert.AlertType.ERROR);
+                    ControllerUtils.showAlertDialog("Sửa bài viết thất bại", Alert.AlertType.ERROR, rootAnchorPane.getScene().getWindow());
                 }
             }
         }

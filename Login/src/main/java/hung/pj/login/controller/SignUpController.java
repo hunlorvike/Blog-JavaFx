@@ -7,7 +7,6 @@ import hung.pj.login.model.UserModel;
 import hung.pj.login.ultis.Constants;
 import hung.pj.login.ultis.ControllerUtils;
 import hung.pj.login.ultis.ValidationUtils;
-
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
@@ -26,7 +25,7 @@ public class SignUpController implements Initializable {
     public TextField nameTextField, emailTextField;
     public PasswordField passwordField, repasswordField;
     public CheckBox checkbox;
-    public AnchorPane rootAnchorPaneSignUp;
+    public AnchorPane rootAnchorPane;
     public Button buttonSignUp;
     public Label alertMessage;
     ConnectionProvider connectionProvider = new ConnectionProvider();
@@ -49,7 +48,7 @@ public class SignUpController implements Initializable {
     }
 
     public void handleClickLogin(MouseEvent mouseEvent) throws IOException {
-        AppMain.setRoot("login.fxml", Constants.DEFAULT_WIDTH, Constants.DEFAULT_HEIGHT,  false);
+        AppMain.setRoot("login.fxml", Constants.DEFAULT_WIDTH, Constants.DEFAULT_HEIGHT, false);
     }
 
     public void handleClickSignUp(ActionEvent event) throws IOException {
@@ -85,9 +84,8 @@ public class SignUpController implements Initializable {
         userDao.insertUser(user);
 
         clearFields();
-        ControllerUtils.showAlertDialog("Đã tạo tài khoản thành công", Alert.AlertType.INFORMATION);
-        AppMain.setRoot("login.fxml", Constants.DEFAULT_WIDTH, Constants.DEFAULT_HEIGHT,  false);
-
+        ControllerUtils.showAlertDialog("Đã tạo tài khoản thành công", Alert.AlertType.INFORMATION, rootAnchorPane.getScene().getWindow());
+        AppMain.setRoot("login.fxml", Constants.DEFAULT_WIDTH, Constants.DEFAULT_HEIGHT, false);
     }
 
     private void showAlert(String message) {

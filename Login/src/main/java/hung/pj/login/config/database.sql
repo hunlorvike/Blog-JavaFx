@@ -44,27 +44,20 @@ CREATE TABLE IF NOT EXISTS post (
     view_count INT DEFAULT 0,
     creator_id INT,
     scheduled_datetime TIMESTAMP, -- Thêm trường scheduled_datetime kiểu TIMESTAMP
+    category VARCHAR(255) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (creator_id) REFERENCES users(user_id)
 );
 
 -- Tạo bảng tags
-CREATE TABLE IF NOT EXISTS tags (
-    tag_id INT PRIMARY KEY AUTO_INCREMENT,
+CREATE TABLE IF NOT EXISTS categories (
+    category_id INT PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(255) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
--- Tạo bảng post_tag
-CREATE TABLE IF NOT EXISTS post_tag (
-    post_id INT,
-    tag_id INT,
-    PRIMARY KEY (post_id, tag_id),
-    FOREIGN KEY (post_id) REFERENCES post(post_id),
-    FOREIGN KEY (tag_id) REFERENCES tags(tag_id)
-);
 
 CREATE TABLE IF NOT EXISTS saved_posts (
     saved_post_id INT PRIMARY KEY AUTO_INCREMENT,
@@ -83,4 +76,31 @@ CREATE TABLE IF NOT EXISTS notifications (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
+-- Bảng Conversations (Cuộc trò chuyện)
+CREATE TABLE IF NOT EXISTS conversations (
+    conversation_id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(255),  -- Tên cuộc trò chuyện (nếu có)
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+-- Bảng Participants (Người tham gia cuộc trò chuyện)
+CREATE TABLE IF NOT EXISTS participants (
+    participant_id INT PRIMARY KEY AUTO_INCREMENT,
+    user_id INT NOT NULL,
+    conversation_id INT NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES users(user_id),
+    FOREIGN KEY (conversation_id) REFERENCES conversations(conversation_id)
+);
+
+-- Bảng Messages (Tin nhắn)
+CREATE TABLE IF NOT EXISTS messages (
+    message_id INT PRIMARY KEY AUTO_INCREMENT,
+    conversation_id INT NOT NULL,
+    sender_id INT NOT NULL,
+    message_text TEXT NOT NULL,
+    sent_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (conversation_id) REFERENCES conversations(conversation_id),
+    FOREIGN KEY (sender_id) REFERENCES users(user_id)
+);
+
+
 

@@ -16,6 +16,7 @@ import javafx.animation.PauseTransition;
 import org.kordamp.bootstrapfx.BootstrapFX;
 
 import java.io.IOException;
+import java.net.ServerSocket;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -37,7 +38,7 @@ public class AppMain extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("view/login.fxml"));
         scene = new Scene(fxmlLoader.load(), 1024, 600);
         scene.getStylesheets().add(BootstrapFX.bootstrapFXStylesheet()); // BootstrapFX
-        stage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResourceAsStream("image/1.jpg")))); //Icon App
+        stage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResourceAsStream("image/newlogo.png")))); //Icon App
         stage.setTitle(Constants.APP_NAME);
         stage.setScene(scene);
         stage.setWidth(1024);
@@ -52,6 +53,8 @@ public class AppMain extends Application {
         
         stage.show();
         checkScheduledPosts();
+
+
     }
 
     // Phương thức chuyển giữa các giao diện

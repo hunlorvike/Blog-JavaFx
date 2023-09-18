@@ -11,7 +11,7 @@ public interface IUserDao {
     List<UserModel> getUsersByName(String name);
     List<UserModel> getUsersByPostCountDescending(int limit);
     void insertUser(UserModel userModel);
-    void changeUserPassword(String email, String oldPassword, String newPassword);
+    boolean changeUserPassword(String email, String oldPassword, String newPassword);
     boolean authenticateUser(String email, String password);
     void updateUserProfile(UserModel userModel);
     void deleteUser(String email);
