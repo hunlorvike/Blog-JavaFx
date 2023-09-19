@@ -50,6 +50,15 @@ CREATE TABLE IF NOT EXISTS post (
     FOREIGN KEY (creator_id) REFERENCES users(user_id)
 );
 
+--  Tạo bảng post_image chứa ảnh
+CREATE TABLE IF NOT EXISTS post_images (
+    image_id INT PRIMARY KEY AUTO_INCREMENT,
+    post_id INT NOT NULL,
+    image_path VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (post_id) REFERENCES post(post_id)
+);
+
 -- Tạo bảng tags
 CREATE TABLE IF NOT EXISTS categories (
     category_id INT PRIMARY KEY AUTO_INCREMENT,
