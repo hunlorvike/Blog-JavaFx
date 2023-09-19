@@ -74,10 +74,9 @@ public class ProfileController implements Initializable {
                 imageViewAvatar.setImage(avatarImage);
             } else {
                 // Load the default image if the avatarImage is still null
-                avatarImage = new Image("@../image/newlogo.png");
+                avatarImage = new Image(getClass().getResource("/hung/pj/login/image/newlogo.png").toExternalForm());
             }
 
-            System.out.println("Avatar Path: " + avatarPath);
         } else {
             System.out.println("Không tìm thấy người dùng.");
         }
