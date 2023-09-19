@@ -28,7 +28,6 @@
     -fx-background-color: linear-gradient(to right, #5670a6, #7f8eba, #a5aece, #cbd0e2, #f1f2f7);
 }
 
-
 .transparent-button, .transparent-button:hover, .transparent-button:pressed {
     -fx-background-color: transparent;
     -fx-text-fill: white;
@@ -133,7 +132,6 @@
     -fx-background-color: linear-gradient(to right, #bfccb5, #b3c5b1, #a8bfad, #9db8a9, #93b1a6);
     -fx-text-fill: white;
     -fx-background-radius: 7px 7px 0px 0px;
-    -fx-background-insets: 0 11px 0 0;
     -fx-padding: 0 0 5px 0;
 }
 
