@@ -12,6 +12,8 @@ public class UserModel {
     private LocalDateTime lockedUntil;
     private int postCount;
     private int followCount;
+    private String avatarPath;
+    private int followersCount;
     private Timestamp created_at;
     private Timestamp updated_at;
 
@@ -51,6 +53,18 @@ public class UserModel {
         this.lockedUntil = lockedUntil;
         this.created_at = created_at;
         this.updated_at = updated_at;
+    }
+
+    public UserModel(int id, String fullname, String email, String password, String role, String avatarPath, int followersCount, Timestamp createdAt, Timestamp updatedAt) {
+        this.user_id = id;
+        this.fullname = fullname;
+        this.email = email;
+        this.password = password;
+        this.role = role;
+        this.avatarPath = avatarPath;
+        this.followersCount = followersCount;
+        this.created_at = createdAt;
+        this.updated_at = updatedAt;
     }
 
     public int getUser_id() {
@@ -117,6 +131,22 @@ public class UserModel {
         this.postCount = postCount;
     }
 
+    public String getAvatarPath() {
+        return avatarPath;
+    }
+
+    public void setAvatarPath(String avatarPath) {
+        this.avatarPath = avatarPath;
+    }
+
+    public int getFollowersCount() {
+        return followersCount;
+    }
+
+    public void setFollowersCount(int followersCount) {
+        this.followersCount = followersCount;
+    }
+
     public Timestamp getCreated_at() {
         return created_at;
     }
@@ -144,6 +174,8 @@ public class UserModel {
                 ", lockedUntil=" + lockedUntil +
                 ", postCount=" + postCount +
                 ", followCount=" + followCount +
+                ", avatarPath='" + avatarPath + '\'' +
+                ", followersCount=" + followersCount +
                 ", created_at=" + created_at +
                 ", updated_at=" + updated_at +
                 '}';

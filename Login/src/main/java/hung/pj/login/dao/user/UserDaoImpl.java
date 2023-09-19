@@ -33,7 +33,9 @@ public class UserDaoImpl implements IUserDao {
                 String role = resultSet.getString("role");
                 Timestamp created_at = resultSet.getTimestamp("created_at");
                 Timestamp updated_at = resultSet.getTimestamp("updated_at");
-                UserModel userModel = new UserModel(id, fullname, email, password, role, created_at, updated_at);
+                String avatar_path = resultSet.getString("avatar_path"); // Lấy trường avatar_path
+                int followers_count = resultSet.getInt("followers_count"); // Lấy trường followers_count
+                UserModel userModel = new UserModel(id, fullname, email, password, role, avatar_path, followers_count, created_at, updated_at);
                 users.add(userModel);
             }
 
@@ -45,6 +47,36 @@ public class UserDaoImpl implements IUserDao {
     }
 
     @Override
+    public UserModel getUserById(int user_id) {
+        String query = "SELECT * FROM users WHERE user_id = ?";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setInt(1, user_id);
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    int id = resultSet.getInt("user_id");
+                    String fullname = resultSet.getString("fullname");
+                    String email = resultSet.getString("email");
+                    String password = resultSet.getString("password");
+                    String role = resultSet.getString("role");
+                    Timestamp created_at = resultSet.getTimestamp("created_at");
+                    Timestamp updated_at = resultSet.getTimestamp("updated_at");
+                    String avatar_path = resultSet.getString("avatar_path");
+                    int followers_count = resultSet.getInt("followers_count");
+
+                    UserModel userModel = new UserModel(id, fullname, email, password, role, avatar_path, followers_count, created_at, updated_at);
+                    return userModel;
+                }
+            }
+        } catch (SQLException e) {
+            throw new DatabaseException("Error while fetching user by user_id", e);
+        }
+
+        return null; // Return null if no user with the given ID is found
+    }
+
+
+    @Override
     public UserModel getUserByEmail(String inputEmail) {
         String query = "SELECT * FROM users WHERE email = ?";
 
@@ -53,18 +85,20 @@ public class UserDaoImpl implements IUserDao {
 
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
-                    Integer id = resultSet.getInt("user_id");
+                    int id = resultSet.getInt("user_id");
                     String fullname = resultSet.getString("fullname");
                     String email = resultSet.getString("email");
                     String password = resultSet.getString("password");
                     String role = resultSet.getString("role");
+                    Timestamp created_at = resultSet.getTimestamp("created_at");
+                    Timestamp updated_at = resultSet.getTimestamp("updated_at");
+                    String avatar_path = resultSet.getString("avatar_path"); // Lấy trường avatar_path
+                    int followers_count = resultSet.getInt("followers_count"); // Lấy trường followers_count
+
                     LocalDateTime lockedUntil = resultSet.getTimestamp("locked_until") != null ?
                             resultSet.getTimestamp("locked_until").toLocalDateTime() :
                             null;
-                    Timestamp created_at = resultSet.getTimestamp("created_at");
-                    Timestamp updated_at = resultSet.getTimestamp("updated_at");
-
-                    UserModel userModel = new UserModel(id, fullname, email, password, role, created_at, updated_at);
+                    UserModel userModel = new UserModel(id, fullname, email, password, role, avatar_path, followers_count, created_at, updated_at);
                     userModel.setLockedUntil(lockedUntil);
                     return userModel;
 
@@ -88,14 +122,16 @@ public class UserDaoImpl implements IUserDao {
 
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 while (resultSet.next()) {
-                    Integer id = resultSet.getInt("user_id");
+                    int id = resultSet.getInt("user_id");
                     String fullname = resultSet.getString("fullname");
                     String email = resultSet.getString("email");
                     String password = resultSet.getString("password");
                     String role = resultSet.getString("role");
                     Timestamp created_at = resultSet.getTimestamp("created_at");
                     Timestamp updated_at = resultSet.getTimestamp("updated_at");
-                    UserModel userModel = new UserModel(id, fullname, email, password, role, created_at, updated_at);
+                    String avatar_path = resultSet.getString("avatar_path"); // Lấy trường avatar_path
+                    int followers_count = resultSet.getInt("followers_count"); // Lấy trường followers_count
+                    UserModel userModel = new UserModel(id, fullname, email, password, role, avatar_path, followers_count, created_at, updated_at);
                     users.add(userModel);
                 }
             }
@@ -256,14 +292,16 @@ public class UserDaoImpl implements IUserDao {
 
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 while (resultSet.next()) {
-                    Integer id = resultSet.getInt("user_id");
+                    int id = resultSet.getInt("user_id");
                     String fullname = resultSet.getString("fullname");
                     String email = resultSet.getString("email");
                     String password = resultSet.getString("password");
                     String role = resultSet.getString("role");
                     Timestamp created_at = resultSet.getTimestamp("created_at");
                     Timestamp updated_at = resultSet.getTimestamp("updated_at");
-                    UserModel userModel = new UserModel(id, fullname, email, password, role, created_at, updated_at);
+                    String avatar_path = resultSet.getString("avatar_path"); // Lấy trường avatar_path
+                    int followers_count = resultSet.getInt("followers_count"); // Lấy trường followers_count
+                    UserModel userModel = new UserModel(id, fullname, email, password, role, avatar_path, followers_count, created_at, updated_at);
                     users.add(userModel);
                 }
             }
@@ -447,6 +485,20 @@ public class UserDaoImpl implements IUserDao {
             e.printStackTrace();
         }
         return following;
+    }
+
+    @Override
+    public boolean updateAvatar(String avatar, int userId) {
+        String query = "UPDATE users SET avatar_path = ? WHERE user_id = ?";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setString(1, avatar);
+            preparedStatement.setInt(2, userId);
+            int rowsAffected = preparedStatement.executeUpdate();
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
 }

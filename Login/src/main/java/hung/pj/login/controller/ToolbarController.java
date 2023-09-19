@@ -13,7 +13,10 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
@@ -23,6 +26,8 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class ToolbarController implements Initializable {
+    @FXML
+    private ImageView imageViewAvatar;
     @FXML
     private Label labelDatetime, labelName;
     private UserSingleton userSingleton;
@@ -51,6 +56,29 @@ public class ToolbarController implements Initializable {
 
         // Hiển thị thông tin người dùng
         labelName.setText("Welcome back, " + loggedInUser.getFullname() + " - " + loggedInUser.getRole());
+
+        //Hiển thị avatar
+        UserModel user = userDao.getUserById(loggedInUser.getUser_id());
+        if (user != null) {
+            String avatarPath = user.getAvatarPath();
+            Image avatarImage = null;
+
+            if (avatarPath != null) {
+                File file = new File(avatarPath);
+                if (file.exists()) {
+                    avatarImage = new Image(file.toURI().toString());
+                }
+            }
+
+            if (avatarImage != null) {
+                imageViewAvatar.setImage(avatarImage);
+            } else {
+                // Load the default image if the avatarImage is still null
+                avatarImage = new Image(getClass().getResource("/hung/pj/login/image/newlogo.png").toExternalForm());
+            }
+        } else {
+            System.out.println("Không tìm thấy người dùng.");
+        }
     }
 
     @FXML

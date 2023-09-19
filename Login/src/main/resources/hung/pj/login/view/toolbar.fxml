@@ -46,7 +46,7 @@
     <MenuButton layoutX="936.0" layoutY="16.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0"
                 style="-fx-background-color: white; -fx-background-radius: 50%" stylesheets="@../style/style.css">
         <graphic>
-            <ImageView fitHeight="30.0" fitWidth="30.0" styleClass="border10px">
+            <ImageView fx:id="imageViewAvatar" fitHeight="30.0" fitWidth="30.0" styleClass="border10px">
                 <clip>
                     <Circle centerX="15.0" centerY="15.0" radius="15.0"/>
                 </clip>

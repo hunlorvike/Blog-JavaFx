@@ -13,6 +13,7 @@ CREATE TABLE IF NOT EXISTS users (
     role ENUM('Super Admin', 'Admin', 'Moderator') NOT NULL,
     locked_until DATETIME,
     followers_count INT DEFAULT 0,
+    avatar_path VARCHAR(255),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );

@@ -2,18 +2,26 @@
 
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
+<?import javafx.scene.shape.Circle?>
 <AnchorPane xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="hung.pj.login.controller.ItemSearchController">
-    <HBox prefHeight="50.0" prefWidth="980.0">
-        <VBox prefHeight="50.0" prefWidth="550.0" spacing="5">
+    <HBox prefHeight="50.0" prefWidth="980.0" alignment="CENTER">
+        <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+            <clip>
+                <Circle centerX="15.0" centerY="15.0" radius="15.0"/>
+            </clip>
+            <Image url="@../image/1.jpg"/>
+        </ImageView>
+        <VBox prefHeight="50.0" prefWidth="400.0" spacing="5">
             <padding>
                 <Insets bottom="5.0" left="10.0" right="5.0" top="5.0"/>
             </padding>
 
             <Label fx:id="labelTopBox1" text="Dữ liệu tên"/>
-            <Label fx:id="labelBotBox1" text="Dữ liệu role" styleClass="b"/>
+            <Label fx:id="labelBotBox1" styleClass="b" text="Dữ liệu role"/>
         </VBox>
         <VBox prefHeight="50.0" prefWidth="250.0">
             <padding>
@@ -22,13 +30,14 @@
 
             <Label fx:id="labelBox2" text="Dữ liệu email"/>
         </VBox>
-        <VBox prefHeight="200.0" prefWidth="180.0">
+        <VBox prefHeight="200.0" prefWidth="280.0">
             <padding>
                 <Insets bottom="5.0" left="10.0" right="5.0" top="5.0"/>
             </padding>
 
             <Label fx:id="labelBox3" text="Dữ liệu ngày khởi tạo"/>
         </VBox>
+
     </HBox>
 
 </AnchorPane>

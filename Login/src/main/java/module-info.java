@@ -25,5 +25,6 @@ module hung.pj.login {
     requires org.glassfish.tyrus.server;
     requires org.glassfish.tyrus.client;
     requires datetime.picker.javafx;
+    requires org.controlsfx.controls;
 
 }
