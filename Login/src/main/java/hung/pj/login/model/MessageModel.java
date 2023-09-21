@@ -9,7 +9,7 @@ public class MessageModel {
     private String messageText;
     private Timestamp sentAt;
 
-    private MessageModel(int conversationId, int senderId, String messageText) {
+    public MessageModel(int conversationId, int senderId, String messageText) {
         this.conversationId = conversationId;
         this.senderId = senderId;
         this.messageText = messageText;
@@ -22,6 +22,7 @@ public class MessageModel {
         this.messageText = messageText;
         this.sentAt = sentAt;
     }
+
 
     public int getMessageId() {
         return messageId;
