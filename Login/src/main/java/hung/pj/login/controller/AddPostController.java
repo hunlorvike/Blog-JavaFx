@@ -2,8 +2,11 @@ package hung.pj.login.controller;
 
 import hung.pj.login.AppMain;
 import hung.pj.login.config.ConnectionProvider;
+import hung.pj.login.dao.category.CategoryDaoImpl;
+import hung.pj.login.dao.category.ICategoryDao;
 import hung.pj.login.dao.post.IPostDao;
 import hung.pj.login.dao.post.PostDaoImpl;
+import hung.pj.login.model.CategoryModel;
 import hung.pj.login.model.PostModel;
 import hung.pj.login.model.UserModel;
 import hung.pj.login.singleton.UserSingleton;
@@ -12,6 +15,7 @@ import hung.pj.login.ultis.ControllerUtils;
 import hung.pj.login.ultis.ImageFileUtil;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -50,12 +54,14 @@ public class AddPostController implements Initializable {
     private DatePicker datePicker;
     private List<File> selectedFilesList = new ArrayList<>();
     private final IPostDao postDao;
+    private final ICategoryDao categoryDao;
     private final UserSingleton userSingleton = UserSingleton.getInstance();
     private UserModel loggedInUser;
 
     public AddPostController() {
         ConnectionProvider connectionProvider = new ConnectionProvider();
         postDao = new PostDaoImpl(connectionProvider.getConnection());
+        categoryDao = new CategoryDaoImpl(connectionProvider.getConnection());
     }
 
     @Override
@@ -64,6 +70,20 @@ public class AddPostController implements Initializable {
         statusComboBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             datePicker.setVisible("Scheduled".equals(newValue));
         });
+        List<CategoryModel> categoryModels = categoryDao.getAllCategory();
+
+        // Tạo một danh sách tên danh mục từ danh sách categoryModels
+        List<String> categoryNames = new ArrayList<>();
+        for (CategoryModel categoryModel : categoryModels) {
+            categoryNames.add(categoryModel.getName());
+        }
+
+        // Đặt danh sách tên danh mục làm dữ liệu cho ChoiceBox
+        categoryChoiceBox.setItems(FXCollections.observableArrayList(categoryNames));
+
+        // Đặt giá trị mặc định nếu cần
+        categoryChoiceBox.setValue(categoryNames.get(0)); // Đặt giá trị mặc định là tên danh mục đầu tiên
+
     }
 
     public void handleAddPost() throws IOException {
