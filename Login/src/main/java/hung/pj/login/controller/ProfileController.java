@@ -145,7 +145,7 @@ public class ProfileController implements Initializable {
                 labelFileChoose.setText(selectedFile.getAbsolutePath());
 
                 // Upload image lên database
-                if(userDao.updateAvatar(selectedFile.getAbsolutePath(), loggedInUser.getUser_id())){
+                if (userDao.updateAvatar(selectedFile.getAbsolutePath(), loggedInUser.getUser_id())) {
                     System.out.println("Upload thành công");
                 }
 

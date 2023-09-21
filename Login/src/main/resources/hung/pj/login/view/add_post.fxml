@@ -1,75 +1,76 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.browniebytes.javafx.control.*?>
 <?import java.lang.*?>
 <?import javafx.collections.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane fx:id="rootAnchorPane" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/11.0.14-internal"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="hung.pj.login.controller.AddPostController">
+<AnchorPane fx:id="rootAnchorPane" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hung.pj.login.controller.AddPostController">
     <BorderPane prefHeight="720.0" prefWidth="1280.0">
         <left>
-            <fx:include fx:id="menuUserLeft" source="menu.fxml"/>
+            <fx:include fx:id="menuUserLeft" source="menu.fxml" />
         </left>
         <center>
-            <Pane fx:id="addButton" prefHeight="720.0" prefWidth="1060.0" stylesheets="@../style/style.css"
-                  BorderPane.alignment="CENTER">
+            <Pane fx:id="addButton" prefHeight="720.0" prefWidth="1060.0" stylesheets="@../style/style.css" BorderPane.alignment="CENTER">
                 <!--Your infomation-->
-                <Label layoutX="60.0" layoutY="30.0" styleClass="b, h4" text="Add Post"/>
+                <Label layoutX="60.0" layoutY="30.0" styleClass="b, h4" text="Add Post" />
                 <!-- tiêu đề-->
-                <Label layoutX="57.0" layoutY="80.0" text="● Title: "/>
-                <TextField fx:id="titleTextField" layoutX="120.0" layoutY="71.0" prefHeight="35.0" prefWidth="475.0"
-                           promptText="Tiêu đề...."/>
+                <Label layoutX="57.0" layoutY="80.0" text="● Title: " />
+                <TextField fx:id="titleTextField" layoutX="120.0" layoutY="71.0" prefHeight="35.0" prefWidth="475.0" promptText="Tiêu đề...." />
                 <!--nỘi dung-->
-                <Label layoutX="57.0" layoutY="130.0" text="● Detail: "/>
-                <TextArea fx:id="contentTextField" layoutX="120.0" layoutY="130.0" prefHeight="200.0" prefWidth="475.0"
-                          promptText="Nội dung...." wrapText="true"/>
+                <Label layoutX="57.0" layoutY="130.0" text="● Detail: " />
+                <TextArea fx:id="contentTextField" layoutX="120.0" layoutY="130.0" prefHeight="200.0" prefWidth="475.0" promptText="Nội dung...." wrapText="true" />
                 <!-- link-->
-                <Label layoutX="57.0" layoutY="360.0" text="● Link: "/>
-                <TextField fx:id="linkTextField" layoutX="119.0" layoutY="351.0" prefHeight="35.0" prefWidth="475.0"
-                           promptText="Đường dẫn đến báo...."/>
+                <Label layoutX="57.0" layoutY="360.0" text="● Link: " />
+                <TextField fx:id="linkTextField" layoutX="119.0" layoutY="351.0" prefHeight="35.0" prefWidth="475.0" promptText="Đường dẫn đến báo...." />
 
                 <!--Status-->
-                <Label layoutX="57.0" layoutY="410.0" text="● Status:"/>
-                <ChoiceBox fx:id="statusComboBox" layoutX="119.0" layoutY="400.0" prefHeight="30.0" prefWidth="110.0"
-                           style=" -fx-background-color: #93B1A6;" value="Published">
+                <Label layoutX="57.0" layoutY="410.0" text="● Status:" />
+                <ChoiceBox fx:id="statusComboBox" layoutX="119.0" layoutY="400.0" prefHeight="30.0" prefWidth="110.0" style=" -fx-background-color: #93B1A6;" value="Published">
                     <items>
                         <FXCollections fx:factory="observableArrayList">
-                            <String fx:value="Published"/>
-                            <String fx:value="Scheduled"/>
-                            <String fx:value="Draft"/>
+                            <String fx:value="Published" />
+                            <String fx:value="Scheduled" />
+                            <String fx:value="Draft" />
                         </FXCollections>
                     </items>
                     <padding>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                     </padding>
                 </ChoiceBox>
                 <!--Category-->
-                <Label layoutX="57.0" layoutY="465.0" text="● Cate:"/>
-                <ChoiceBox fx:id="categoryChoiceBox" layoutX="119.0" layoutY="455.0" prefHeight="30.0" prefWidth="110.0"
-                           style=" -fx-background-color: #93B1A6;" value="Góc nhìn">
+                <Label layoutX="57.0" layoutY="465.0" text="● Cate:" />
+                <ChoiceBox fx:id="categoryChoiceBox" layoutX="119.0" layoutY="455.0" prefHeight="30.0" prefWidth="110.0" style=" -fx-background-color: #93B1A6;" value="Góc nhìn">
                     <items>
                         <FXCollections fx:factory="observableArrayList">
-                            <String fx:value="Góc nhìn"/>
-                            <String fx:value="Thời sự"/>
-                            <String fx:value="Thế giới"/>
-                            <String fx:value="Thể thao"/>
-                            <String fx:value="Xe"/>
+                            <String fx:value="Góc nhìn" />
+                            <String fx:value="Thời sự" />
+                            <String fx:value="Thế giới" />
+                            <String fx:value="Thể thao" />
+                            <String fx:value="Xe" />
                         </FXCollections>
                     </items>
                     <padding>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                     </padding>
                 </ChoiceBox>
                 <!--DatePicker-->
-                <DatePicker fx:id="datePicker" layoutX="395.0" layoutY="400.0" prefHeight="35.0" prefWidth="200.0"
-                            promptText="01/06/2023" visible="false"/>
-                <!--Button-->
-                <Button layoutX="59.0" layoutY="580.0" mnemonicParsing="false"
-                        onAction="#handleAddPost" prefHeight="30.0" prefWidth="150.0" styleClass="button-green"
-                        text="Save"/>
+                <DatePicker fx:id="datePicker" layoutX="395.0" layoutY="400.0" prefHeight="35.0" prefWidth="200.0" promptText="01/06/2023" visible="false" />
+                <!--Button choose file-->
+                <Button fx:id="butttonChooseFiles" layoutX="62.0" layoutY="523.0" mnemonicParsing="false" onAction="#uploadFile" prefHeight="25.0" prefWidth="145.0" styleClass="button-green" text="Upload file" />
+                <ImageView fitHeight="15.0" fitWidth="15.0" layoutX="77.0" layoutY="528.0" pickOnBounds="true" preserveRatio="true">
+                    <Image url="@../icon/ic_upload_white.png" />
+                </ImageView>
+                <ScrollPane fx:id="scrollPane" layoutX="288.0" layoutY="511.0" prefHeight="100.0" maxWidth="400">
+                    <content>
+                        <HBox alignment="CENTER" fx:id="hboxContainerImage" spacing="10" />
+                    </content>
+                </ScrollPane>
+
+                <!--Button submit-->
+                <Button layoutX="59.0" layoutY="580.0" mnemonicParsing="false" onAction="#handleAddPost" prefHeight="30.0" prefWidth="150.0" styleClass="button-green" text="Save" />
             </Pane>
         </center>
     </BorderPane>

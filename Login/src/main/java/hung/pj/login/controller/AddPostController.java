@@ -9,20 +9,35 @@ import hung.pj.login.model.UserModel;
 import hung.pj.login.singleton.UserSingleton;
 import hung.pj.login.ultis.Constants;
 import hung.pj.login.ultis.ControllerUtils;
+import hung.pj.login.ultis.ImageFileUtil;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
+import javafx.stage.FileChooser;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.ResourceBundle;
+import java.util.ArrayList;
 
 public class AddPostController implements Initializable {
+    @FXML
+    private HBox hboxContainerImage;
+    @FXML
+    private Button butttonChooseFiles;
     @FXML
     private AnchorPane rootAnchorPane;
     @FXML
@@ -33,7 +48,7 @@ public class AddPostController implements Initializable {
     private ChoiceBox<String> statusComboBox, categoryChoiceBox;
     @FXML
     private DatePicker datePicker;
-
+    private List<File> selectedFilesList = new ArrayList<>();
     private final IPostDao postDao;
     private final UserSingleton userSingleton = UserSingleton.getInstance();
     private UserModel loggedInUser;
@@ -87,4 +102,50 @@ public class AddPostController implements Initializable {
             ControllerUtils.showAlertDialog("Tạo bài viết thất bại", Alert.AlertType.INFORMATION, rootAnchorPane.getScene().getWindow());
         }
     }
+
+    public void uploadFile() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Select Image Posts");
+        List<File> selectedFiles = fileChooser.showOpenMultipleDialog(butttonChooseFiles.getScene().getWindow());
+
+        if (selectedFiles != null) {
+            selectedFilesList.addAll(selectedFiles); // Thêm các tệp đã chọn vào danh sách có thể sửa đổi
+
+            for (File file : selectedFiles) {
+                // Kiểm tra nếu tệp là hình ảnh (có thể kiểm tra phần mở rộng hoặc nội dung thực sự)
+                if (ImageFileUtil.isImageFile(file)) {
+                    HBox imageBox = new HBox(); // Tạo HBox để chứa ImageView và Button
+
+                    ImageView imageView = new ImageView();
+                    imageView.setFitHeight(75); // Đặt chiều cao của ImageView
+                    imageView.setFitWidth(75); // Đặt chiều rộng của ImageView
+                    imageView.setPreserveRatio(true); // Duy trì tỉ lệ của ảnh
+                    imageView.setImage(new Image(file.toURI().toString()));
+
+                    Button deleteButton = new Button("×"); // Tạo nút X
+                    deleteButton.getStyleClass().add("btn-danger"); // Thêm lớp CSS tùy chỉnh
+
+
+                    deleteButton.setOnAction(event -> {
+                        // Xóa ImageView và Button tương ứng
+                        hboxContainerImage.getChildren().remove(imageBox);
+
+                        // Xóa tệp khỏi danh sách đã chọn
+                        selectedFilesList.remove(file); // Sử dụng danh sách có thể sửa đổi
+                    });
+
+                    // Đặt nút X ở góc phải trên cùng của ImageView
+                    StackPane stackPane = new StackPane(imageView, deleteButton);
+                    StackPane.setAlignment(deleteButton, Pos.TOP_RIGHT);
+
+                    // Thêm StackPane vào HBox chứa tất cả
+                    imageBox.getChildren().add(stackPane);
+
+                    // Thêm HBox vào HBox chính
+                    hboxContainerImage.getChildren().add(imageBox);
+                }
+            }
+        }
+    }
+
 }

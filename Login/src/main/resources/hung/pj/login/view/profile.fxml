@@ -56,10 +56,14 @@
                 <TextField fx:id="gitlabTextField" layoutX="460.0" layoutY="330.0" prefHeight="30.0" prefWidth="200.0"
                            promptText="Gitlab"/>
                 <!--Chọn file-->
-
                 <Button fx:id="butttonChooseFile" layoutX="60.0" layoutY="380.0" mnemonicParsing="false"
-                        onAction="#handleChooseFile" prefHeight="25.0" prefWidth="145.0" styleClass="btn-primary"
-                        text="Choose File"/>
+                        onAction="#handleChooseFile" prefHeight="25.0" prefWidth="145.0" styleClass="button-green"
+                        text="Upload file"/>
+                <ImageView fitHeight="15.0" fitWidth="15.0" layoutX="78.0" layoutY="385.0" pickOnBounds="true"
+                           preserveRatio="true">
+                    <Image url="@../icon/ic_upload_white.png"/>
+                </ImageView>
+
                 <Label fx:id="labelFileChoose" layoutX="220.0" layoutY="384.0" styleClass="h6" textFill="brown"/>
                 <ImageView fx:id="imageViewAvatar" fitHeight="150.0" fitWidth="150.0" layoutX="58.0" layoutY="451.0"
                            pickOnBounds="true" preserveRatio="true">

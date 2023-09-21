@@ -2,6 +2,7 @@ package hung.pj.login.controller;
 
 import com.jfoenix.controls.JFXToggleButton;
 import hung.pj.login.config.ConnectionProvider;
+import hung.pj.login.dao.post.PostDaoImpl;
 import hung.pj.login.dao.social.SocialDaoImpl;
 import hung.pj.login.dao.user.UserDaoImpl;
 import hung.pj.login.model.UserModel;
@@ -29,6 +30,7 @@ public class ProfileDetailController implements Initializable {
     ConnectionProvider connectionProvider = new ConnectionProvider();
     UserDaoImpl userDao = new UserDaoImpl(connectionProvider.getConnection());
     SocialDaoImpl socialDao = new SocialDaoImpl(connectionProvider.getConnection());
+    PostDaoImpl postDao = new PostDaoImpl(connectionProvider.getConnection());
     @FXML
     private Label nameLabel, emailLabel, followLabel;
     @FXML
@@ -43,6 +45,8 @@ public class ProfileDetailController implements Initializable {
         UserModel loggedInUser = userSingleton.getLoggedInUser();
 
         UserModel userModel = userDao.getUserByEmail(selectedEmail);
+
+        System.out.println(postDao.getAllPostsByUserId(loggedInUser.getUser_id()));
 
         boolean isFollowing = userDao.isFollowing(loggedInUser.getUser_id(), userModel.getUser_id());
         followToggleButton.setSelected(isFollowing);

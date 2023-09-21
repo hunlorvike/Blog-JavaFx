@@ -10,6 +10,8 @@ public interface IPostDao {
 
     List<PostModel> getPostsByTag(String tag);
 
+    List<PostModel> getAllPostsByUserId(int userId);
+
     List<PostModel> getPostsByStatus(String status);
 
     PostModel getPostById(int post_id);

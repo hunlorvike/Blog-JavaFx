@@ -18,7 +18,7 @@ public class ValidationUtils {
 
     public static boolean isValidPassword(String password) {
         // Implement your password validation logic here
-        return password.length() >= 8; // For example, password length must be at least 8 characters
+        return password.length() >= 6; // For example, password length must be at least 8 characters
     }
 
     public static void setRedBorder(Control control) {

@@ -109,6 +109,37 @@ public class PostDaoImpl implements IPostDao {
     }
 
     @Override
+    public List<PostModel> getAllPostsByUserId(int userId) {
+        List<PostModel> posts = new ArrayList<>();
+        String query = "SELECT * FROM post WHERE creator_id = ?";
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setInt(1, userId);
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    int id = resultSet.getInt("post_id");
+                    String title = resultSet.getString("title");
+                    String content = resultSet.getString("content");
+                    String status = resultSet.getString("status");
+                    int view_count = resultSet.getInt("view_count");
+                    int creator_id = resultSet.getInt("creator_id");
+                    Timestamp scheduledTime = resultSet.getTimestamp("scheduled_datetime");
+                    Timestamp created_at = resultSet.getTimestamp("created_at");
+                    Timestamp updated_at = resultSet.getTimestamp("updated_at");
+                    PostModel postModel = new PostModel(id, title, content, status, view_count, creator_id, scheduledTime, created_at, updated_at);
+                    posts.add(postModel);
+                }
+            }
+
+        } catch (SQLException e) {
+            throw new DatabaseException("Error while fetching user by tag", e);
+        }
+
+        return posts;
+    }
+
+    @Override
     public List<PostModel> getPostsByStatus(String statusInput) {
         List<PostModel> posts = new ArrayList<>();
         String query = "SELECT * FROM post WHERE status = ?";

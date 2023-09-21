@@ -89,7 +89,6 @@
     -fx-background-color: #94A684;
 }
 
-
 .small {
     -fx-font-size: 10px;
 }
@@ -180,7 +179,6 @@
 .button-green:hover {
     /* Đặt màu nền khác khi hover */
     -fx-background-color: #5C8374;
-    /* Các thuộc tính khác cho hiệu ứng hover */
 }
 
 /* Trong tệp CSS hoặc phần mở rộng .css của tệp FXML */

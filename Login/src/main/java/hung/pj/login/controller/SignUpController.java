@@ -69,7 +69,7 @@ public class SignUpController implements Initializable {
         }
 
         if (!ValidationUtils.isValidPassword(password)) {
-            showAlert("Password must be at least 8 characters.");
+            showAlert("Password must be at least 6 characters.");
             return;
         }
 
