@@ -6,11 +6,10 @@ import hung.pj.login.dao.user.UserDaoImpl;
 import hung.pj.login.model.SocialModel;
 import hung.pj.login.model.UserModel;
 import hung.pj.login.singleton.UserSingleton;
-import hung.pj.login.ultis.ControllerUtils;
+import hung.pj.login.ultis.ImageFileUtil;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -20,7 +19,11 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -31,16 +34,17 @@ public class ProfileController implements Initializable {
     @FXML
     private Label labelFileChoose;
     @FXML
-    private Button butttonChooseFile;
+    private Button buttonChooseFile;
     @FXML
     private AnchorPane rootAnchorPane;
     @FXML
     private TextField nameTextField, emailTextField, roleTextField, facebookTextField, instagramTextField, twitterTextField, pinterestTextField, githubTextField, gitlabTextField;
-    ConnectionProvider connectionProvider = new ConnectionProvider();
-    SocialDaoImpl socialDao = new SocialDaoImpl(connectionProvider.getConnection());
-    UserDaoImpl userDao = new UserDaoImpl(connectionProvider.getConnection());
+    private ConnectionProvider connectionProvider = new ConnectionProvider();
+    private SocialDaoImpl socialDao = new SocialDaoImpl(connectionProvider.getConnection());
+    private UserDaoImpl userDao = new UserDaoImpl(connectionProvider.getConnection());
     private UserSingleton userSingleton = UserSingleton.getInstance();
     private UserModel loggedInUser;
+    private String selectedFilePath = null;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -73,15 +77,11 @@ public class ProfileController implements Initializable {
             if (avatarImage != null) {
                 imageViewAvatar.setImage(avatarImage);
             } else {
-                // Load the default image if the avatarImage is still null
                 avatarImage = new Image(getClass().getResource("/hung/pj/login/image/newlogo.png").toExternalForm());
             }
-
         } else {
             System.out.println("Không tìm thấy người dùng.");
         }
-
-
     }
 
     private void setSocialMediaTextField(String platform, TextField textField) {
@@ -106,7 +106,32 @@ public class ProfileController implements Initializable {
         checkAndUpdateSocialMedia(loggedInUser.getUser_id(), "Github", github);
         checkAndUpdateSocialMedia(loggedInUser.getUser_id(), "Gitlab", gitlab);
 
-        ControllerUtils.showAlertDialog("Lưu thông tin thành công", Alert.AlertType.INFORMATION, rootAnchorPane.getScene().getWindow());
+        if (selectedFilePath != null) {
+            String storageDirectoryPath = "Login\\src\\main\\resources\\hung\\pj\\login\\upload";
+            File storageDirectory = new File(storageDirectoryPath);
+
+            if (!storageDirectory.exists()) {
+                storageDirectory.mkdirs();
+            }
+
+            String destinationPath = storageDirectoryPath + File.separator + new File(selectedFilePath).getName();
+            File destinationFile = new File(destinationPath);
+
+            try {
+                Files.copy(Paths.get(selectedFilePath), Paths.get(destinationPath), StandardCopyOption.REPLACE_EXISTING);
+
+                Image selectedImage = new Image(destinationFile.toURI().toString());
+                imageViewAvatar.setImage(selectedImage);
+
+                if (userDao.updateAvatar(destinationPath, loggedInUser.getUser_id())) {
+                    System.out.println("Upload thành công");
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            labelFileChoose.setText("Please choose a file first.");
+        }
     }
 
     private void checkAndUpdateSocialMedia(int userId, String platform, String profileUrl) {
@@ -129,36 +154,17 @@ public class ProfileController implements Initializable {
     public void handleChooseFile() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Select Image Avatar");
-        List<File> selectedFiles = fileChooser.showOpenMultipleDialog(butttonChooseFile.getScene().getWindow());
+        List<File> selectedFiles = fileChooser.showOpenMultipleDialog(buttonChooseFile.getScene().getWindow());
 
-        if (selectedFiles != null) {
-            // Chọn chỉ tệp đầu tiên từ danh sách tệp đã chọn (bạn có thể điều chỉnh nếu cần)
+        if (selectedFiles != null && !selectedFiles.isEmpty()) {
             File selectedFile = selectedFiles.get(0);
 
-            // Kiểm tra xem tệp đã chọn có đúng là hình ảnh không (bằng cách kiểm tra phần mở rộng hoặc kiểu MIME)
-            if (isImageFile(selectedFile)) {
-                // Hiển thị hình ảnh đã chọn trong ImageView
-                Image selectedImage = new Image(selectedFile.toURI().toString());
-                imageViewAvatar.setImage(selectedImage);
-
-                // Hiển thị đường dẫn tệp đã chọn trong Label
-                labelFileChoose.setText(selectedFile.getAbsolutePath());
-
-                // Upload image lên database
-                if (userDao.updateAvatar(selectedFile.getAbsolutePath(), loggedInUser.getUser_id())) {
-                    System.out.println("Upload thành công");
-                }
-
+            if (ImageFileUtil.isImageFile(selectedFile)) {
+                selectedFilePath = selectedFile.getAbsolutePath();
+                labelFileChoose.setText(selectedFilePath);
             } else {
-                // Nếu tệp không phải là hình ảnh, bạn có thể thông báo cho người dùng hoặc thực hiện xử lý khác tùy thuộc vào yêu cầu của bạn.
                 labelFileChoose.setText("File is not an image.");
             }
         }
     }
-
-    private boolean isImageFile(File file) {
-        String fileName = file.getName().toLowerCase();
-        return fileName.endsWith(".png") || fileName.endsWith(".jpg") || fileName.endsWith(".jpeg") || fileName.endsWith(".gif");
-    }
-
 }

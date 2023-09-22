@@ -143,6 +143,7 @@ public class AddPostController implements Initializable {
                     imageView.setImage(new Image(file.toURI().toString()));
 
                     Button deleteButton = new Button("×"); // Tạo nút X
+//                    deleteButton.setStyle("-fx-background-radius: 50;");
                     deleteButton.getStyleClass().add("btn-danger"); // Thêm lớp CSS tùy chỉnh
 
 

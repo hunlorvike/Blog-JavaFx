@@ -56,7 +56,7 @@
                 <TextField fx:id="gitlabTextField" layoutX="460.0" layoutY="330.0" prefHeight="30.0" prefWidth="200.0"
                            promptText="Gitlab"/>
                 <!--Chọn file-->
-                <Button fx:id="butttonChooseFile" layoutX="60.0" layoutY="380.0" mnemonicParsing="false"
+                <Button fx:id="buttonChooseFile" layoutX="60.0" layoutY="380.0" mnemonicParsing="false"
                         onAction="#handleChooseFile" prefHeight="25.0" prefWidth="145.0" styleClass="button-green"
                         text="Upload file"/>
                 <ImageView fitHeight="15.0" fitWidth="15.0" layoutX="78.0" layoutY="385.0" pickOnBounds="true"

@@ -17,7 +17,6 @@ public class ConnectionProvider implements IConnectionProvider, AutoCloseable {
     public ConnectionProvider() {
         try {
             connection = DriverManager.getConnection(DB_URL + DATABASE_NAME, DB_USER, DB_PASSWORD);
-            System.out.println("Kết nối cơ sở dữ liệu thành công");
         } catch (SQLException e) {
             throw new DatabaseException("Lỗi khi thiết lập kết nối cơ sở dữ liệu", e);
         }
