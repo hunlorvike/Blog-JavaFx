@@ -6,17 +6,21 @@ import hung.pj.login.dao.category.CategoryDaoImpl;
 import hung.pj.login.dao.category.ICategoryDao;
 import hung.pj.login.dao.post.IPostDao;
 import hung.pj.login.dao.post.PostDaoImpl;
+import hung.pj.login.dao.postImage.IPostImageDao;
+import hung.pj.login.dao.postImage.PostImageDaoImpl;
 import hung.pj.login.model.CategoryModel;
+import hung.pj.login.model.PostImageModel;
 import hung.pj.login.model.PostModel;
 import hung.pj.login.model.UserModel;
 import hung.pj.login.singleton.UserSingleton;
 import hung.pj.login.ultis.Constants;
 import hung.pj.login.ultis.ControllerUtils;
 import hung.pj.login.ultis.ImageFileUtil;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
-import javafx.event.ActionEvent;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
@@ -31,17 +35,19 @@ import javafx.stage.FileChooser;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.ArrayList;
 
 public class AddPostController implements Initializable {
     @FXML
     private HBox hboxContainerImage;
     @FXML
-    private Button butttonChooseFiles;
+    private Button buttonChooseFiles;
     @FXML
     private AnchorPane rootAnchorPane;
     @FXML
@@ -52,16 +58,18 @@ public class AddPostController implements Initializable {
     private ChoiceBox<String> statusComboBox, categoryChoiceBox;
     @FXML
     private DatePicker datePicker;
-    private List<File> selectedFilesList = new ArrayList<>();
     private final IPostDao postDao;
     private final ICategoryDao categoryDao;
+    private final IPostImageDao postImageDao;
     private final UserSingleton userSingleton = UserSingleton.getInstance();
     private UserModel loggedInUser;
+    private ObservableList<File> selectedFilesList = FXCollections.observableArrayList();
 
     public AddPostController() {
         ConnectionProvider connectionProvider = new ConnectionProvider();
         postDao = new PostDaoImpl(connectionProvider.getConnection());
         categoryDao = new CategoryDaoImpl(connectionProvider.getConnection());
+        postImageDao = new PostImageDaoImpl(connectionProvider.getConnection());
     }
 
     @Override
@@ -115,58 +123,84 @@ public class AddPostController implements Initializable {
         PostModel post = new PostModel(title, content, status, scheduledDate, user_id, category);
 
         boolean insertSuccess = postDao.insertPost(post);
+
         if (insertSuccess) {
-            ControllerUtils.showAlertDialog("Tạo bài viết thành công", Alert.AlertType.INFORMATION, rootAnchorPane.getScene().getWindow());
-            AppMain.setRoot("post.fxml", Constants.CUSTOM_WIDTH, Constants.CUSTOM_HEIGHT, false);
+            // Lấy danh sách bài viết mới nhất của người dùng hiện tại
+            List<PostModel> userPosts = postDao.getAllPostsByUserId(user_id);
+
+            // Kiểm tra xem danh sách có bài viết không
+            if (!userPosts.isEmpty()) {
+                // Sắp xếp danh sách theo thời gian tạo giảm dần (mới nhất đầu danh sách)
+                userPosts.sort((post1, post2) -> post2.getCreated_at().compareTo(post1.getCreated_at()));
+
+                // Lấy bài viết mới nhất từ danh sách (bài viết đầu tiên sau khi sắp xếp)
+                PostModel newestPost = userPosts.get(0);
+
+                // Tiến hành xử lý với bài viết mới nhất ở đây
+                // Lấy postId của bài viết vừa được thêm
+                int postId = newestPost.getPost_id();
+
+                List<PostImageModel> postImageModels = new ArrayList<>();
+                for (File file : selectedFilesList) {
+                    // Tạo đối tượng PostImageModel từ thông tin file
+                    PostImageModel postImageModel = new PostImageModel(postId, file.getAbsolutePath());
+                    postImageModels.add(postImageModel);
+                }
+
+                // Thêm các hình ảnh liên quan đến bài viết vào bảng post_images
+                boolean addImagesSuccess = postImageDao.addPostImages(postId, postImageModels);
+
+                if (addImagesSuccess) {
+                    ControllerUtils.showAlertDialog("Tạo bài viết và hình ảnh thành công", Alert.AlertType.INFORMATION, rootAnchorPane.getScene().getWindow());
+                    AppMain.setRoot("post.fxml", Constants.CUSTOM_WIDTH, Constants.CUSTOM_HEIGHT, false);
+                } else {
+                    ControllerUtils.showAlertDialog("Tạo bài viết thành công nhưng có lỗi khi thêm hình ảnh", Alert.AlertType.INFORMATION, rootAnchorPane.getScene().getWindow());
+                }
+            }
+
         } else {
             ControllerUtils.showAlertDialog("Tạo bài viết thất bại", Alert.AlertType.INFORMATION, rootAnchorPane.getScene().getWindow());
         }
+
+        copySelectedFilesToStorage();
     }
 
     public void uploadFile() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Select Image Posts");
-        List<File> selectedFiles = fileChooser.showOpenMultipleDialog(butttonChooseFiles.getScene().getWindow());
+        List<File> selectedFiles = fileChooser.showOpenMultipleDialog(buttonChooseFiles.getScene().getWindow());
 
         if (selectedFiles != null) {
-            selectedFilesList.addAll(selectedFiles); // Thêm các tệp đã chọn vào danh sách có thể sửa đổi
+            selectedFilesList.addAll(selectedFiles);
 
             for (File file : selectedFiles) {
                 // Kiểm tra nếu tệp là hình ảnh (có thể kiểm tra phần mở rộng hoặc nội dung thực sự)
                 if (ImageFileUtil.isImageFile(file)) {
-                    HBox imageBox = new HBox(); // Tạo HBox để chứa ImageView và Button
-
-                    ImageView imageView = new ImageView();
-                    imageView.setFitHeight(75); // Đặt chiều cao của ImageView
-                    imageView.setFitWidth(75); // Đặt chiều rộng của ImageView
-                    imageView.setPreserveRatio(true); // Duy trì tỉ lệ của ảnh
-                    imageView.setImage(new Image(file.toURI().toString()));
-
-                    Button deleteButton = new Button("×"); // Tạo nút X
-//                    deleteButton.setStyle("-fx-background-radius: 50;");
-                    deleteButton.getStyleClass().add("btn-danger"); // Thêm lớp CSS tùy chỉnh
-
-
-                    deleteButton.setOnAction(event -> {
-                        // Xóa ImageView và Button tương ứng
-                        hboxContainerImage.getChildren().remove(imageBox);
-
-                        // Xóa tệp khỏi danh sách đã chọn
-                        selectedFilesList.remove(file); // Sử dụng danh sách có thể sửa đổi
-                    });
-
-                    // Đặt nút X ở góc phải trên cùng của ImageView
-                    StackPane stackPane = new StackPane(imageView, deleteButton);
-                    StackPane.setAlignment(deleteButton, Pos.TOP_RIGHT);
-
-                    // Thêm StackPane vào HBox chứa tất cả
-                    imageBox.getChildren().add(stackPane);
-
-                    // Thêm HBox vào HBox chính
+                    HBox imageBox = ImageFileUtil.createImageBox(file);
                     hboxContainerImage.getChildren().add(imageBox);
                 }
             }
         }
     }
 
+    private void copySelectedFilesToStorage() {
+        String storageDirectoryPath = "Login\\src\\main\\resources\\hung\\pj\\login\\upload";
+        File storageDirectory = new File(storageDirectoryPath);
+
+        if (!storageDirectory.exists()) {
+            storageDirectory.mkdirs();
+        }
+
+        for (File selectedFile : selectedFilesList) {
+            String destinationPath = storageDirectoryPath + File.separator + selectedFile.getName();
+            File destinationFile = new File(destinationPath);
+
+            try {
+                Files.copy(selectedFile.toPath(), destinationFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            } catch (IOException e) {
+                e.printStackTrace();
+                // Xử lý lỗi sao chép tệp (có thể thông báo cho người dùng)
+            }
+        }
+    }
 }

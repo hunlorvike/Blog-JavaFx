@@ -50,7 +50,7 @@ public class AppMain extends Application {
 
         stage.setX(newStageX);
         stage.setY(newStageY);
-        
+
         stage.show();
         checkScheduledPosts();
 
