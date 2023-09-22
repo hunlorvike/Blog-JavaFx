@@ -7,6 +7,7 @@ import hung.pj.login.model.SocialModel;
 import hung.pj.login.model.UserModel;
 import hung.pj.login.singleton.UserSingleton;
 import hung.pj.login.ultis.ImageFileUtil;
+import hung.pj.login.ultis.Constants; // Import Constants
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -107,18 +108,18 @@ public class ProfileController implements Initializable {
         checkAndUpdateSocialMedia(loggedInUser.getUser_id(), "Gitlab", gitlab);
 
         if (selectedFilePath != null) {
-            String storageDirectoryPath = "Login\\src\\main\\resources\\hung\\pj\\login\\upload"; // Đường dẫn thư mục sẽ chưa file sau khi chọn thành công
-            File storageDirectory = new File(storageDirectoryPath); // "Login\src\main\resources\hung\pj\login\ upload"
+            String storageDirectoryPath = Constants.UPLOAD_DIRECTORY; // Sử dụng hằng số UPLOAD_DIRECTORY
+            File storageDirectory = new File(storageDirectoryPath);
 
             if (!storageDirectory.exists()) {
                 storageDirectory.mkdirs();
             }
 
-            String destinationPath = storageDirectoryPath + File.separator + new File(selectedFilePath).getName(); //  Tạo các đường dẫn: "Login\src\main\resources\hung\pj\login\ upload" + file name
+            String destinationPath = storageDirectoryPath + File.separator + new File(selectedFilePath).getName();
             File destinationFile = new File(destinationPath);
 
             try {
-                Files.copy(Paths.get(selectedFilePath), Paths.get(destinationPath), StandardCopyOption.REPLACE_EXISTING);// Nếu có một tệp với cùng tên ở đích, nó sẽ bị thay thế bởi tệp nguồn được chọn.
+                Files.copy(Paths.get(selectedFilePath), Paths.get(destinationPath), StandardCopyOption.REPLACE_EXISTING);
 
                 Image selectedImage = new Image(destinationFile.toURI().toString());
                 imageViewAvatar.setImage(selectedImage);
@@ -154,13 +155,13 @@ public class ProfileController implements Initializable {
     public void handleChooseFile() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Select Image Avatar");
-        List<File> selectedFiles = fileChooser.showOpenMultipleDialog(buttonChooseFile.getScene().getWindow()); // Dạm sách các file được chọn sẽ đuợc lưu trong một array
+        List<File> selectedFiles = fileChooser.showOpenMultipleDialog(buttonChooseFile.getScene().getWindow());
 
         if (selectedFiles != null && !selectedFiles.isEmpty()) {
-            File selectedFile = selectedFiles.get(0); // Chỉ lấy file đầu tiên trong array trên
+            File selectedFile = selectedFiles.get(0);
 
             if (ImageFileUtil.isImageFile(selectedFile)) {
-                selectedFilePath = selectedFile.getAbsolutePath(); // Lấy ra đường dẫn của file ảnh và gán vào biến selectedFilePath (đã tạo trên)
+                selectedFilePath = selectedFile.getAbsolutePath();
                 labelFileChoose.setText(selectedFilePath);
             } else {
                 labelFileChoose.setText("File is not an image.");

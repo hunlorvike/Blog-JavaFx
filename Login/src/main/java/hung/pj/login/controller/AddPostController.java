@@ -136,15 +136,33 @@ public class AddPostController implements Initializable {
                 // Lấy bài viết mới nhất từ danh sách (bài viết đầu tiên sau khi sắp xếp)
                 PostModel newestPost = userPosts.get(0);
 
-                // Tiến hành xử lý với bài viết mới nhất ở đây
                 // Lấy postId của bài viết vừa được thêm
                 int postId = newestPost.getPost_id();
 
                 List<PostImageModel> postImageModels = new ArrayList<>();
                 for (File file : selectedFilesList) {
                     // Tạo đối tượng PostImageModel từ thông tin file
-                    PostImageModel postImageModel = new PostImageModel(postId, file.getAbsolutePath());
+                    String imagePath = Constants.UPLOAD_DIRECTORY + File.separator + file.getName(); // Đường dẫn mới
+                    PostImageModel postImageModel = new PostImageModel(postId, imagePath);
                     postImageModels.add(postImageModel);
+
+                    // Sau đó copy file vào thư mục lưu trữ
+                    String storageDirectoryPath = Constants.UPLOAD_DIRECTORY;
+                    File storageDirectory = new File(storageDirectoryPath);
+
+                    if (!storageDirectory.exists()) {
+                        storageDirectory.mkdirs();
+                    }
+
+                    String destinationPath = storageDirectoryPath + File.separator + file.getName();
+                    File destinationFile = new File(destinationPath);
+
+                    try {
+                        Files.copy(file.toPath(), destinationFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        // Xử lý lỗi sao chép tệp (có thể thông báo cho người dùng)
+                    }
                 }
 
                 // Thêm các hình ảnh liên quan đến bài viết vào bảng post_images
@@ -161,9 +179,8 @@ public class AddPostController implements Initializable {
         } else {
             ControllerUtils.showAlertDialog("Tạo bài viết thất bại", Alert.AlertType.INFORMATION, rootAnchorPane.getScene().getWindow());
         }
-
-        copySelectedFilesToStorage();
     }
+
 
     public void uploadFile() {
         FileChooser fileChooser = new FileChooser();
@@ -176,15 +193,41 @@ public class AddPostController implements Initializable {
             for (File file : selectedFiles) {
                 // Kiểm tra nếu tệp là hình ảnh (có thể kiểm tra phần mở rộng hoặc nội dung thực sự)
                 if (ImageFileUtil.isImageFile(file)) {
-                    HBox imageBox = ImageFileUtil.createImageBox(file);
+                    HBox imageBox = createImageBox(file);
                     hboxContainerImage.getChildren().add(imageBox);
                 }
             }
         }
     }
 
+    private HBox createImageBox(File file) {
+        HBox imageBox = new HBox();
+        imageBox.setSpacing(5);
+
+        ImageView imageView = new ImageView();
+        imageView.setFitHeight(75);
+        imageView.setFitWidth(75);
+        imageView.setPreserveRatio(true);
+        imageView.setImage(new Image(file.toURI().toString()));
+
+        Button deleteButton = new Button("×");
+        deleteButton.getStyleClass().add("btn-danger");
+
+        deleteButton.setOnAction(event -> {
+            hboxContainerImage.getChildren().remove(imageBox);
+            selectedFilesList.remove(file);
+        });
+
+        StackPane stackPane = new StackPane(imageView, deleteButton);
+        StackPane.setAlignment(deleteButton, Pos.TOP_RIGHT);
+
+        imageBox.getChildren().add(stackPane);
+
+        return imageBox;
+    }
+
     private void copySelectedFilesToStorage() {
-        String storageDirectoryPath = "Login\\src\\main\\resources\\hung\\pj\\login\\upload";
+        String storageDirectoryPath = Constants.UPLOAD_DIRECTORY;
         File storageDirectory = new File(storageDirectoryPath);
 
         if (!storageDirectory.exists()) {

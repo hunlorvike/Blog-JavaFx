@@ -7,6 +7,7 @@ public class Constants {
     public static final int CUSTOM_WIDTH = 1300;
     public static final int CUSTOM_HEIGHT = 750;
     public static final String NO_DATA = "";
+    public static final String UPLOAD_DIRECTORY = "Login/src/main/resources/hung/pj/login/upload";
 
 }
 

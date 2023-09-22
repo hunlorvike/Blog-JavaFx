@@ -9,6 +9,6 @@ public interface IPostImageDao {
     List<PostImageModel> getAllImageByIdPost(int postId);
     PostImageModel getImageById(int imageId);
     boolean updatePostImages(int postId, List<PostImageModel> postImageModelList);
-    boolean removeAllImageByPostId(int postId);
+    boolean removeAllImagesByPostId(int postId);
     boolean removePostImagesById(int imageId);
 }

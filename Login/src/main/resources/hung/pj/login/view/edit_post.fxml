@@ -13,6 +13,10 @@
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.HBox?>
 <AnchorPane fx:id="rootAnchorPane" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/20.0.1"
             xmlns:fx="http://javafx.com/fxml/1" fx:controller="hung.pj.login.controller.EditPostController">
     <BorderPane prefHeight="720.0" prefWidth="1280.0">
@@ -69,6 +73,17 @@
                 <!--DatePicker-->
                 <DatePicker fx:id="datePicker" layoutX="395.0" layoutY="350.0" prefHeight="35.0" prefWidth="200.0"
                             promptText="01/06/2023" visible="false"/>
+                <!--Button choose file-->
+                <Button fx:id="buttonChooseFiles" layoutX="62.0" layoutY="523.0" mnemonicParsing="false"
+                        onAction="#uploadFile" prefHeight="25.0" prefWidth="145.0" styleClass="button-green"
+                        text="Upload file"/>
+                <ImageView fitHeight="15.0" fitWidth="15.0" layoutX="77.0" layoutY="528.0" pickOnBounds="true"
+                           preserveRatio="true">
+                    <Image url="@../icon/ic_upload_white.png"/>
+                </ImageView>
+                <ScrollPane fx:id="scrollPane" layoutX="288.0" layoutY="511.0" prefHeight="100.0" maxWidth="400">
+                    <HBox alignment="CENTER" fx:id="hboxContainerImage" spacing="10"/>
+                </ScrollPane>
                 <!--Button-->
                 <Button layoutX="59.0" layoutY="580.0" mnemonicParsing="false"
                         onAction="#handleEditPost" prefHeight="30.0" prefWidth="150.0" styleClass="button-green"

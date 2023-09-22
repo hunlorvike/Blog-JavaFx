@@ -79,12 +79,12 @@ public class PostImageDaoImpl implements IPostImageDao {
 
     @Override
     public boolean updatePostImages(int postId, List<PostImageModel> postImageModelList) {
-        removeAllImageByPostId(postId);
+        removeAllImagesByPostId(postId);
         return addPostImages(postId, postImageModelList);
     }
 
     @Override
-    public boolean removeAllImageByPostId(int postId) {
+    public boolean removeAllImagesByPostId(int postId) {
         String query = "DELETE FROM post_images WHERE post_id = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setInt(1, postId);
