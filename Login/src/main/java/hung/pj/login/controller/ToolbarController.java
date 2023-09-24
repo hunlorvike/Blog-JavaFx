@@ -73,7 +73,6 @@ public class ToolbarController implements Initializable {
             if (avatarImage != null) {
                 imageViewAvatar.setImage(avatarImage);
             } else {
-                // Load the default image if the avatarImage is still null
                 avatarImage = new Image(getClass().getResource("/hung/pj/login/image/newlogo.png").toExternalForm());
             }
         } else {

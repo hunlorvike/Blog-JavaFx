@@ -35,6 +35,10 @@ public class MenuUserController implements Initializable {
         switchToScene("dashboard.fxml", Constants.CUSTOM_WIDTH, Constants.CUSTOM_HEIGHT, false);
     }
 
+    public void handleSaved(ActionEvent event) {
+        switchToScene("saved.fxml", Constants.CUSTOM_WIDTH, Constants.CUSTOM_HEIGHT, false);
+    }
+
     private void switchToScene(String fxmlFileName, int width, int height, Boolean useSplash) {
         try {
             AppMain.setRoot(fxmlFileName, width, height, useSplash);

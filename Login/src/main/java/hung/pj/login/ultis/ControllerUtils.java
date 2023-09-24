@@ -1,5 +1,6 @@
 package hung.pj.login.ultis;
 
+import hung.pj.login.model.SavedPostModel;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
@@ -34,7 +35,5 @@ public class ControllerUtils {
         dialog.initOwner(ownerWindow); // Đặt cửa sổ chủ ở đây
         return dialog.showAndWait();
     }
-
-
 }
 

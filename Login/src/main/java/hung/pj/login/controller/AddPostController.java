@@ -90,7 +90,9 @@ public class AddPostController implements Initializable {
         categoryChoiceBox.setItems(FXCollections.observableArrayList(categoryNames));
 
         // Đặt giá trị mặc định nếu cần
-        categoryChoiceBox.setValue(categoryNames.get(0)); // Đặt giá trị mặc định là tên danh mục đầu tiên
+        if (!categoryNames.isEmpty()) {
+            categoryChoiceBox.setValue(categoryNames.get(0));
+        }
 
     }
 
