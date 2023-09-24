@@ -1,6 +1,5 @@
 package hung.pj.login.controller;
 
-import com.jfoenix.controls.JFXBadge;
 import com.jfoenix.controls.JFXComboBox;
 import hung.pj.login.AppMain;
 import hung.pj.login.config.ConnectionProvider;
@@ -12,8 +11,8 @@ import hung.pj.login.model.ConversationModel;
 import hung.pj.login.model.UserModel;
 import hung.pj.login.singleton.DataHolder;
 import hung.pj.login.singleton.UserSingleton;
-import hung.pj.login.ultis.Constants;
-import hung.pj.login.ultis.ControllerUtils;
+import hung.pj.login.utils.Constants;
+import hung.pj.login.utils.ControllerUtils;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -30,7 +29,6 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;

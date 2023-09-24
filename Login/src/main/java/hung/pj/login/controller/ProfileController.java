@@ -6,8 +6,8 @@ import hung.pj.login.dao.user.UserDaoImpl;
 import hung.pj.login.model.SocialModel;
 import hung.pj.login.model.UserModel;
 import hung.pj.login.singleton.UserSingleton;
-import hung.pj.login.ultis.ImageFileUtil;
-import hung.pj.login.ultis.Constants; // Import Constants
+import hung.pj.login.utils.ImageFileUtils;
+import hung.pj.login.utils.Constants; // Import Constants
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -160,7 +160,7 @@ public class ProfileController implements Initializable {
         if (selectedFiles != null && !selectedFiles.isEmpty()) {
             File selectedFile = selectedFiles.get(0);
 
-            if (ImageFileUtil.isImageFile(selectedFile)) {
+            if (ImageFileUtils.isImageFile(selectedFile)) {
                 selectedFilePath = selectedFile.getAbsolutePath();
                 labelFileChoose.setText(selectedFilePath);
             } else {

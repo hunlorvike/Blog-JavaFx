@@ -5,9 +5,8 @@ import hung.pj.login.config.ConnectionProvider;
 import hung.pj.login.dao.user.UserDaoImpl;
 import hung.pj.login.model.UserModel;
 import hung.pj.login.singleton.DataHolder;
-import hung.pj.login.ultis.Constants;
-import hung.pj.login.ultis.ControllerUtils;
-import hung.pj.login.ultis.ValidationUtils;
+import hung.pj.login.utils.Constants;
+import hung.pj.login.utils.ControllerUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -15,7 +14,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
-import hung.pj.login.ultis.EmailUtil;
+import hung.pj.login.utils.EmailUtils;
 import javafx.scene.layout.AnchorPane;
 
 import java.io.IOException;
@@ -93,7 +92,7 @@ public class ForgotPasswordController implements Initializable {
     private boolean sendOTPByEmail(String toEmail, String otp) {
         try {
             // Gọi phương thức sendEmail từ EmailUtil (hoặc class bạn đã tạo)
-            EmailUtil.sendEmail(toEmail, "Xác minh danh tính của bạn", "Mã OTP của bạn là: " + otp + ". Mã xác thực này chỉ có hiệu lực trong vòng 2 phút. Vui lòng không chia sẻ mã OTP này với người khác để tránh bị lừa đảo!");
+            EmailUtils.sendEmail(toEmail, "Xác minh danh tính của bạn", "Mã OTP của bạn là: " + otp + ". Mã xác thực này chỉ có hiệu lực trong vòng 2 phút. Vui lòng không chia sẻ mã OTP này với người khác để tránh bị lừa đảo!");
             return true;
         } catch (Exception e) {
             e.printStackTrace();

@@ -1,12 +1,10 @@
-package hung.pj.login.ultis;
+package hung.pj.login.utils;
 
 import javafx.scene.control.Control;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderStroke;
 import javafx.scene.layout.BorderStrokeStyle;
 import javafx.scene.paint.Color;
-
-import java.util.regex.Pattern;
 
 public class ValidationUtils {
 

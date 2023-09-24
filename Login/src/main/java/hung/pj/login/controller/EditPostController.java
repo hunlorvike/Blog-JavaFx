@@ -17,14 +17,11 @@ import hung.pj.login.dao.postImage.IPostImageDao;
 import hung.pj.login.model.PostImageModel;
 import hung.pj.login.model.PostModel;
 import hung.pj.login.singleton.DataHolder;
-import hung.pj.login.ultis.Constants;
-import hung.pj.login.ultis.ControllerUtils;
-import hung.pj.login.ultis.ImageFileUtil;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
+import hung.pj.login.utils.Constants;
+import hung.pj.login.utils.ControllerUtils;
+import hung.pj.login.utils.ImageFileUtils;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
@@ -101,7 +98,7 @@ public class EditPostController implements Initializable {
         for (PostImageModel postImageModel : postImageModelsFromDb) {
             File imageFile = new File(postImageModel.getImagePath());
 
-            if (ImageFileUtil.isImageFile(imageFile)) {
+            if (ImageFileUtils.isImageFile(imageFile)) {
                 HBox imageBox = createImageBox(imageFile);
                 hboxContainerImage.getChildren().add(imageBox);
 
@@ -202,7 +199,7 @@ public class EditPostController implements Initializable {
             selectedFilesList.addAll(selectedFiles);
 
             for (File file : selectedFiles) {
-                if (ImageFileUtil.isImageFile(file)) {
+                if (ImageFileUtils.isImageFile(file)) {
                     HBox imageBox = createImageBox(file);
                     hboxContainerImage.getChildren().add(imageBox);
                 }

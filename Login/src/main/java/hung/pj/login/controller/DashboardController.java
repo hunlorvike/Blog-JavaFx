@@ -5,7 +5,7 @@ import hung.pj.login.dao.post.PostDaoImpl;
 import hung.pj.login.dao.user.UserDaoImpl;
 import hung.pj.login.model.PostModel;
 import hung.pj.login.model.UserModel;
-import hung.pj.login.ultis.ControllerUtils;
+import hung.pj.login.utils.ControllerUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 

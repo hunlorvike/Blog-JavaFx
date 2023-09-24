@@ -13,12 +13,9 @@ import hung.pj.login.model.PostImageModel;
 import hung.pj.login.model.PostModel;
 import hung.pj.login.model.UserModel;
 import hung.pj.login.singleton.UserSingleton;
-import hung.pj.login.ultis.Constants;
-import hung.pj.login.ultis.ControllerUtils;
-import hung.pj.login.ultis.ImageFileUtil;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
+import hung.pj.login.utils.Constants;
+import hung.pj.login.utils.ControllerUtils;
+import hung.pj.login.utils.ImageFileUtils;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -192,7 +189,7 @@ public class AddPostController implements Initializable {
 
             for (File file : selectedFiles) {
                 // Kiểm tra nếu tệp là hình ảnh (có thể kiểm tra phần mở rộng hoặc nội dung thực sự)
-                if (ImageFileUtil.isImageFile(file)) {
+                if (ImageFileUtils.isImageFile(file)) {
                     HBox imageBox = createImageBox(file);
                     hboxContainerImage.getChildren().add(imageBox);
                 }

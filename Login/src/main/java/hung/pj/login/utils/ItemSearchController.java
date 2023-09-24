@@ -1,6 +1,4 @@
-package hung.pj.login.ultis;
-
-import javafx.fxml.Initializable;
+package hung.pj.login.utils;
 
 public abstract class ItemSearchController<T> {
     public abstract void setListData(T data);

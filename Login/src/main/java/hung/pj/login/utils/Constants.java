@@ -1,4 +1,4 @@
-package hung.pj.login.ultis;
+package hung.pj.login.utils;
 
 public class Constants {
     public static final String APP_NAME = "SixOne – Where good ideas find you";

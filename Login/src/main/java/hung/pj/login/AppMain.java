@@ -3,7 +3,7 @@ package hung.pj.login;
 import hung.pj.login.config.ConnectionProvider;
 import hung.pj.login.dao.post.PostDaoImpl;
 import hung.pj.login.model.PostModel;
-import hung.pj.login.ultis.Constants;
+import hung.pj.login.utils.Constants;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -16,7 +16,6 @@ import javafx.animation.PauseTransition;
 import org.kordamp.bootstrapfx.BootstrapFX;
 
 import java.io.IOException;
-import java.net.ServerSocket;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;

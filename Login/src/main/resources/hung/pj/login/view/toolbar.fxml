@@ -21,7 +21,7 @@
                     <FXCollections fx:factory="observableArrayList">
                         <String fx:value="Member"/>
                         <String fx:value="Post"/>
-                        <String fx:value="Tag"/>
+                        <String fx:value="Category"/>
                     </FXCollections>
                 </items>
                 <padding>

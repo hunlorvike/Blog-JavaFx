@@ -1,4 +1,4 @@
-package hung.pj.login.ultis;
+package hung.pj.login.utils;
 
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -9,7 +9,7 @@ import javafx.scene.layout.StackPane;
 
 import java.io.File;
 
-public class ImageFileUtil {
+public class ImageFileUtils {
 
     public static boolean isImageFile(File file) {
         String extension = getFileExtension(file.getName()).toLowerCase();

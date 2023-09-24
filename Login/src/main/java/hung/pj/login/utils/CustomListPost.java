@@ -1,4 +1,4 @@
-package hung.pj.login.ultis;
+package hung.pj.login.utils;
 
 import hung.pj.login.controller.ItemPostController;
 import hung.pj.login.model.PostModel;

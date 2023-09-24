@@ -1,10 +1,10 @@
-package hung.pj.login.ultis;
+package hung.pj.login.utils;
 
 import java.util.Properties;
 import javax.mail.*;
 import javax.mail.internet.*;
 
-public class EmailUtil {
+public class EmailUtils {
     public static void sendEmail(String toEmail, String subject, String body) {
         // Thông tin đăng nhập email
         final String username = "uielih@gmail.com";

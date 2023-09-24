@@ -1,4 +1,4 @@
-package hung.pj.login.ultis;
+package hung.pj.login.utils;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

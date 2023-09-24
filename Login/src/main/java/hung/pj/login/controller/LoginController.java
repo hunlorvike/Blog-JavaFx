@@ -4,7 +4,7 @@ import hung.pj.login.config.ConnectionProvider;
 import hung.pj.login.dao.user.UserDaoImpl;
 import hung.pj.login.model.UserModel;
 import hung.pj.login.singleton.UserSingleton;
-import hung.pj.login.ultis.Constants;
+import hung.pj.login.utils.Constants;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
@@ -23,7 +23,7 @@ import java.time.LocalDateTime;
 import java.util.ResourceBundle;
 
 import hung.pj.login.AppMain;
-import hung.pj.login.ultis.ValidationUtils;
+import hung.pj.login.utils.ValidationUtils;
 
 public class LoginController implements Initializable {
     @FXML
