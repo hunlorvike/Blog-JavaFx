@@ -1,19 +1,22 @@
 package hung.pj.login.controller;
 
+import hung.pj.login.AppMain;
 import hung.pj.login.config.ConnectionProvider;
+import hung.pj.login.dao.category.CategoryDaoImpl;
 import hung.pj.login.dao.post.PostDaoImpl;
 import hung.pj.login.dao.user.UserDaoImpl;
 import hung.pj.login.model.PostModel;
 import hung.pj.login.model.UserModel;
+import hung.pj.login.singleton.DataHolder;
+import hung.pj.login.utils.Constants;
 import hung.pj.login.utils.ControllerUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.Timestamp;
 
@@ -24,10 +27,9 @@ public class DashboardController implements Initializable {
     private ConnectionProvider connectionProvider = new ConnectionProvider();
     private UserDaoImpl userDao = new UserDaoImpl(connectionProvider.getConnection());
     private PostDaoImpl postDao = new PostDaoImpl(connectionProvider.getConnection());
-
-
+    private CategoryDaoImpl categoryDao = new CategoryDaoImpl(connectionProvider.getConnection());
     @FXML
-    private Label numberOfUsersLabel, numberOfSuperAdmin, numberOfAdmin, numberOfModerator, numberOfAllPosts, numberOfPublished, numberOfScheduled, numberOfDrafts;
+    private Label numberOfUsersLabel, numberOfSuperAdmin, numberOfAdmin, numberOfModerator, numberOfAllPosts, numberOfPublished, numberOfScheduled, numberOfDrafts, numberOfAllCategories, numberOfMostUsed, numberOfLeastUsed, numberOf7Day;
 
     @FXML
     private TableView<PostModel> tableViewPost;
@@ -63,7 +65,64 @@ public class DashboardController implements Initializable {
         setDataTabPost();
         setDataTabMember();
         setDataTableMember();
+        setDataTabCategory();
+
+        // Tạo menu item
+        MenuItem viewPostDetailMenuItem = new MenuItem("Xem chi tiết bài viết");
+        viewPostDetailMenuItem.setOnAction(event -> {
+            // Xử lý khi người dùng chọn xem chi tiết bài viết
+            try {
+                viewPostDetail();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
+        // Thêm menu item vào ContextMenu của tableViewPost
+        ContextMenu postContextMenu = new ContextMenu();
+        postContextMenu.getItems().add(viewPostDetailMenuItem);
+        tableViewPost.setContextMenu(postContextMenu);
+
+        // Tạo menu item
+        MenuItem viewMemberDetailMenuItem = new MenuItem("Xem chi tiết thành viên");
+        viewMemberDetailMenuItem.setOnAction(event -> {
+            // Xử lý khi người dùng chọn xem chi tiết thành viên
+            try {
+                viewMemberDetail();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
+        // Thêm menu item vào ContextMenu của tableViewMember
+        ContextMenu memberContextMenu = new ContextMenu();
+        memberContextMenu.getItems().add(viewMemberDetailMenuItem);
+        tableViewMember.setContextMenu(memberContextMenu);
+
+
     }
+
+    private void viewPostDetail() throws IOException {
+        PostModel selectedPost = tableViewPost.getSelectionModel().getSelectedItem();
+        if (selectedPost != null) {
+            int selectedId = selectedPost.getPost_id();
+            postDao.increaseViewCount(selectedId);
+            DataHolder.getInstance().setData(String.valueOf(selectedId));
+            AppMain.setRoot("post_detail.fxml", Constants.CUSTOM_WIDTH, Constants.CUSTOM_HEIGHT, false);
+
+        }
+    }
+
+    private void viewMemberDetail() throws IOException {
+        UserModel selectedUser = tableViewMember.getSelectionModel().getSelectedItem();
+        if (selectedUser != null) {
+            String selectedId = selectedUser.getEmail();
+
+            DataHolder.getInstance().setData(selectedId);
+            AppMain.setRoot("profile_detail.fxml", Constants.CUSTOM_WIDTH, Constants.CUSTOM_HEIGHT, false);
+        }
+    }
+
 
     private void refreshTablePostView() {
         ControllerUtils.refreshTableView(tableViewPost, postDao.getAllPosts());
@@ -81,7 +140,20 @@ public class DashboardController implements Initializable {
 
         int draftPostsCount = postDao.getPostsByStatus("Draft").size();
         setLabelValue(numberOfDrafts, String.valueOf(draftPostsCount));
+    }
 
+    private void setDataTabCategory() {
+        int totalCategoryCount = categoryDao.getAllCategory().size();
+        setLabelValue(numberOfAllCategories, totalCategoryCount + " Categories");
+
+        String mostUsedCategoryCount = categoryDao.getMostUsedCategory().getName();
+        setLabelValue(numberOfMostUsed, mostUsedCategoryCount);
+
+        String leastUsedCategoryCount = categoryDao.getLeastUsedCategory().getName();
+        setLabelValue(numberOfLeastUsed, leastUsedCategoryCount);
+
+        int numberOf7Days = categoryDao.getCategoriesCreatedWithinLast7Days().size();
+        setLabelValue(numberOf7Day, String.valueOf(numberOf7Days));
 
     }
 

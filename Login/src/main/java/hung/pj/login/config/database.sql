@@ -60,7 +60,7 @@ CREATE TABLE IF NOT EXISTS post_images (
     FOREIGN KEY (post_id) REFERENCES post(post_id)
 );
 
--- Tạo bảng tags
+-- Tạo bảng categories
 CREATE TABLE IF NOT EXISTS categories (
     category_id INT PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(255) NOT NULL,

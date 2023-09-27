@@ -16,4 +16,14 @@ public interface ICategoryDao {
     boolean updateCategory(int categoryId, CategoryModel categoryModel);
 
     boolean deleteCategory(int categoryId);
+
+    int getCategoryUsageCount(int categoryId);
+
+    List<CategoryModel> getCategoriesCreatedWithinLast7Days();
+
+    CategoryModel getMostUsedCategory();
+
+    String getCategoryNameById(int categoryId);
+
+    CategoryModel getLeastUsedCategory();
 }

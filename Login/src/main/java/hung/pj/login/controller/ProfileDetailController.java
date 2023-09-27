@@ -1,6 +1,7 @@
 package hung.pj.login.controller;
 
 import com.jfoenix.controls.JFXToggleButton;
+import hung.pj.login.AppMain;
 import hung.pj.login.config.ConnectionProvider;
 import hung.pj.login.dao.post.PostDaoImpl;
 import hung.pj.login.dao.social.SocialDaoImpl;
@@ -9,18 +10,21 @@ import hung.pj.login.model.PostModel;
 import hung.pj.login.model.UserModel;
 import hung.pj.login.singleton.DataHolder;
 import hung.pj.login.singleton.UserSingleton;
+import hung.pj.login.utils.Constants;
 import hung.pj.login.utils.ControllerUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 
 import java.awt.*;
+import java.io.IOException;
 import java.net.URI;
 import java.net.URL;
 import java.sql.Timestamp;
@@ -63,8 +67,6 @@ public class ProfileDetailController implements Initializable {
 
         UserModel userModel = userDao.getUserByEmail(selectedEmail);
 
-        System.out.println(postDao.getAllPostsByUserId(loggedInUser.getUser_id()));
-
         boolean isFollowing = userDao.isFollowing(loggedInUser.getUser_id(), userModel.getUser_id());
         followToggleButton.setSelected(isFollowing);
 
@@ -106,7 +108,34 @@ public class ProfileDetailController implements Initializable {
         createColumn.setCellValueFactory(new PropertyValueFactory<>("created_at"));
         updateColumn.setCellValueFactory(new PropertyValueFactory<>("updated_at"));
 
+        // Tạo menu item
+        MenuItem viewPostDetailMenuItem = new MenuItem("Xem chi tiết bài viết");
+        viewPostDetailMenuItem.setOnAction(event -> {
+            // Xử lý khi người dùng chọn xem chi tiết bài viết
+            try {
+                viewPostDetail();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
+        // Thêm menu item vào ContextMenu của tableViewPost
+        ContextMenu postContextMenu = new ContextMenu();
+        postContextMenu.getItems().add(viewPostDetailMenuItem);
+        tableView.setContextMenu(postContextMenu);
+
         refreshTableView(userModel.getUser_id());
+    }
+
+    private void viewPostDetail() throws IOException {
+        PostModel selectedPost = tableView.getSelectionModel().getSelectedItem();
+        if (selectedPost != null) {
+            int selectedId = selectedPost.getPost_id();
+            postDao.increaseViewCount(selectedId);
+            DataHolder.getInstance().setData(String.valueOf(selectedId));
+            AppMain.setRoot("post_detail.fxml", Constants.CUSTOM_WIDTH, Constants.CUSTOM_HEIGHT, false);
+
+        }
     }
 
     private void refreshTableView(int user_id) {

@@ -48,21 +48,22 @@
                                preserveRatio="true">
                         <Image url="@../icon/ic_tag_black.png"/>
                     </ImageView>
-                    <Label layoutX="83.0" layoutY="14.0" styleClass="b" text="Tag Overview"/>
+                    <Label layoutX="83.0" layoutY="14.0" styleClass="b" text="Category Overview"/>
 
-                    <Label layoutX="83.0" layoutY="34.0" styleClass="small" text="2,003 Tags"/>
+                    <Label fx:id="numberOfAllCategories" layoutX="83.0" layoutY="34.0" styleClass="small"
+                           text="2,003 Categories"/>
 
                     <!-- Tag được sử dụng nhiều nhất -->
-                    <Label layoutX="30.0" layoutY="70.0" styleClass="small, b" text="50"/>
-                    <Label layoutX="45.0" layoutY="70.0" styleClass="small" text="Most Used"/>
+                    <Label layoutX="15.0" layoutY="70.0" styleClass="small" text="Most:"/>
+                    <Label fx:id="numberOfMostUsed" layoutX="45.0" layoutY="70.0" styleClass="small, b"/>
 
                     <!-- Tag được sử dụng ít nhất -->
-                    <Label layoutX="105.0" layoutY="70.0" styleClass="small, b" text="15"/>
-                    <Label layoutX="120.0" layoutY="70.0" styleClass="small" text="Least Used"/>
+                    <Label layoutX="105.0" layoutY="70.0" styleClass="small" text="Least:"/>
+                    <Label fx:id="numberOfLeastUsed" layoutX="135.0" layoutY="70.0" styleClass="small, b"/>
 
                     <!-- Số tag mới thêm trong 7 ngày -->
-                    <Label layoutX="200.0" layoutY="70.0" styleClass="small, b" text="48"/>
-                    <Label layoutX="215.0" layoutY="70.0" styleClass="small" text="New Tags"/>
+                    <Label fx:id="numberOf7Day" layoutX="200.0" layoutY="70.0" styleClass="small, b" text="48"/>
+                    <Label layoutX="215.0" layoutY="70.0" styleClass="small" text="New Cate"/>
 
                 </Pane>
                 <Pane layoutX="700.0" layoutY="110.0" prefHeight="100.0" prefWidth="280.0"

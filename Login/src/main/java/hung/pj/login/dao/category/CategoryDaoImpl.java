@@ -6,6 +6,7 @@ import hung.pj.login.model.PostModel;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class CategoryDaoImpl implements ICategoryDao {
@@ -134,5 +135,127 @@ public class CategoryDaoImpl implements ICategoryDao {
         }
     }
 
+
+    @Override
+    public int getCategoryUsageCount(int categoryId) {
+        int categoryUsageCount = 0;
+        String query = "SELECT COUNT(*) FROM post WHERE category = ?";
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setString(1, getCategoryNameById(categoryId));
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                categoryUsageCount = resultSet.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return categoryUsageCount;
+    }
+
+    @Override
+    public List<CategoryModel> getCategoriesCreatedWithinLast7Days() {
+        List<CategoryModel> categories = new ArrayList<>();
+        Timestamp sevenDaysAgo = getTimestampForSevenDaysAgo();
+        String query = "SELECT * FROM categories WHERE created_at >= ?";
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setTimestamp(1, sevenDaysAgo);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                int id = resultSet.getInt("category_id");
+                String name = resultSet.getString("name");
+                int creator_id = resultSet.getInt("creator_id");
+                Timestamp created_at = resultSet.getTimestamp("created_at");
+                Timestamp updated_at = resultSet.getTimestamp("updated_at");
+                CategoryModel categoryModel = new CategoryModel(id, name, creator_id, created_at, updated_at);
+                categories.add(categoryModel);
+            }
+        } catch (SQLException e) {
+            throw new DatabaseException("Error while fetching categories created within last 7 days from the database.", e);
+        }
+
+        return categories;
+    }
+
+    @Override
+    public CategoryModel getMostUsedCategory() {
+        CategoryModel mostUsedCategory = null;
+        int maxUsageCount = -1;
+        String query = "SELECT category_id FROM categories";
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                int categoryId = resultSet.getInt("category_id");
+                int usageCount = getCategoryUsageCount(categoryId);
+
+                if (usageCount > maxUsageCount) {
+                    maxUsageCount = usageCount;
+                    mostUsedCategory = getCategoryById(categoryId);
+                }
+            }
+        } catch (SQLException e) {
+            throw new DatabaseException("Error while fetching the most used category from the database.", e);
+        }
+
+        return mostUsedCategory;
+    }
+
+    @Override
+    public String getCategoryNameById(int categoryId) {
+        String categoryName = null;
+        String query = "SELECT name FROM categories WHERE category_id = ?";
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setInt(1, categoryId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                categoryName = resultSet.getString("name");
+            }
+        } catch (SQLException e) {
+            throw new DatabaseException("Error while fetching category name by ID from the database.", e);
+        }
+
+        return categoryName;
+    }
+
+
+    @Override
+    public CategoryModel getLeastUsedCategory() {
+        CategoryModel leastUsedCategory = null;
+        int minUsageCount = Integer.MAX_VALUE;
+        String query = "SELECT category_id FROM categories";
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                int categoryId = resultSet.getInt("category_id");
+                int usageCount = getCategoryUsageCount(categoryId);
+
+                if (usageCount < minUsageCount) {
+                    minUsageCount = usageCount;
+                    leastUsedCategory = getCategoryById(categoryId);
+                }
+            }
+        } catch (SQLException e) {
+            throw new DatabaseException("Error while fetching the least used category from the database.", e);
+        }
+
+        return leastUsedCategory;
+    }
+
+
+    private Timestamp getTimestampForSevenDaysAgo() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DAY_OF_MONTH, -7);
+        return new Timestamp(calendar.getTimeInMillis());
+    }
 
 }
