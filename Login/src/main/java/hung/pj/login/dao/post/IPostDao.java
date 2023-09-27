@@ -1,5 +1,6 @@
 package hung.pj.login.dao.post;
 
+import hung.pj.login.model.PostImageModel;
 import hung.pj.login.model.PostModel;
 import hung.pj.login.model.UserModel;
 
@@ -40,4 +41,5 @@ public interface IPostDao {
 
     boolean increaseViewCount(int selectedId);
 
+    List<PostImageModel> getImagePosts(int postId);
 }

@@ -1,6 +1,7 @@
 package hung.pj.login.dao.post;
 
 import hung.pj.login.exception.DatabaseException;
+import hung.pj.login.model.PostImageModel;
 import hung.pj.login.model.PostModel;
 import hung.pj.login.model.UserModel;
 
@@ -353,6 +354,25 @@ public class PostDaoImpl implements IPostDao {
             e.printStackTrace();
             return false;
         }
+    }
+    @Override
+    public  List<PostImageModel> getImagePosts(int postId){
+        List<PostImageModel> images = new ArrayList<>();
+        String query = "SELECT post_images.image_id, post_images.image_path FROM post_images JOIN post ON post_images.post_id  = post.post_id  WHERE post.post_id = ?";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setInt(1, postId);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    int id = resultSet.getInt("image_id");
+                    String image_path = resultSet.getString("image_path");
+                    PostImageModel image = new PostImageModel(id, image_path);
+                    images.add(image);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return images;
     }
 
 }

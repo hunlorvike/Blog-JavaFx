@@ -110,6 +110,21 @@
 .border10px {
     -fx-background-radius: 10px;
 }
+.fitWidth{
+    -fx-fit-width: 100%;
+    -fx-fit-height: 100%;
+}
+.vbox-shadow {
+    -fx-background-color: #474653;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 10, 0, 0, 0);
+}
+
+.button-shadow {
+    -fx-background-color: white;
+    -fx-background-radius: 50%;
+    -fx-padding: 0;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 5, 0, 0, 0);
+}
 
 /* Phần liên quan đến TableView */
 .table-view {
