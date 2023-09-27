@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -107,25 +108,31 @@ public class ToolbarController implements Initializable {
         String selectedValue = choiceBox.getValue().trim();
         String searchText = textField.getText().trim();
 
+        // Khai báo một biến kiểu Object để lưu danh sách kết quả tìm kiếm
+        List<Object> searchResults = new ArrayList<>();
+
         // Thực hiện xử lý tìm kiếm dựa trên giá trị đã lấy
         switch (selectedValue) {
             case "Member":
                 List<UserModel> userModelList = userDao.getUsersByName(searchText);
-                DataHolder.getInstance().setDataList(userModelList);
-                DataHolder.getInstance().setData(searchText);
-                switchToScene("result_search.fxml", Constants.CUSTOM_WIDTH, Constants.CUSTOM_HEIGHT, false);
+                searchResults.addAll(userModelList);
                 break;
             case "Post":
                 List<PostModel> postModelList = postDao.getPostsByName(searchText);
-                DataHolder.getInstance().setDataList(postModelList);
-                DataHolder.getInstance().setData(searchText);
-                switchToScene("result_search.fxml", Constants.CUSTOM_WIDTH, Constants.CUSTOM_HEIGHT, false);
+                searchResults.addAll(postModelList);
                 break;
-
             default:
                 break;
         }
+
+        // Lưu danh sách kết quả tìm kiếm vào DataHolder
+        DataHolder.getInstance().setDataList(searchResults);
+        DataHolder.getInstance().setData(searchText);
+
+        // Chuyển đến scene "result_search.fxml"
+        switchToScene("result_search.fxml", Constants.CUSTOM_WIDTH, Constants.CUSTOM_HEIGHT, false);
     }
+
 
     private void switchToScene(String fxmlFileName, int width, int height, Boolean useSplash) {
         try {

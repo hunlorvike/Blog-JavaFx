@@ -93,10 +93,11 @@ public class PostDaoImpl implements IPostDao {
                     String status = resultSet.getString("status");
                     int view_count = resultSet.getInt("view_count");
                     int creator_id = resultSet.getInt("creator_id");
+                    String category = resultSet.getString("category");
                     Timestamp scheduledTime = resultSet.getTimestamp("scheduled_datetime");
                     Timestamp created_at = resultSet.getTimestamp("created_at");
                     Timestamp updated_at = resultSet.getTimestamp("updated_at");
-                    PostModel postModel = new PostModel(id, title, content, status, view_count, creator_id, scheduledTime, created_at, updated_at);
+                    PostModel postModel = new PostModel(id, title, content, status, view_count, creator_id, scheduledTime, category, created_at, updated_at);
                     posts.add(postModel);
                 }
             }
