@@ -181,11 +181,17 @@ public class PostDaoImpl implements IPostDao {
 
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
+                    int id = resultSet.getInt("post_id");
                     String title = resultSet.getString("title");
                     String content = resultSet.getString("content");
                     String status = resultSet.getString("status");
-                    String category = resultSet.getString("category");
-                    return new PostModel(title, content, status, category);
+                    int view_count = resultSet.getInt("view_count");
+                    int creator_id = resultSet.getInt("creator_id");
+                    Timestamp scheduledTime = resultSet.getTimestamp("scheduled_datetime");
+                    Timestamp created_at = resultSet.getTimestamp("created_at");
+                    Timestamp updated_at = resultSet.getTimestamp("updated_at");
+                    PostModel postModel = new PostModel(id, title, content, status, view_count, creator_id, scheduledTime, created_at, updated_at);
+                    return postModel;
                 }
             }
         } catch (SQLException e) {
@@ -194,11 +200,12 @@ public class PostDaoImpl implements IPostDao {
 
         return null;
     }
+
     @Override
     public int getUserIdForPost(int selectedPostId) {
         int userId = -1;
         String query = "SELECT creator_id FROM post WHERE post_id = ?";
-        try (PreparedStatement preparedStatement = connection.prepareStatement(query)){
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setInt(1, selectedPostId);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
@@ -307,17 +314,16 @@ public class PostDaoImpl implements IPostDao {
         PostModel post = null;
         String query = "SELECT title, content, view_count, created_at FROM post WHERE post_id = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-            preparedStatement.setInt(1,postId);
-            try(ResultSet resultSet = preparedStatement.executeQuery()){
-                if (resultSet.next()){
+            preparedStatement.setInt(1, postId);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
                     String title = resultSet.getString("title");
                     String content = resultSet.getString("content");
                     int view_count = resultSet.getInt("view_count");
                     Timestamp created_at = resultSet.getTimestamp("created_at");
-                    post = new PostModel(title,content,view_count,created_at);
+                    post = new PostModel(title, content, view_count, created_at);
                 }
-            }
-            catch (SQLException e) {
+            } catch (SQLException e) {
                 e.printStackTrace();
             }
             return post;
@@ -344,7 +350,7 @@ public class PostDaoImpl implements IPostDao {
     }
 
     @Override
-    public boolean increaseViewCount(int selectedId){
+    public boolean increaseViewCount(int selectedId) {
         String sql = "UPDATE post SET view_count = view_count + 1 WHERE post_id = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setInt(1, selectedId);
@@ -355,8 +361,9 @@ public class PostDaoImpl implements IPostDao {
             return false;
         }
     }
+
     @Override
-    public  List<PostImageModel> getImagePosts(int postId){
+    public List<PostImageModel> getImagePosts(int postId) {
         List<PostImageModel> images = new ArrayList<>();
         String query = "SELECT post_images.image_id, post_images.image_path FROM post_images JOIN post ON post_images.post_id  = post.post_id  WHERE post.post_id = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {

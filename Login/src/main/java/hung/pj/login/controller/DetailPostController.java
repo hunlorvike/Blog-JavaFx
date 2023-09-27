@@ -48,7 +48,6 @@ public class DetailPostController implements Initializable {
     @FXML
     private Label ViewLabel;
 
-
     private int postId = -1;
     ConnectionProvider connectionProvider = new ConnectionProvider();
     IPostDao postDao = new PostDaoImpl(connectionProvider.getConnection());

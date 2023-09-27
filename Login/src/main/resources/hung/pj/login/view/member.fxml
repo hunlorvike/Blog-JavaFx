@@ -3,8 +3,8 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane fx:id="rootAnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
-            minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/17.0.2-ea"
+<AnchorPane fx:id="rootAnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+            prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/11.0.14-internal"
             xmlns:fx="http://javafx.com/fxml/1" fx:controller="hung.pj.login.controller.MemberController">
     <BorderPane prefHeight="720.0" prefWidth="1600.0">
         <left>
@@ -33,7 +33,7 @@
                         styleClass="b, button-green" stylesheets="@../style/style.css" text="Moderator"
                         textFill="white"/>
                 <!--Table member-->
-                <TableView fx:id="tableView" layoutX="30.0" layoutY="142.0" prefHeight="500.0" prefWidth="1000.0"
+                <TableView fx:id="tableView" layoutX="30.0" layoutY="142.0" prefHeight="560.0" prefWidth="1000.0"
                            stylesheets="@../style/style.css">
                     <!-- Các cột của TableView -->
                     <columns>

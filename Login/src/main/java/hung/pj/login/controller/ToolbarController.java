@@ -81,12 +81,21 @@ public class ToolbarController implements Initializable {
     }
 
     @FXML
-    private void handleLogout(ActionEvent event) {
+    private void handleLogout() {
         userSingleton.clearSingleton();
 
         if (userSingleton.getLoggedInUser() == null) {
             switchToScene("login.fxml", Constants.DEFAULT_WIDTH, Constants.DEFAULT_HEIGHT, false);
         }
+    }
+
+    public void handleProfile() {
+        switchToScene("profile.fxml", Constants.CUSTOM_WIDTH, Constants.CUSTOM_HEIGHT, true);
+    }
+
+
+    public void handleYourProfile() {
+        switchToScene("your_profile.fxml", Constants.CUSTOM_WIDTH, Constants.CUSTOM_HEIGHT, false);
     }
 
     public void handleSearch() {
@@ -121,7 +130,5 @@ public class ToolbarController implements Initializable {
         }
     }
 
-    public void handleProfile() {
-        switchToScene("profile.fxml", Constants.CUSTOM_WIDTH, Constants.CUSTOM_HEIGHT, true);
-    }
+
 }

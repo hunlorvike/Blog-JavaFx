@@ -5,15 +5,17 @@ import hung.pj.login.config.ConnectionProvider;
 import hung.pj.login.dao.post.PostDaoImpl;
 import hung.pj.login.dao.social.SocialDaoImpl;
 import hung.pj.login.dao.user.UserDaoImpl;
+import hung.pj.login.model.PostModel;
 import hung.pj.login.model.UserModel;
 import hung.pj.login.singleton.DataHolder;
 import hung.pj.login.singleton.UserSingleton;
+import hung.pj.login.ultis.ControllerUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
+import javafx.scene.control.*;
 import javafx.scene.control.Label;
-import javafx.scene.control.Tooltip;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -21,6 +23,7 @@ import javafx.scene.layout.AnchorPane;
 import java.awt.*;
 import java.net.URI;
 import java.net.URL;
+import java.sql.Timestamp;
 import java.util.ResourceBundle;
 
 public class ProfileDetailController implements Initializable {
@@ -36,11 +39,25 @@ public class ProfileDetailController implements Initializable {
     @FXML
     private JFXToggleButton followToggleButton;
     private UserSingleton userSingleton;
-
     String selectedEmail = DataHolder.getInstance().getData();
+    @FXML
+    private TableView<PostModel> tableView;
+    @FXML
+    private TableColumn<PostModel, Integer> idColumn;
+    @FXML
+    private TableColumn<PostModel, String> titleColumn;
+    @FXML
+    private TableColumn<PostModel, String> statusColumn;
+    @FXML
+    private TableColumn<PostModel, Integer> viewColumn;
+    @FXML
+    private TableColumn<UserModel, Timestamp> createColumn;
+    @FXML
+    private TableColumn<UserModel, Timestamp> updateColumn;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
         userSingleton = UserSingleton.getInstance();
         UserModel loggedInUser = userSingleton.getLoggedInUser();
 
@@ -81,6 +98,19 @@ public class ProfileDetailController implements Initializable {
         nameLabel.setText(userModel.getFullname() + " 💢");
         emailLabel.setText(userModel.getEmail());
         followLabel.setText("Có " + userDao.getFollowing(userModel.getUser_id()).size() * 10 + " người theo dõi");
+
+        idColumn.setCellValueFactory(new PropertyValueFactory<>("post_id"));
+        titleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
+        statusColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
+        viewColumn.setCellValueFactory(new PropertyValueFactory<>("view_count"));
+        createColumn.setCellValueFactory(new PropertyValueFactory<>("created_at"));
+        updateColumn.setCellValueFactory(new PropertyValueFactory<>("updated_at"));
+
+        refreshTableView(userModel.getUser_id());
+    }
+
+    private void refreshTableView(int user_id) {
+        ControllerUtils.refreshTableView(tableView, postDao.getAllPostsByUserId(user_id));
     }
 
     public void handleClickSocial(MouseEvent mouseEvent) {
