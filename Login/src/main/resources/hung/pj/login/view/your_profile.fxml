@@ -10,10 +10,10 @@
 
 <AnchorPane fx:id="rootAnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
             prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/11.0.14-internal"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="hung.pj.login.controller.ProfileDetailController">
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="hung.pj.login.controller.YourProfileDController">
     <BorderPane prefHeight="720.0" prefWidth="1600.0">
         <left>
-            <fx:include fx:id="menuLeft" source="menu.fxml"/>
+            <fx:include fx:id="menuLeft" source="menu_user.fxml"/>
         </left>
         <center>
             <Pane prefHeight="720.0" prefWidth="1060.0" style="-fx-background-color: #F5EFE6"
@@ -47,7 +47,7 @@
                     <VBox alignment="CENTER" layoutY="230.0" prefWidth="270.0" spacing="15"
                           style="-fx-background-color: white; -fx-background-radius: 20px">
                         <HBox alignment="BASELINE_LEFT" prefWidth="250.0">
-                            <Label  layoutX="100" layoutY="285.0" styleClass="b, h5" text="Information"/>
+                            <Label fx:id="" layoutX="100" layoutY="285.0" styleClass="b, h5" text="Information"/>
                             <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
                                 <Image url="@../icon/ic_information.png"/>
                             </ImageView>
@@ -130,7 +130,6 @@
                         </padding>
 
                     </VBox>
-                    <JFXToggleButton fx:id="followToggleButton" layoutX="62.0" layoutY="574.0" text="Follow"/>
 
                 </Pane>
 

@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="rootAnchorPane" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/20.0.1"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="hung.pj.login.controller.DetailPostController">
+
+    <BorderPane prefHeight="720.0" prefWidth="1280.0">
+        <left>
+            <fx:include fx:id="menuUserLeft" source="menu.fxml"/>
+        </left>
+        <center>
+            <Pane prefHeight="720.0" prefWidth="1060.0" style="-fx-background-color: #F5EFE6"
+                  BorderPane.alignment="CENTER">
+                <fx:include fx:id="toolbar" source="toolbar.fxml"/>
+                <Pane layoutX="77.0" layoutY="144.0" prefHeight="518.0" prefWidth="891.0"
+                      stylesheets="@../style/style.css">
+                    <HBox layoutX="1.0" layoutY="-1.0" prefHeight="520.0" prefWidth="890.0">
+                        <VBox prefHeight="520.0" prefWidth="390.0" styleClass="vbox-shadow"
+                              style="-fx-background-color:#474653">
+                            <Label fx:id="titleLabel" prefHeight="351.0" prefWidth="372.0"
+                                   textFill="#FF5733" wrapText="true">
+                                <font>
+                                    <Font name="Arial" size="30.0"/>
+                                </font>
+                            </Label>
+                            <HBox prefHeight="54.0" prefWidth="265.0">
+                                <VBox.margin>
+                                    <Insets left="20.0" top="40.0"/>
+                                </VBox.margin>
+                                <Button fx:id="ImageUser" alignment="CENTER" mnemonicParsing="false"
+                                        prefHeight="50.0" prefWidth="50.0" styleClass="button-shadow"
+                                        style="-fx-background-color: white; -fx-background-radius: 50%; -fx-padding: 0;">
+                                    <graphic>
+                                        <ImageView fx:id="UserImageView" fitHeight="50.0" fitWidth="50.0"
+                                                   styleClass="fitWidth">
+                                            <clip>
+                                                <Circle centerX="25.0" centerY="25.0" radius="25.0"/>
+                                            </clip>
+                                        </ImageView>
+                                    </graphic>
+                                </Button>
+                                <Label fx:id="NameLabel" prefHeight="58.0" prefWidth="178.0"
+                                       textFill="#fcf7f7">
+                                    <HBox.margin>
+                                        <Insets left="30.0"/>
+                                    </HBox.margin>
+                                    <font>
+                                        <Font name="Arial" size="18.0"/>
+                                    </font>
+                                </Label>
+                            </HBox>
+                        </VBox>
+                        <VBox prefHeight="520.0" prefWidth="500.0" styleClass="vbox-shadow"
+                              style="-fx-background-color: #FFFFFF">
+                            <Button fx:id="ActionButton" onAction="#ButtonAction" styleClass="button-shadow"
+                                    style="-fx-background-color: transparent; -fx-border-color: #FF5733; -fx-border-width: 2px;"
+                                    text="X">
+                                <VBox.margin>
+                                    <Insets left="570.0"/>
+                                </VBox.margin>
+                            </Button>
+                            <ScrollPane VBox.vgrow="ALWAYS">
+                                <VBox>
+                                    <Label fx:id="postContentLabel" prefHeight="576.0" prefWidth="586.0"
+                                           wrapText="true" style="-fx-padding: 20px;">
+                                        <font>
+                                            <Font name="Arial" size="18.0"/>
+                                        </font>
+                                    </Label>
+                                    <ListView fx:id="imageListView" prefHeight="400.0" prefWidth="400.0"/>
+                                </VBox>
+                            </ScrollPane>
+                            <HBox prefHeight="59.0" prefWidth="606.0">
+                                <Label fx:id="CreateLabel" prefHeight="58.0" prefWidth="240.0">
+                                    <HBox.margin>
+                                        <Insets right="250.0"/>
+                                    </HBox.margin>
+                                    <font>
+                                        <Font name="Arial" size="18.0"/>
+                                    </font>
+                                </Label>
+                                <Label fx:id="ViewLabel" prefHeight="58.0" prefWidth="146.0">
+                                    <font>
+                                        <Font name="Arial" size="18.0"/>
+                                    </font>
+                                </Label>
+                            </HBox>
+                        </VBox>
+                    </HBox>
+                </Pane>
+
+            </Pane>
+        </center>
+    </BorderPane>
+
+</AnchorPane>

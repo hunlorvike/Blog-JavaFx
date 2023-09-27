@@ -67,6 +67,11 @@ public class UserModel {
         this.updated_at = updatedAt;
     }
 
+    public UserModel(String fullname, String avatarPath) {
+        this.fullname = fullname;
+        this.avatarPath = avatarPath;
+    }
+
     public int getUser_id() {
         return user_id;
     }

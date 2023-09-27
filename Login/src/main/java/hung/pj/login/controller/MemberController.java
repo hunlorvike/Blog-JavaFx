@@ -46,7 +46,6 @@ public class MemberController implements Initializable {
     public Button allButton, superAdminButton, adminButton, moderatorButton;
     @FXML
     private TableView<UserModel> tableView;
-
     @FXML
     private TableColumn<UserModel, Integer> idColumn;
 

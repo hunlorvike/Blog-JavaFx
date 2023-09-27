@@ -20,6 +20,19 @@
     -fx-font-family: "Roboto Light"; /* Tên của font */
 }
 
+/*button content post*/
+.button_ct {
+    -fx-background-color: white;
+    -fx-border-width: 0;
+    -fx-font-size: 18px;
+}
+
+
+.image-view {
+    -fx-border-width: 0;
+    -fx-background-color: white;
+}
+
 .linear-gradient {
     -fx-background-color: linear-gradient(to bottom, #5c8984, #507e89, #507889, #537188);
 }
@@ -99,6 +112,23 @@
 
 .border10px {
     -fx-background-radius: 10px;
+}
+
+.fitWidth {
+    -fx-fit-width: 100%;
+    -fx-fit-height: 100%;
+}
+
+.vbox-shadow {
+    -fx-background-color: #474653;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 10, 0, 0, 0);
+}
+
+.button-shadow {
+    -fx-background-color: white;
+    -fx-background-radius: 50%;
+    -fx-padding: 0;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 5, 0, 0, 0);
 }
 
 /* Phần liên quan đến TableView */

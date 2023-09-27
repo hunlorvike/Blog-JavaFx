@@ -84,9 +84,6 @@ public class PostController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         userSingleton = UserSingleton.getInstance();
         loggedInUser = userSingleton.getLoggedInUser();
-
-//        List<PostModel> postModelList = postDao.getAllPosts();
-//        configureListView(postModelList);
         idColumn.setCellValueFactory(new PropertyValueFactory<>("post_id"));
         titleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
         statusColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
@@ -99,6 +96,8 @@ public class PostController implements Initializable {
 
         ContextMenu menuPost = new ContextMenu();
 
+        MenuItem savedPost = new MenuItem("Lưu xem sau");
+        savedPost.setOnAction(event -> SavedIdPost());
         MenuItem deletePost = new MenuItem("Xoá bài viết");
         deletePost.setOnAction(event -> deletePost());
         MenuItem editPost = new MenuItem("Sửa bài viết");
@@ -109,10 +108,18 @@ public class PostController implements Initializable {
                 throw new RuntimeException(e);
             }
         });
+        MenuItem detailPost = new MenuItem("Chi tiết bài viết");
+        detailPost.setOnAction(event -> {
+            try {
+                DetailPost();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
 
         tableView.setContextMenu(menuPost);
 
-        menuPost.getItems().addAll(editPost, deletePost);
+        menuPost.getItems().addAll(editPost,detailPost, deletePost,savedPost);
 
         tableView.setOnMouseClicked(event -> {
             if (event.getButton() == MouseButton.PRIMARY) {
@@ -121,22 +128,31 @@ public class PostController implements Initializable {
         });
     }
 
-//    private void configureListView(List<PostModel> postModelList) {
-//        // Gán danh sách dữ liệu cho ListView
-//        listViewPost.getItems().addAll(postModelList);
-//
-//        // Gán giao diện từ item.fxml cho các mục trong ListView
-//        listViewPost.setCellFactory(param -> new CustomListPost());
-//
-//        // Sử dụng ChangeListener để theo dõi sự thay đổi trong việc chọn mục
-////        listViewPost.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-////            if (newValue != null) {
-////                // Lấy dữ liệu của mục đã chọn và thực hiện các xử lý cần thiết
-////
-////            }
-////        });
-//
-//    }
+    private void SavedIdPost() {
+        PostModel selectedPost = tableView.getSelectionModel().getSelectedItem();
+        if (selectedPost != null) {
+            // id post
+            int selectedId = selectedPost.getPost_id();
+//            id người dùng
+            int userId = postDao.getUserIdForPost(selectedId);
+
+            boolean save = postDao.insertSavedPost(userId,selectedId);
+            if (save) {
+                showAlert(Alert.AlertType.INFORMATION, "Thành công", "Thông báo", "Bài viết đã được lưu thành công!");
+            } else {
+                showAlert(Alert.AlertType.ERROR, "Lỗi", "Thông báo", "Lưu bài viết không thành công!");
+            }
+
+        }
+    }
+
+    private void showAlert(Alert.AlertType alertType, String title, String headerText, String contentText) {
+        Alert alert = new Alert(alertType);
+        alert.setTitle(title);
+        alert.setHeaderText(headerText);
+        alert.setContentText(contentText);
+        alert.showAndWait();
+    }
 
     private void refreshTableView() {
         ControllerUtils.refreshTableView(tableView, postDao.getAllPosts());
@@ -151,6 +167,19 @@ public class PostController implements Initializable {
         } else {
             ControllerUtils.showAlertDialog("Bạn không có quyền sửa bài viết này", Alert.AlertType.WARNING, rootAnchorPane.getScene().getWindow());
             return;
+        }
+        refreshTableView();
+    }
+
+    private void DetailPost() throws IOException {
+        PostModel selectedPost = tableView.getSelectionModel().getSelectedItem();
+        if (selectedPost != null) {
+            int selectedId = selectedPost.getPost_id();
+            postDao.increaseViewCount(selectedId);
+            DataHolder.getInstance().setData(String.valueOf(selectedId));
+//            AppMain.setRoot("detail_post.fxml", Constants.CUSTOM_WIDTH, Constants.CUSTOM_HEIGHT, false);
+            AppMain.setRoot("post_detail.fxml", Constants.CUSTOM_WIDTH, Constants.CUSTOM_HEIGHT, false);
+
         }
         refreshTableView();
     }

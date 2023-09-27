@@ -66,16 +66,23 @@ public class PostModel {
     }
 
     public PostModel(int id, String title, String content, String status, int viewCount, String userName, Timestamp scheduledTime, String category, Timestamp createdAt, Timestamp updatedAt) {
-        this.post_id = post_id;
+        this.post_id = id;
         this.title = title;
         this.content = content;
         this.status = status;
-        this.view_count = view_count;
+        this.view_count = viewCount;
         this.creator_name = userName;
-        this.scheduledDate = scheduledDate;
+        this.scheduledDate = scheduledTime;
         this.category = category;
-        this.created_at = created_at;
-        this.updated_at = updated_at;
+        this.created_at = createdAt;
+        this.updated_at = updatedAt;
+    }
+
+    public PostModel(String title, String content, int viewCount, Timestamp createdAt) {
+        this.title = title;
+        this.content = content;
+        this.view_count = viewCount;
+        this.created_at = createdAt;
     }
 
 
