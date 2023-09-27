@@ -15,11 +15,15 @@ import javafx.util.Duration;
 import javafx.animation.PauseTransition;
 import org.kordamp.bootstrapfx.BootstrapFX;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
+import java.util.Properties;
 
 public class AppMain extends Application {
     private static Stage stage;
@@ -53,7 +57,7 @@ public class AppMain extends Application {
         stage.show();
         checkScheduledPosts();
 
-
+        loadRememberMeProperties();
     }
 
     // Phương thức chuyển giữa các giao diện
@@ -127,6 +131,31 @@ public class AppMain extends Application {
             }
         }
     }
+
+    public Properties loadRememberMeProperties() {
+        Properties properties = new Properties();
+        try {
+            // Lấy thư mục làm việc hiện tại của ứng dụng
+            String currentWorkingDirectory = System.getProperty("user.dir");
+
+            // Kết hợp đường dẫn tương đối với thư mục làm việc hiện tại
+            String relativePath = "rememberme.properties";
+            String fullPath = currentWorkingDirectory + File.separator + relativePath;
+
+            InputStream input = new FileInputStream(fullPath);
+
+            if (input != null) {
+                properties.load(input);
+                System.out.println("File 'rememberme.properties' found.");
+            } else {
+                System.err.println("File 'rememberme.properties' not found.");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return properties;
+    }
+
 
     public static void main(String[] args) {
         launch();

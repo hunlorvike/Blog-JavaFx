@@ -8,7 +8,7 @@ import hung.pj.login.model.PostImageModel;
 import hung.pj.login.model.PostModel;
 import hung.pj.login.model.UserModel;
 import hung.pj.login.singleton.DataHolder;
-import hung.pj.login.ultis.Constants;
+import hung.pj.login.utils.Constants;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;

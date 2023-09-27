@@ -2,7 +2,9 @@ package hung.pj.login.controller;
 
 import hung.pj.login.AppMain;
 import hung.pj.login.config.ConnectionProvider;
+import hung.pj.login.dao.post.PostDaoImpl;
 import hung.pj.login.dao.user.UserDaoImpl;
+import hung.pj.login.model.PostModel;
 import hung.pj.login.model.UserModel;
 import hung.pj.login.singleton.DataHolder;
 import hung.pj.login.singleton.UserSingleton;
@@ -37,6 +39,8 @@ public class ToolbarController implements Initializable {
     private TextField textField;
     ConnectionProvider connectionProvider = new ConnectionProvider();
     UserDaoImpl userDao = new UserDaoImpl(connectionProvider.getConnection());
+    PostDaoImpl postDao = new PostDaoImpl(connectionProvider.getConnection());
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -112,11 +116,12 @@ public class ToolbarController implements Initializable {
                 switchToScene("result_search.fxml", Constants.CUSTOM_WIDTH, Constants.CUSTOM_HEIGHT, false);
                 break;
             case "Post":
-                // Xử lý tìm kiếm bài viết
+                List<PostModel> postModelList = postDao.getPostsByName(searchText);
+                DataHolder.getInstance().setDataList(postModelList);
+                DataHolder.getInstance().setData(searchText);
+                switchToScene("result_search.fxml", Constants.CUSTOM_WIDTH, Constants.CUSTOM_HEIGHT, false);
                 break;
-            case "Category":
-                // Xử lý tìm kiếm theo danh mục
-                break;
+
             default:
                 break;
         }

@@ -44,7 +44,7 @@
                 <Label fx:id="alertMessage" layoutX="149.0" layoutY="315.0" styleClass="strong"
                        textFill="#EF9595"/>
 
-                <CheckBox layoutX="149.0" layoutY="340.0" mnemonicParsing="false" styleClass="strong"
+                <CheckBox fx:id="rememberMeCheckBox" layoutX="149.0" layoutY="340.0" mnemonicParsing="false" styleClass="strong"
                           text="Remember me" textFill="WHITE"/>
 
                 <Label layoutX="327.0" layoutY="340.0" styleClass="strong" text="Forgot password?"

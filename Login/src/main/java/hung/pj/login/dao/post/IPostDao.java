@@ -12,6 +12,7 @@ public interface IPostDao {
     List<PostModel> getAllPosts();
 
     List<PostModel> getPostsByTag(String tag);
+    List<PostModel> getPostsByName(String name);
 
     List<PostModel> getAllPostsByUserId(int userId);
 

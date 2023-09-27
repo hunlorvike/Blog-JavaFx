@@ -99,7 +99,7 @@
                         <Label layoutX="14.0" layoutY="30.0" styleClass="b, h5" text="List posts"/>
                         <!-- Một số phần khác ở trên -->
 
-                        <TableView fx:id="tableViewPost" layoutX="5" layoutY="65.0" prefHeight="415.0" prefWidth="680.0"
+                        <TableView fx:id="tableViewPost" layoutX="5" layoutY="65.0" prefHeight="400.0" prefWidth="680.0"
                                    stylesheets="@../style/style.css">
                             <!-- Các cột của TableView -->
                             <columns>
@@ -121,7 +121,7 @@
                     </Pane>
                     <Pane layoutX="711.0" prefHeight="480.0" prefWidth="360.0">
                         <Label layoutX="21.0" layoutY="30.0" styleClass="b, h5" text="Top moderators in month"/>
-                        <TableView fx:id="tableViewMember" layoutX="5" layoutY="65.0" prefHeight="415.0"
+                        <TableView fx:id="tableViewMember" layoutX="5" layoutY="65.0" prefHeight="400.0"
                                    prefWidth="340.0">
                             <columns>
                                 <TableColumn fx:id="idMemberColumn" prefWidth="40.0" text="ID"/>

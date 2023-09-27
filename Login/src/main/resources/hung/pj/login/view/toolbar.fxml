@@ -21,7 +21,6 @@
                     <FXCollections fx:factory="observableArrayList">
                         <String fx:value="Member"/>
                         <String fx:value="Post"/>
-                        <String fx:value="Category"/>
                     </FXCollections>
                 </items>
                 <padding>
@@ -56,7 +55,8 @@
         <items>
             <MenuItem mnemonicParsing="false" onAction="#handleProfile" styleClass="menu-item"
                       text="Quản lý tài khoản"/>
-            <MenuItem mnemonicParsing="false" onAction="#handleYourProfile" styleClass="menu-item" text="Trang cá nhân"/>
+            <MenuItem mnemonicParsing="false" onAction="#handleYourProfile" styleClass="menu-item"
+                      text="Trang cá nhân"/>
             <MenuItem mnemonicParsing="false" onAction="#handleLogout" styleClass="menu-item" text="Logout"/>
         </items>
     </MenuButton>

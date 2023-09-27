@@ -1,6 +1,7 @@
 package hung.pj.login.controller;
 
 import hung.pj.login.AppMain;
+import hung.pj.login.model.PostModel;
 import hung.pj.login.model.UserModel;
 import hung.pj.login.singleton.DataHolder;
 import hung.pj.login.utils.Constants;
@@ -29,6 +30,9 @@ public class ResultSearchController implements Initializable {
         // Lấy dữ liệu từ DataHolder
         List<UserModel> userModelList = DataHolder.getInstance().getDataList();
         String search = DataHolder.getInstance().getData();
+
+        List<PostModel> postModelList = DataHolder.getInstance().getDataList();
+        System.out.println(postModelList);
 
         // Hiển thị kết quả tìm kiếm
         searchLabel.setText("Kết quả: " + search);
@@ -72,7 +76,7 @@ public class ResultSearchController implements Initializable {
 
     private void viewUserDetail() {
         try {
-            AppMain.setRoot("profile_detail.fxml", Constants.CUSTOM_WIDTH, Constants.CUSTOM_HEIGHT,false);
+            AppMain.setRoot("profile_detail.fxml", Constants.CUSTOM_WIDTH, Constants.CUSTOM_HEIGHT, false);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

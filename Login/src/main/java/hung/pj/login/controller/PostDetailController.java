@@ -9,8 +9,8 @@ import hung.pj.login.model.PostImageModel;
 import hung.pj.login.model.PostModel;
 import hung.pj.login.model.UserModel;
 import hung.pj.login.singleton.DataHolder;
-import hung.pj.login.ultis.ControllerUtils;
-import hung.pj.login.ultis.ImageFileUtil;
+import hung.pj.login.utils.ControllerUtils;
+import hung.pj.login.utils.ImageFileUtils;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -76,7 +76,7 @@ public class PostDetailController implements Initializable {
         for (PostImageModel postImageModel : postImageModelsFromDb) {
             File imageFile = new File(postImageModel.getImagePath());
 
-            if (ImageFileUtil.isImageFile(imageFile)) {
+            if (ImageFileUtils.isImageFile(imageFile)) {
                 ImageView imageView = new ImageView(new Image(imageFile.toURI().toString()));
                 imageView.setFitHeight(100);
                 imageView.setFitWidth(100);
