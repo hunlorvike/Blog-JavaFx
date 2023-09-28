@@ -4,19 +4,24 @@ import hung.pj.login.config.ConnectionProvider;
 import hung.pj.login.dao.conversation.ConversationDaoImpl;
 import hung.pj.login.dao.message.MessageDaoImpl;
 import hung.pj.login.dao.participant.ParticipantDaoImpl;
+import hung.pj.login.dao.user.UserDaoImpl;
 import hung.pj.login.model.ConversationModel;
 import hung.pj.login.model.MessageModel;
 import hung.pj.login.model.UserModel;
 import hung.pj.login.singleton.UserSingleton;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.control.*;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.util.Callback;
 
+import java.io.*;
+import java.net.Socket;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,14 +33,15 @@ public class MessengerController implements Initializable {
     @FXML
     private TextField messageTextField;
     private UserSingleton userSingleton;
-    ConnectionProvider connectionProvider = new ConnectionProvider();
-    ConversationDaoImpl conversationDao = new ConversationDaoImpl(connectionProvider.getConnection());
-    ParticipantDaoImpl participantDao = new ParticipantDaoImpl(connectionProvider.getConnection());
-    MessageDaoImpl messageDao = new MessageDaoImpl(connectionProvider.getConnection());
+    private ConnectionProvider connectionProvider = new ConnectionProvider();
+    private ConversationDaoImpl conversationDao = new ConversationDaoImpl(connectionProvider.getConnection());
+    private ParticipantDaoImpl participantDao = new ParticipantDaoImpl(connectionProvider.getConnection());
+    private UserDaoImpl userDao = new UserDaoImpl(connectionProvider.getConnection());
+    private MessageDaoImpl messageDao = new MessageDaoImpl(connectionProvider.getConnection());
     @FXML
     private ListView<ConversationModel> conversationListView;
     private List<Label> messageLabels = new ArrayList<>();
-
+    private boolean listeningForMessages = true;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -72,6 +78,54 @@ public class MessengerController implements Initializable {
                 conversationSelected();
             }
         });
+
+        startListeningForMessages();
+    }
+
+    private void startListeningForMessages() {
+        Thread messageListeningThread = new Thread(() -> {
+            try {
+                Socket socket = new Socket("localhost", 8080);
+                ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
+
+                while (listeningForMessages) {
+                    try {
+                        // Đọc tin nhắn từ máy chủ
+                        MessageModel receivedMessage = (MessageModel) in.readObject();
+
+                        // Xử lý tin nhắn mới ở đây
+                        // Ví dụ: cập nhật giao diện người dùng để hiển thị tin nhắn mới
+                        handleReceivedMessage(receivedMessage);
+                    } catch (ClassNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+
+        messageListeningThread.setDaemon(true); // Đảm bảo luồng nghe dừng khi ứng dụng kết thúc
+        messageListeningThread.start();
+    }
+
+    private void handleReceivedMessage(MessageModel receivedMessage) {
+        Platform.runLater(() -> {
+            String senderName = getSenderName(receivedMessage.getSenderId());
+            String formattedMessage = senderName + ": " + receivedMessage.getMessageText();
+
+            Label messageLabel = new Label(formattedMessage);
+            HBox messageBox = new HBox(messageLabel);
+
+            // Đặt alignment của HBox dựa trên người gửi tin nhắn
+            if (receivedMessage.getSenderId() == userSingleton.getLoggedInUser().getUser_id()) {
+                messageBox.setAlignment(Pos.CENTER_RIGHT); // Hiển thị bên phải
+            } else {
+                messageBox.setAlignment(Pos.CENTER_LEFT); // Hiển thị bên trái
+            }
+
+            messageVBox.getChildren().add(messageBox);
+        });
     }
 
 
@@ -89,7 +143,7 @@ public class MessengerController implements Initializable {
             // Tạo Label cho mỗi tin nhắn và thêm vào VBox
             for (MessageModel message : messageModels) {
                 String senderName = getSenderName(message.getSenderId()); // Lấy tên người gửi
-                String formattedMessage = "Người dùng số "+senderName + ": " + message.getMessageText();
+                String formattedMessage = senderName + ": " + message.getMessageText();
                 Label label = new Label(formattedMessage);
                 messageLabels.add(label);
                 messageVBox.getChildren().add(label);
@@ -98,12 +152,11 @@ public class MessengerController implements Initializable {
     }
 
     private String getSenderName(int senderId) {
-        // Thay thế phương thức này bằng cách truy vấn tên của người gửi dựa trên senderId
-        // Return tên của người gửi
-        return "Người gửi"; // Sửa thành tên thực tế
+        UserModel userModel = userDao.getUserById(senderId);
+        return userModel.getFullname();
     }
 
-
+    @FXML
     public void sendMessage() {
         String messageText = messageTextField.getText().trim();
 
@@ -121,16 +174,23 @@ public class MessengerController implements Initializable {
                 int senderId = loggedInUser.getUser_id();
                 MessageModel messageModel = new MessageModel(conversationId, senderId, messageText);
 
-                // Gửi tin nhắn bằng cách sử dụng đối tượng messageDao
-                messageDao.sendMessage(messageModel);
+                try {
+                    Socket socket = new Socket("localhost", 8080);
+                    ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
+                    ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
 
-                // Sau khi gửi, cập nhật giao diện người dùng (nếu cần)
-                String senderName = loggedInUser.getFullname();
-                String formattedMessage = senderName + ": " + messageText;
+                    // Gửi đối tượng tin nhắn đến máy chủ
+                    out.writeObject(messageModel);
 
-                Label label = new Label(formattedMessage);
-                messageLabels.add(label);
-                messageVBox.getChildren().add(label);
+                    // Nhận phản hồi từ máy chủ (nếu cần)
+                    String response = (String) in.readObject();
+                    System.out.println("Phản hồi từ máy chủ: " + response);
+
+                    // Đóng kết nối
+                    socket.close();
+                } catch (IOException | ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
 
                 // Xóa nội dung trong ô nhập tin nhắn
                 messageTextField.clear();
@@ -140,6 +200,4 @@ public class MessengerController implements Initializable {
             }
         }
     }
-
-
 }

@@ -1,8 +1,9 @@
 package hung.pj.login.model;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
-public class MessageModel {
+public class MessageModel implements Serializable {
     private int messageId;
     private int conversationId;
     private int senderId;

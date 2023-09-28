@@ -6,6 +6,5 @@ import java.util.List;
 
 public interface IMessageDao {
     void sendMessage(MessageModel messageModel);    // Gửi một tin nhắn mới trong một cuộc trò chuyện
-
     List<MessageModel> getAllMessageByRoomId(int roomId);
 }
