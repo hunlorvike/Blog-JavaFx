@@ -313,3 +313,23 @@ Customize left and right arrow
     -fx-background-radius: 5em;
 }
 
+
+/* Lớp CSS cho tin nhắn đã gửi */
+.message-sent {
+    -fx-background-color: #4CAF50;
+    -fx-text-fill: white;
+    -fx-padding: 5px;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+    -fx-max-width: 60%;
+}
+
+/* Lớp CSS cho tin nhắn đã nhận */
+.message-received {
+    -fx-background-color: #2196F3;
+    -fx-text-fill: white;
+    -fx-padding: 5px;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+    -fx-max-width: 60%;
+}

@@ -9,6 +9,7 @@ import hung.pj.login.model.ConversationModel;
 import hung.pj.login.model.MessageModel;
 import hung.pj.login.model.UserModel;
 import hung.pj.login.singleton.UserSingleton;
+import hung.pj.login.utils.ControllerUtils;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -17,13 +18,17 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.util.Callback;
 
 import java.io.*;
 import java.net.Socket;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -112,16 +117,39 @@ public class MessengerController implements Initializable {
     private void handleReceivedMessage(MessageModel receivedMessage) {
         Platform.runLater(() -> {
             String senderName = getSenderName(receivedMessage.getSenderId());
-            String formattedMessage = senderName + ": " + receivedMessage.getMessageText();
+            // Lấy thời gian hiện tại
+            Date currentTime = new Date();
+
+            // Định dạng thời gian thành giờ:phút:giây
+            SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
+            String formattedTime = dateFormat.format(currentTime);
+
+            String formattedMessage = senderName + ": " + receivedMessage.getMessageText() + " - " + formattedTime;
 
             Label messageLabel = new Label(formattedMessage);
+            messageLabel.setStyle("  -fx-text-fill:  #FFFFFF;");
             HBox messageBox = new HBox(messageLabel);
+
+            // Đặt HBox để có độ rộng vừa với nội dung trong Label
+            HBox.setHgrow(messageBox, Priority.ALWAYS);
 
             // Đặt alignment của HBox dựa trên người gửi tin nhắn
             if (receivedMessage.getSenderId() == userSingleton.getLoggedInUser().getUser_id()) {
                 messageBox.setAlignment(Pos.CENTER_RIGHT); // Hiển thị bên phải
+                messageBox.setStyle("    -fx-background-color: #445D48; \n" +
+                        "    -fx-text-fill:  #FFFFFF;\n" +
+                        "    -fx-padding: 5px;\n" +
+                        "    -fx-border-radius: 5px; \n" +
+                        "    -fx-background-radius: 5px; \n" +
+                        "   -fx-background-size: cover");
             } else {
                 messageBox.setAlignment(Pos.CENTER_LEFT); // Hiển thị bên trái
+                messageBox.setStyle("    -fx-background-color: #B4B4B3; \n" +
+                        "    -fx-text-fill:  #FFFFFF;\n" +
+                        "    -fx-padding: 5px; \n" +
+                        "    -fx-border-radius: 5px; \n" +
+                        "    -fx-background-radius: 5px; \n" +
+                        "   -fx-background-size: cover");
             }
 
             messageVBox.getChildren().add(messageBox);
@@ -143,13 +171,44 @@ public class MessengerController implements Initializable {
             // Tạo Label cho mỗi tin nhắn và thêm vào VBox
             for (MessageModel message : messageModels) {
                 String senderName = getSenderName(message.getSenderId()); // Lấy tên người gửi
-                String formattedMessage = senderName + ": " + message.getMessageText();
+                // Định dạng thời gian từ tin nhắn
+                SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
+                String formattedTime = dateFormat.format(message.getSentAt());
+
+                String formattedMessage = senderName + ": " + message.getMessageText() + " - " + formattedTime;
+
                 Label label = new Label(formattedMessage);
+                label.setStyle("  -fx-text-fill:  #FFFFFF;");
                 messageLabels.add(label);
-                messageVBox.getChildren().add(label);
+
+                HBox messageBox = new HBox(label);
+                messageBox.setPrefWidth(Region.USE_COMPUTED_SIZE); // Đặt độ rộng của messageBox tự động
+                HBox.setHgrow(messageBox, Priority.ALWAYS);   // Đặt HBox để có độ rộng vừa với nội dung trong Label
+
+                // Đặt alignment của HBox dựa trên người gửi tin nhắn
+                if (message.getSenderId() == userSingleton.getLoggedInUser().getUser_id()) {
+                    messageBox.setAlignment(Pos.CENTER_RIGHT); // Hiển thị bên phải
+                    messageBox.setStyle("    -fx-background-color: #445D48; \n" +
+                            "    -fx-text-fill:  #FFFFFF;\n" +
+                            "    -fx-padding: 5px;\n" +
+                            "    -fx-border-radius: 5px; \n" +
+                            "    -fx-background-radius: 5px; \n" +
+                            "   -fx-background-size: cover");
+                } else {
+                    messageBox.setAlignment(Pos.CENTER_LEFT); // Hiển thị bên trái
+                    messageBox.setStyle("    -fx-background-color: #B4B4B3; \n" +
+                            "    -fx-text-fill:  #FFFFFF;\n" +
+                            "    -fx-padding: 5px; \n" +
+                            "    -fx-border-radius: 5px; \n" +
+                            "    -fx-background-radius: 5px; \n" +
+                            "   -fx-background-size: cover");
+                }
+
+                messageVBox.getChildren().add(messageBox);
             }
         }
     }
+
 
     private String getSenderName(int senderId) {
         UserModel userModel = userDao.getUserById(senderId);
