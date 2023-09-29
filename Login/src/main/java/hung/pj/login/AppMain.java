@@ -46,6 +46,7 @@ public class AppMain extends Application {
         stage.setScene(scene);
         stage.setWidth(1024);
         stage.setHeight(600);
+        stage.setResizable(false); // Không cho phép thay đổi kích thước cửa sổ
 
         // Tính toán tọa độ để đặt màn hình ở chính giữa
         double newStageX = (screenWidth - 1024) / 2;

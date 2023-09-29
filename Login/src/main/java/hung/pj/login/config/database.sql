@@ -94,6 +94,7 @@ CREATE TABLE IF NOT EXISTS conversations (
     name VARCHAR(255),  -- Tên cuộc trò chuyện (nếu có)
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
 -- Bảng Participants (Người tham gia cuộc trò chuyện)
 CREATE TABLE IF NOT EXISTS participants (
     participant_id INT PRIMARY KEY AUTO_INCREMENT,
