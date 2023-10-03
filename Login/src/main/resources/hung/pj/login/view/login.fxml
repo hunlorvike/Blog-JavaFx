@@ -11,6 +11,8 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.Pane?>
 
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
 <AnchorPane fx:id="rootAnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
             prefHeight="600.0" prefWidth="1024.0" xmlns="http://javafx.com/javafx/20.0.1"
             xmlns:fx="http://javafx.com/fxml/1" fx:controller="hung.pj.login.controller.LoginController">
@@ -22,11 +24,25 @@
                         <Image url="@../image/7.jpg"/>
                     </image>
                 </ImageView>
-                <Label layoutX="45.0" layoutY="112.0" styleClass="h3, strong" text="Hi, Welcome Back!"
-                       textFill="WHITE"/>
-                <Label layoutX="8.0" layoutY="164.0" prefHeight="17.0" prefWidth="275.0" styleClass="small"
-                       text="Thứ tôi đã học được từ việc viết code hơn 10 tiếng một ngày" textFill="WHITE"/>
+                <Label layoutX="10.0" layoutY="112.0" styleClass="h3, strong"
+                       text="Góc nhìn đa chiều của thế hệ trẻ Việt Nam">
+                    <textFill>
+                        <LinearGradient endX="0.5" endY="1.0">
+                            <stops>
+                                <Stop color="#82A0D8" offset="0.0"/>
+                                <Stop color="#96B6C5" offset="1.0"/>
+                            </stops>
+                        </LinearGradient>
+                    </textFill>
+                    <wrapText>true</wrapText>
+                    <prefWidth>270.0</prefWidth>
+                </Label>
 
+                <Label layoutX="10.0" layoutY="180.0" prefHeight="17.0" prefWidth="275.0" styleClass="h6, b"
+                       text="Viết - Chia sẻ - Kết nối - Chiêm nghiệm" textFill="WHITE"/>
+
+                <Label layoutX="10.0" layoutY="210.0" prefHeight="17.0" prefWidth="275.0" styleClass="h6, b"
+                       text="Tất cả tại SixOne" textFill="WHITE"/>
             </Pane>
         </left>
         <center>
@@ -44,7 +60,8 @@
                 <Label fx:id="alertMessage" layoutX="149.0" layoutY="315.0" styleClass="strong"
                        textFill="#EF9595"/>
 
-                <CheckBox fx:id="rememberMeCheckBox" layoutX="149.0" layoutY="340.0" mnemonicParsing="false" styleClass="strong"
+                <CheckBox fx:id="rememberMeCheckBox" layoutX="149.0" layoutY="340.0" mnemonicParsing="false"
+                          styleClass="strong"
                           text="Remember me" textFill="WHITE"/>
 
                 <Label layoutX="327.0" layoutY="340.0" styleClass="strong" text="Forgot password?"
