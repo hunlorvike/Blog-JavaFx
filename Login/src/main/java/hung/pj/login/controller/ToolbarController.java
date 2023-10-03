@@ -9,14 +9,17 @@ import hung.pj.login.model.UserModel;
 import hung.pj.login.singleton.DataHolder;
 import hung.pj.login.singleton.UserSingleton;
 import hung.pj.login.utils.Constants;
+import hung.pj.login.utils.ControllerUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.stage.Window;
 
 import java.io.File;
 import java.io.IOException;
@@ -107,6 +110,12 @@ public class ToolbarController implements Initializable {
         // Lấy giá trị từ ChoiceBox và TextField
         String selectedValue = choiceBox.getValue().trim();
         String searchText = textField.getText().trim();
+
+        // Kiểm tra xem searchText có rỗng hay không
+        if (searchText.isEmpty()) {
+            ControllerUtils.showAlertDialog("Không có dữ liệu tìm kiếm", Alert.AlertType.ERROR, null);
+            return;
+        }
 
         // Khai báo một biến kiểu Object để lưu danh sách kết quả tìm kiếm
         List<Object> searchResults = new ArrayList<>();
