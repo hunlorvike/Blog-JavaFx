@@ -10,10 +10,13 @@ import java.util.*;
 
 import hung.pj.login.AppMain;
 import hung.pj.login.config.ConnectionProvider;
+import hung.pj.login.dao.category.CategoryDaoImpl;
+import hung.pj.login.dao.category.ICategoryDao;
 import hung.pj.login.dao.post.IPostDao;
 import hung.pj.login.dao.post.PostDaoImpl;
 import hung.pj.login.dao.postImage.PostImageDaoImpl;
 import hung.pj.login.dao.postImage.IPostImageDao;
+import hung.pj.login.model.CategoryModel;
 import hung.pj.login.model.PostImageModel;
 import hung.pj.login.model.PostModel;
 import hung.pj.login.singleton.DataHolder;
@@ -54,14 +57,15 @@ public class EditPostController implements Initializable {
     private final ObservableList<File> selectedFilesList = FXCollections.observableArrayList();
     private List<PostImageModel> postImageModels = new ArrayList<>(); // Initialize with current image paths
     private List<PostImageModel> postImageModelsFromDb;
+    private final ICategoryDao categoryDao;
 
-    // Constants
-//    private static final String UPLOAD_DIRECTORY = "Login/src/main/resources/hung/pj/login/upload";
 
     public EditPostController() {
         ConnectionProvider connectionProvider = new ConnectionProvider();
         postDao = new PostDaoImpl(connectionProvider.getConnection());
         postImageDao = new PostImageDaoImpl(connectionProvider.getConnection());
+        categoryDao = new CategoryDaoImpl(connectionProvider.getConnection());
+
     }
 
     @Override
@@ -81,6 +85,24 @@ public class EditPostController implements Initializable {
         statusComboBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             datePicker.setVisible("Scheduled".equals(newValue));
         });
+        List<CategoryModel> categoryModels = categoryDao.getAllCategory();
+
+        // Tạo một danh sách tên danh mục từ danh sách categoryModels
+        List<String> categoryNames = new ArrayList<>();
+        for (CategoryModel categoryModel : categoryModels) {
+            categoryNames.add(categoryModel.getName());
+        }
+
+        // Đặt danh sách tên danh mục làm dữ liệu cho ChoiceBox
+        categoryChoiceBox.setItems(FXCollections.observableArrayList(categoryNames));
+
+        // Đặt giá trị mặc định nếu cần
+        if (!categoryNames.isEmpty()) {
+            categoryChoiceBox.setValue(categoryNames.get(0));
+        } else {
+            // Nếu danh sách tên danh mục rỗng, đặt giá trị mặc định là "None"
+            categoryChoiceBox.setValue("None");
+        }
     }
 
     // Load post data

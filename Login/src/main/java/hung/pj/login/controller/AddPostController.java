@@ -89,6 +89,9 @@ public class AddPostController implements Initializable {
         // Đặt giá trị mặc định nếu cần
         if (!categoryNames.isEmpty()) {
             categoryChoiceBox.setValue(categoryNames.get(0));
+        } else {
+            // Nếu danh sách tên danh mục rỗng, đặt giá trị mặc định là "None"
+            categoryChoiceBox.setValue("None");
         }
 
     }

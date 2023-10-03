@@ -5,6 +5,7 @@ import java.sql.Timestamp;
 
 public class PostModel {
     private int post_id;
+    private int saved_post_id;
     private String title;
     private String content;
     private String status;
@@ -52,6 +53,19 @@ public class PostModel {
         this.updated_at = updated_at;
     }
 
+    public PostModel(int saved_post_id, int post_id, String title, String content, String status, int view_count, int creator_id, Timestamp scheduledDate, Timestamp created_at, Timestamp updated_at) {
+        this.saved_post_id = saved_post_id;
+        this.post_id = post_id;
+        this.title = title;
+        this.content = content;
+        this.status = status;
+        this.view_count = view_count;
+        this.creator_id = creator_id;
+        this.scheduledDate = scheduledDate;
+        this.created_at = created_at;
+        this.updated_at = updated_at;
+    }
+
     public PostModel(int post_id, String title, String content, String status, int view_count, int creator_id, Timestamp scheduledDate, String categoru, Timestamp created_at, Timestamp updated_at) {
         this.post_id = post_id;
         this.title = title;
@@ -88,6 +102,14 @@ public class PostModel {
 
     public int getPost_id() {
         return post_id;
+    }
+
+    public int getSaved_post_id() {
+        return saved_post_id;
+    }
+
+    public void setSaved_post_id(int saved_post_id) {
+        this.saved_post_id = saved_post_id;
     }
 
     public void setPost_id(int post_id) {
@@ -178,11 +200,14 @@ public class PostModel {
     public String toString() {
         return "PostModel{" +
                 "post_id=" + post_id +
+                ", saved_post_id=" + saved_post_id +
                 ", title='" + title + '\'' +
                 ", content='" + content + '\'' +
                 ", status='" + status + '\'' +
                 ", view_count=" + view_count +
                 ", creator_id=" + creator_id +
+                ", creator_name='" + creator_name + '\'' +
+                ", category='" + category + '\'' +
                 ", scheduledDate=" + scheduledDate +
                 ", created_at=" + created_at +
                 ", updated_at=" + updated_at +

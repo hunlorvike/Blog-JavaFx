@@ -55,16 +55,7 @@
                 <!--Category-->
                 <Label layoutX="57.0" layoutY="415.0" text="● Cate:"/>
                 <ChoiceBox fx:id="categoryChoiceBox" layoutX="119.0" layoutY="405.0" prefHeight="30.0" prefWidth="110.0"
-                           style=" -fx-background-color: #93B1A6;" value="Góc nhìn">
-                    <items>
-                        <FXCollections fx:factory="observableArrayList">
-                            <String fx:value="Góc nhìn"/>
-                            <String fx:value="Thời sự"/>
-                            <String fx:value="Thế giới"/>
-                            <String fx:value="Thể thao"/>
-                            <String fx:value="Xe"/>
-                        </FXCollections>
-                    </items>
+                           style=" -fx-background-color: #93B1A6;">
                     <padding>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                     </padding>

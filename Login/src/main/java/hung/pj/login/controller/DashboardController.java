@@ -5,6 +5,7 @@ import hung.pj.login.config.ConnectionProvider;
 import hung.pj.login.dao.category.CategoryDaoImpl;
 import hung.pj.login.dao.post.PostDaoImpl;
 import hung.pj.login.dao.user.UserDaoImpl;
+import hung.pj.login.model.CategoryModel;
 import hung.pj.login.model.PostModel;
 import hung.pj.login.model.UserModel;
 import hung.pj.login.singleton.DataHolder;
@@ -146,11 +147,23 @@ public class DashboardController implements Initializable {
         int totalCategoryCount = categoryDao.getAllCategory().size();
         setLabelValue(numberOfAllCategories, totalCategoryCount + " Categories");
 
-        String mostUsedCategoryCount = categoryDao.getMostUsedCategory().getName();
-        setLabelValue(numberOfMostUsed, mostUsedCategoryCount);
+        CategoryModel mostUsedCategory = categoryDao.getMostUsedCategory();
+        if (mostUsedCategory != null) {
+            String mostUsedCategoryName = mostUsedCategory.getName();
+            setLabelValue(numberOfMostUsed, mostUsedCategoryName);
+        } else {
+            // Xử lý trường hợp không có dữ liệu trả về
+            setLabelValue(numberOfMostUsed, "None");
+        }
 
-        String leastUsedCategoryCount = categoryDao.getLeastUsedCategory().getName();
-        setLabelValue(numberOfLeastUsed, leastUsedCategoryCount);
+        CategoryModel leastUsedCategory = categoryDao.getLeastUsedCategory();
+        if (leastUsedCategory != null) {
+            String leastUsedCategoryName = leastUsedCategory.getName();
+            setLabelValue(numberOfLeastUsed, leastUsedCategoryName);
+        } else {
+            // Xử lý trường hợp không có dữ liệu trả về
+            setLabelValue(numberOfLeastUsed, "None");
+        }
 
         int numberOf7Days = categoryDao.getCategoriesCreatedWithinLast7Days().size();
         setLabelValue(numberOf7Day, String.valueOf(numberOf7Days));

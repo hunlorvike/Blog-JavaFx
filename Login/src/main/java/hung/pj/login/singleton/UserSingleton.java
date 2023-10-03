@@ -6,15 +6,17 @@ public class UserSingleton {
     private static UserSingleton instance;
     private UserModel loggedInUser;
 
-    private  UserSingleton() {
+    private UserSingleton() {
 
     }
+
     public static UserSingleton getInstance() {
         if (instance == null) {
             instance = new UserSingleton();
         }
         return instance;
     }
+
     public void setLoggedInUser(UserModel user) {
         this.loggedInUser = user;
     }
