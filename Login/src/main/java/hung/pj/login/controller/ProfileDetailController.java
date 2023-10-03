@@ -64,6 +64,8 @@ public class ProfileDetailController implements Initializable {
 
         userSingleton = UserSingleton.getInstance();
         UserModel loggedInUser = userSingleton.getLoggedInUser();
+        userSingleton.setOnlineStatus(true);
+
 
         UserModel userModel = userDao.getUserByEmail(selectedEmail);
 

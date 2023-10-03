@@ -2,6 +2,12 @@ SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
 
+-- Tạo cơ sở dữ liệu
+CREATE DATABASE IF NOT EXISTS management;
+
+-- Sử dụng cơ sở dữ liệu
+USE management;
+
 -- Cơ sở dữ liệu: `management`
 
 -- --------------------------------------------------------

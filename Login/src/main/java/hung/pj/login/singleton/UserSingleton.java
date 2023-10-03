@@ -5,9 +5,10 @@ import hung.pj.login.model.UserModel;
 public class UserSingleton {
     private static UserSingleton instance;
     private UserModel loggedInUser;
+    private boolean onlineStatus; // Thêm trường trạng thái online/offline
 
     private UserSingleton() {
-
+        onlineStatus = false; // Ban đầu, người dùng offline
     }
 
     public static UserSingleton getInstance() {
@@ -25,7 +26,16 @@ public class UserSingleton {
         return this.loggedInUser;
     }
 
+    public void setOnlineStatus(boolean onlineStatus) {
+        this.onlineStatus = onlineStatus;
+    }
+
+    public boolean isOnline() {
+        return onlineStatus;
+    }
+
     public void clearSingleton() {
         this.loggedInUser = null;
+        this.onlineStatus = false; // Đảm bảo rằng người dùng được đánh dấu là offline khi đăng xuất
     }
 }

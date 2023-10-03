@@ -32,7 +32,6 @@ public class ClientHandler extends Thread {
             MessageModel message = (MessageModel) in.readObject();
             System.out.println("Tin nhắn từ " + message.getSenderId() + ": " + message.getMessageText() + " gửi đến phòng " + message.getConversationId());
 
-            // Xử lý tin nhắn (ví dụ: lưu vào cơ sở dữ liệu, gửi cho người nhận, v.v.)
             // Lưu tin nhắn vào cơ sở dữ liệu
             messageDao.sendMessage(message);
 

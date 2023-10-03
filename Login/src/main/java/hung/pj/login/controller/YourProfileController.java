@@ -26,13 +26,12 @@ import java.net.URL;
 import java.sql.Timestamp;
 import java.util.ResourceBundle;
 
-public class YourProfileDController implements Initializable {
+public class YourProfileController implements Initializable {
     private UserSingleton userSingleton;
     ConnectionProvider connectionProvider = new ConnectionProvider();
     UserDaoImpl userDao = new UserDaoImpl(connectionProvider.getConnection());
     PostDaoImpl postDao = new PostDaoImpl(connectionProvider.getConnection());
     SocialDaoImpl socialDao = new SocialDaoImpl(connectionProvider.getConnection());
-
     @FXML
     private Label nameLabel, emailLabel, followLabel;
     String selectedEmail = DataHolder.getInstance().getData();
@@ -55,6 +54,7 @@ public class YourProfileDController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         userSingleton = UserSingleton.getInstance();
         UserModel loggedInUser = userSingleton.getLoggedInUser();
+        userSingleton.setOnlineStatus(true);
 
         UserModel userModel = userDao.getUserByEmail(loggedInUser.getEmail());
 

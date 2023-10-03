@@ -21,6 +21,8 @@ public class MenuUserController implements Initializable {
         // Kiểm tra singleton đăng nhập
         userSingleton = UserSingleton.getInstance();
         UserModel loggedInUser = userSingleton.getLoggedInUser();
+        userSingleton.setOnlineStatus(true);
+
     }
 
     public void handleSwitchEditAccount(ActionEvent event) {

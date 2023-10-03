@@ -53,6 +53,8 @@ public class MessengerController implements Initializable {
         // Kiểm tra singleton đăng nhập
         userSingleton = UserSingleton.getInstance();
         UserModel loggedInUser = userSingleton.getLoggedInUser();
+        userSingleton.setOnlineStatus(true);
+
 
         List<ConversationModel> userConversations = conversationDao.getConversationsByUserId(loggedInUser.getUser_id());
 
@@ -69,8 +71,11 @@ public class MessengerController implements Initializable {
 
                         if (item == null || empty) {
                             setText(null);
+                            setAlignment(Pos.CENTER);
                         } else {
-                            setText(item.getConversationName());
+                            String conversationInfo = "Room: " + item.getConversationName();
+                            setText(conversationInfo);
+                            setAlignment(Pos.CENTER);
                         }
                     }
                 };

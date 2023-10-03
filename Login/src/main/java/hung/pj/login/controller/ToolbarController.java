@@ -42,12 +42,12 @@ public class ToolbarController implements Initializable {
     UserDaoImpl userDao = new UserDaoImpl(connectionProvider.getConnection());
     PostDaoImpl postDao = new PostDaoImpl(connectionProvider.getConnection());
 
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         // Kiểm tra singleton đăng nhập
         userSingleton = UserSingleton.getInstance();
         UserModel loggedInUser = userSingleton.getLoggedInUser();
+        userSingleton.setOnlineStatus(true);
 
         // Lấy ngày hiện tại
         LocalDate currentDate = LocalDate.now();
@@ -60,7 +60,7 @@ public class ToolbarController implements Initializable {
         labelDatetime.setText(dateFormat.format(date));
 
         // Hiển thị thông tin người dùng
-        labelName.setText("Welcome back, " + loggedInUser.getFullname() + " - " + loggedInUser.getRole());
+        labelName.setText("Welcome back, " + loggedInUser.getFullname() + " - " + loggedInUser.getRole() + " - " + (userSingleton.isOnline() ? "Online" : "Offline"));
 
         //Hiển thị avatar
         UserModel user = userDao.getUserById(loggedInUser.getUser_id());
