@@ -36,10 +36,10 @@ public class DashboardController implements Initializable {
     private TableView<PostModel> tableViewPost;
 
     @FXML
-    private TableColumn<PostModel, Integer> idColumn, idMemberColumn, viewColumn, creatorColumn;
+    private TableColumn<PostModel, Integer> idColumn, idMemberColumn, viewColumn;
 
     @FXML
-    private TableColumn<PostModel, String> titleColumn, statusColumn, categoryColumn;
+    private TableColumn<PostModel, String> titleColumn, statusColumn, categoryColumn, creatorColumn;
 
     @FXML
     private TableColumn<PostModel, Timestamp> createdAtColumn, updatedAtColumn;
@@ -57,7 +57,7 @@ public class DashboardController implements Initializable {
         statusColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
         categoryColumn.setCellValueFactory(new PropertyValueFactory<>("category"));
         viewColumn.setCellValueFactory(new PropertyValueFactory<>("view_count"));
-        creatorColumn.setCellValueFactory(new PropertyValueFactory<>("creator_id"));
+        creatorColumn.setCellValueFactory(new PropertyValueFactory<>("creator_name"));
         createdAtColumn.setCellValueFactory(new PropertyValueFactory<>("created_at"));
         updatedAtColumn.setCellValueFactory(new PropertyValueFactory<>("updated_at"));
 

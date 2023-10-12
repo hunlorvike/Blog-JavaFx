@@ -23,9 +23,7 @@ public class ForgotPassword2Controller implements Initializable {
     public AnchorPane rootAnchorPane;
     @FXML
     private PasswordField newPasswordField, reEnteredPasswordField;
-
     private String userEmail;
-
     private ConnectionProvider connectionProvider = new ConnectionProvider();
     private UserDaoImpl userDao = new UserDaoImpl(connectionProvider.getConnection());
 

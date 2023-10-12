@@ -99,6 +99,19 @@ public class PostModel {
         this.created_at = createdAt;
     }
 
+    public PostModel(int post_id, String title, String content, String status, int view_count, int creator_id, String creator_name, Timestamp scheduledDate, String category, Timestamp created_at, Timestamp updated_at) {
+        this.post_id = post_id;
+        this.title = title;
+        this.content = content;
+        this.status = status;
+        this.view_count = view_count;
+        this.creator_id = creator_id;
+        this.creator_name = creator_name;
+        this.scheduledDate = scheduledDate;
+        this.category = category;
+        this.created_at = created_at;
+        this.updated_at = updated_at;
+    }
 
     public int getPost_id() {
         return post_id;

@@ -34,7 +34,9 @@ public class CategoryDaoImpl implements ICategoryDao {
     @Override
     public List<CategoryModel> getAllCategory() {
         List<CategoryModel> categoryModels = new ArrayList<>();
-        String query = "SELECT * FROM categories";
+        String query = "SELECT c.*, u.fullname AS category_creator\n" +
+                "FROM categories c\n" +
+                "JOIN users u ON c.creator_id = u.user_id";
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(query);
              var resultSet = preparedStatement.executeQuery()) {
@@ -43,9 +45,10 @@ public class CategoryDaoImpl implements ICategoryDao {
                 int id = resultSet.getInt("category_id");
                 String name = resultSet.getString("name");
                 int creator_id = resultSet.getInt("creator_id");
+                String creator_name = resultSet.getString("category_creator");
                 Timestamp created_at = resultSet.getTimestamp("created_at");
                 Timestamp updated_at = resultSet.getTimestamp("updated_at");
-                CategoryModel categoryModel = new CategoryModel(id, name, creator_id, created_at, updated_at);
+                CategoryModel categoryModel = new CategoryModel(id, name, creator_id, creator_name, created_at, updated_at);
                 categoryModels.add(categoryModel);
             }
 

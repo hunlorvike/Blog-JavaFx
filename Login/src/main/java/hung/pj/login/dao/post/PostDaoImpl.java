@@ -19,7 +19,9 @@ public class PostDaoImpl implements IPostDao {
     @Override
     public List<PostModel> getAllPosts() {
         List<PostModel> posts = new ArrayList<>();
-        String query = "SELECT * FROM post";
+        String query = "SELECT post.*, users.fullname AS author\n" +
+                "FROM post\n" +
+                "JOIN users ON post.creator_id = users.user_id\n";
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(query);
              var resultSet = preparedStatement.executeQuery()) {
@@ -29,13 +31,14 @@ public class PostDaoImpl implements IPostDao {
                 String title = resultSet.getString("title");
                 String content = resultSet.getString("content");
                 String status = resultSet.getString("status");
-                String category = resultSet.getString("category");
                 int view_count = resultSet.getInt("view_count");
                 int creator_id = resultSet.getInt("creator_id");
+                String author = resultSet.getString("author");
+                String category = resultSet.getString("category");
                 Timestamp scheduledTime = resultSet.getTimestamp("scheduled_datetime");
                 Timestamp created_at = resultSet.getTimestamp("created_at");
                 Timestamp updated_at = resultSet.getTimestamp("updated_at");
-                PostModel postModel = new PostModel(id, title, content, status, view_count, creator_id, scheduledTime, category, created_at, updated_at);
+                PostModel postModel = new PostModel(id, title, content, status, view_count, creator_id, author, scheduledTime, category, created_at, updated_at);
                 posts.add(postModel);
             }
 
@@ -207,7 +210,10 @@ public class PostDaoImpl implements IPostDao {
 
     @Override
     public PostModel getPostById(int post_id) {
-        String query = "SELECT * FROM post WHERE post_id = ?";
+        String query = "SELECT post.*, users.fullname AS author\n" +
+                "FROM post\n" +
+                "JOIN users ON post.creator_id = users.user_id\n" +
+                "WHERE post.post_id = ?\n";
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setInt(1, post_id);
 
@@ -218,11 +224,12 @@ public class PostDaoImpl implements IPostDao {
                     String content = resultSet.getString("content");
                     String status = resultSet.getString("status");
                     int view_count = resultSet.getInt("view_count");
-                    int creator_id = resultSet.getInt("creator_id");
+                    String author = resultSet.getString("author");
+                    String category = resultSet.getString("category");
                     Timestamp scheduledTime = resultSet.getTimestamp("scheduled_datetime");
                     Timestamp created_at = resultSet.getTimestamp("created_at");
                     Timestamp updated_at = resultSet.getTimestamp("updated_at");
-                    PostModel postModel = new PostModel(id, title, content, status, view_count, creator_id, scheduledTime, created_at, updated_at);
+                    PostModel postModel = new PostModel(id, title, content, status, view_count, author, scheduledTime, category, created_at, updated_at);
                     return postModel;
                 }
             }

@@ -36,7 +36,7 @@ public class CategoryController implements Initializable {
     private TableColumn<CategoryModel, String> nameColumn;
 
     @FXML
-    private TableColumn<CategoryModel, Integer> creatorColumn;
+    private TableColumn<CategoryModel, String> creatorColumn;
 
     @FXML
     private TableColumn<CategoryModel, Timestamp> createColumn, updateColumn;
@@ -55,7 +55,7 @@ public class CategoryController implements Initializable {
 
         idColumn.setCellValueFactory(new PropertyValueFactory<>("categoryId"));
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
-        creatorColumn.setCellValueFactory(new PropertyValueFactory<>("creator_id"));
+        creatorColumn.setCellValueFactory(new PropertyValueFactory<>("creator_name"));
         createColumn.setCellValueFactory(new PropertyValueFactory<>("created_at"));
         updateColumn.setCellValueFactory(new PropertyValueFactory<>("updated_at"));
 
@@ -135,6 +135,7 @@ public class CategoryController implements Initializable {
     }
 
     private void refreshTableView() {
+        System.out.println(categoryDao.getAllCategory());
         ControllerUtils.refreshTableView(tableView, categoryDao.getAllCategory());
     }
 

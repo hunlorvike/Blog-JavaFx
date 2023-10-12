@@ -6,6 +6,7 @@ public class CategoryModel {
     private int categoryId;
     private String name;
     private int creator_id;
+    private String creator_name;
     private Timestamp created_at;
     private Timestamp updated_at;
 
@@ -27,6 +28,22 @@ public class CategoryModel {
         this.updated_at = updated_at;
     }
 
+    public CategoryModel(int categoryId, String name, int creator_id, String creator_name, Timestamp created_at, Timestamp updated_at) {
+        this.categoryId = categoryId;
+        this.name = name;
+        this.creator_id = creator_id;
+        this.creator_name = creator_name;
+        this.created_at = created_at;
+        this.updated_at = updated_at;
+    }
+
+    public String getCreator_name() {
+        return creator_name;
+    }
+
+    public void setCreator_name(String creator_name) {
+        this.creator_name = creator_name;
+    }
 
     public int getCategoryId() {
         return categoryId;
@@ -74,6 +91,7 @@ public class CategoryModel {
                 "categoryId=" + categoryId +
                 ", name='" + name + '\'' +
                 ", creator_id=" + creator_id +
+                ", creator_name='" + creator_name + '\'' +
                 ", created_at=" + created_at +
                 ", updated_at=" + updated_at +
                 '}';

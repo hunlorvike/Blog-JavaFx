@@ -78,6 +78,14 @@ public class ControllerUtils {
         return "Được đăng bởi " + authorName;
     }
 
+    public static String toCategoryName(String categoryName) {
+        if (categoryName == null || categoryName.isEmpty()) {
+            return "";
+        }
+
+        return "Danh mục:  " + categoryName;
+    }
+
     public static String capitalizeFirstLetterOnly(String input) {
         if (input == null || input.isEmpty()) {
             return input;

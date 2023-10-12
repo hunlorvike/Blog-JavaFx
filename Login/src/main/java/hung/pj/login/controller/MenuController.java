@@ -54,7 +54,7 @@ public class MenuController implements Initializable {
         }
     }
 
-    public void handleHelper(ActionEvent actionEvent) {
+    public void handleHelper() {
         try {
             // Mở trình duyệt mặc định và chuyển đến đường dẫn
             Desktop.getDesktop().browse(new URI("https://www.facebook.com/messages/t/100043588192736"));

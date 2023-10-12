@@ -54,7 +54,7 @@ public class PostController implements Initializable {
     private TableColumn<PostModel, Integer> viewColumn;
 
     @FXML
-    private TableColumn<PostModel, Integer> creatorColumn;
+    private TableColumn<PostModel, String> creatorColumn;
 
     @FXML
     private TableColumn<PostModel, Timestamp> createColumn;
@@ -63,7 +63,7 @@ public class PostController implements Initializable {
     private TableColumn<PostModel, Timestamp> updateColumn;
 
     @FXML
-    private GridView  listViewPost;
+    private GridView listViewPost;
 
     private ObservableList<PostModel> postModelObservableList = FXCollections.observableArrayList();
 
@@ -88,7 +88,7 @@ public class PostController implements Initializable {
         titleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
         statusColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
         viewColumn.setCellValueFactory(new PropertyValueFactory<>("view_count"));
-        creatorColumn.setCellValueFactory(new PropertyValueFactory<>("creator_id"));
+        creatorColumn.setCellValueFactory(new PropertyValueFactory<>("creator_name"));
         createColumn.setCellValueFactory(new PropertyValueFactory<>("created_at"));
         updateColumn.setCellValueFactory(new PropertyValueFactory<>("updated_at"));
 
@@ -119,7 +119,7 @@ public class PostController implements Initializable {
 
         tableView.setContextMenu(menuPost);
 
-        menuPost.getItems().addAll(editPost,detailPost, deletePost,savedPost);
+        menuPost.getItems().addAll(editPost, detailPost, deletePost, savedPost);
 
         tableView.setOnMouseClicked(event -> {
             if (event.getButton() == MouseButton.PRIMARY) {
@@ -136,7 +136,7 @@ public class PostController implements Initializable {
 //            id người dùng
             int userId = postDao.getUserIdForPost(selectedId);
 
-            boolean save = postDao.insertSavedPost(userId,selectedId);
+            boolean save = postDao.insertSavedPost(userId, selectedId);
             if (save) {
                 showAlert(Alert.AlertType.INFORMATION, "Thành công", "Thông báo", "Bài viết đã được lưu thành công!");
             } else {

@@ -70,21 +70,6 @@ public class EditPostController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        String postIdString = DataHolder.getInstance().getData();
-        if (postIdString != null && !postIdString.isEmpty()) {
-            try {
-                postId = Integer.parseInt(postIdString);
-            } catch (NumberFormatException e) {
-                postId = -1;
-            }
-        }
-        if (postId >= 0) {
-            loadPostData(postId);
-        }
-
-        statusComboBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            datePicker.setVisible("Scheduled".equals(newValue));
-        });
         List<CategoryModel> categoryModels = categoryDao.getAllCategory();
 
         // Tạo một danh sách tên danh mục từ danh sách categoryModels
@@ -103,11 +88,29 @@ public class EditPostController implements Initializable {
             // Nếu danh sách tên danh mục rỗng, đặt giá trị mặc định là "None"
             categoryChoiceBox.setValue("None");
         }
+        String postIdString = DataHolder.getInstance().getData();
+        if (postIdString != null && !postIdString.isEmpty()) {
+            try {
+                postId = Integer.parseInt(postIdString);
+            } catch (NumberFormatException e) {
+                postId = -1;
+            }
+        }
+        if (postId >= 0) {
+            loadPostData(postId);
+        }
+
+        statusComboBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            datePicker.setVisible("Scheduled".equals(newValue));
+        });
+
+
     }
 
     // Load post data
     private void loadPostData(int postId) {
         PostModel selectedPost = postDao.getPostById(postId);
+        System.out.println(selectedPost);
         if (selectedPost != null) {
             titleTextField.setText(selectedPost.getTitle());
             contentTextField.setText(selectedPost.getContent());

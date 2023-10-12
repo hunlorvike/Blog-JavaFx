@@ -31,7 +31,7 @@ import java.util.ResourceBundle;
 
 public class PostDetailController implements Initializable {
     @FXML
-    private Label titleLabel, dateLabel, viewLabel, authorLabel;
+    private Label titleLabel, dateLabel, viewLabel, authorLabel, categoryLabel;
     @FXML
     private Text contentText;
     ConnectionProvider connectionProvider = new ConnectionProvider();
@@ -64,11 +64,13 @@ public class PostDetailController implements Initializable {
         UserModel userModel = postDao.getCreator(postId);
         PostModel postModel = postDao.getPostById(postId);
         if (postModel != null) {
+            System.out.println(postModel);
             titleLabel.setText(ControllerUtils.toTitleCase(postModel.getTitle()));
             dateLabel.setText(ControllerUtils.formatDateTime(postModel.getScheduledDate()));
             viewLabel.setText(postModel.getView_count() + " lượt xem");
             authorLabel.setText(ControllerUtils.toAuthorName(userModel.getFullname()));
             contentText.setText(ControllerUtils.capitalizeFirstLetterOnly(postModel.getContent()));
+            categoryLabel.setText(ControllerUtils.toCategoryName(postModel.getCategory()));
         }
         // Phần ảnh
         postImageModelsFromDb = postImageDao.getAllImageByIdPost(postId); // Gán giá trị cho biến từ CSDL
