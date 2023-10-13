@@ -47,6 +47,9 @@ public class MessengerController implements Initializable {
     private ListView<ConversationModel> conversationListView;
     private List<Label> messageLabels = new ArrayList<>();
     private boolean listeningForMessages = true;
+    private Socket socket;
+    private ObjectOutputStream out;
+    private ObjectInputStream in;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -55,12 +58,11 @@ public class MessengerController implements Initializable {
         UserModel loggedInUser = userSingleton.getLoggedInUser();
         userSingleton.setOnlineStatus(true);
 
-
         List<ConversationModel> userConversations = conversationDao.getConversationsByUserId(loggedInUser.getUser_id());
 
         ObservableList<ConversationModel> observableConversations = FXCollections.observableArrayList(userConversations);
-        conversationListView.setItems(observableConversations);
 
+        conversationListView.setItems(observableConversations);
         conversationListView.setCellFactory(new Callback<ListView<ConversationModel>, ListCell<ConversationModel>>() {
             @Override
             public ListCell<ConversationModel> call(ListView<ConversationModel> param) {
@@ -82,28 +84,39 @@ public class MessengerController implements Initializable {
             }
         });
 
+        try {
+            socket = new Socket("localhost", 8080);
+            out = new ObjectOutputStream(socket.getOutputStream());
+            in = new ObjectInputStream(socket.getInputStream());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         // Thêm lắng nghe sự kiện khi một cuộc trò chuyện được chọn
         conversationListView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
                 conversationSelected();
             }
         });
-
+        // Chạy phương thức khi mở messenger
         startListeningForMessages();
     }
 
+    // Nhiệm vụ chính của phương thức này là duyệt qua các tin nhắn mới từ máy chủ và cập nhật giao diện người dùng cho các thành viên trong nhóm trò chuyện
     private void startListeningForMessages() {
+        // Phương thức này tạo một luồng mới. Luồng này sẽ chịu trách nhiệm lắng nghe và xử lý tin nhắn đến từ máy chủ.
         Thread messageListeningThread = new Thread(() -> {
             try {
-                Socket socket = new Socket("localhost", 8080);
-                ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
-
+                Socket socket = new Socket("localhost", 8080); // Client tạo một socket để kết nô với máy chủ đang lắng nghe tại cổng 8080
+                ObjectInputStream in = new ObjectInputStream(socket.getInputStream()); // Tạo một object từ class ObjectInputStream
+                System.out.println(in);
+                // listeningForMessages = true. Mục đích của việc này là để máy khách có thể lắng nghe tin nhắn một cách liên tục trong khi ứng dụng vẫn hoạt động.
                 while (listeningForMessages) {
                     try {
-                        // Đọc tin nhắn từ máy chủ
+                        // Đọc tin nhắn vừa gửi đi và câ nhật vào giao diện
                         MessageModel receivedMessage = (MessageModel) in.readObject();
+                        System.out.println(receivedMessage);
 
-                        // Xử lý tin nhắn mới ở đây
                         // Ví dụ: cập nhật giao diện người dùng để hiển thị tin nhắn mới
                         handleReceivedMessage(receivedMessage);
                     } catch (ClassNotFoundException e) {
@@ -115,53 +128,11 @@ public class MessengerController implements Initializable {
             }
         });
 
-        messageListeningThread.setDaemon(true); // Đảm bảo luồng nghe dừng khi ứng dụng kết thúc
-        messageListeningThread.start();
+        messageListeningThread.setDaemon(true); // Trong trường hợp này, nó đảm bảo rằng luồng lắng nghe tin nhắn sẽ dừng khi ứng dụng kết thúc.
+        messageListeningThread.start(); // Luồng lắng nghe tin nhắn được khởi động để bắt đầu lắng nghe và xử lý tin nhắn từ máy chủ.
     }
 
-    private void handleReceivedMessage(MessageModel receivedMessage) {
-        Platform.runLater(() -> {
-            String senderName = getSenderName(receivedMessage.getSenderId());
-            // Lấy thời gian hiện tại
-            Date currentTime = new Date();
-
-            // Định dạng thời gian thành giờ:phút:giây
-            SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
-            String formattedTime = dateFormat.format(currentTime);
-
-            String formattedMessage = senderName + ": " + receivedMessage.getMessageText() + " - " + formattedTime;
-
-            Label messageLabel = new Label(formattedMessage);
-            messageLabel.setStyle("  -fx-text-fill:  #FFFFFF;");
-            HBox messageBox = new HBox(messageLabel);
-
-            // Đặt HBox để có độ rộng vừa với nội dung trong Label
-            HBox.setHgrow(messageBox, Priority.ALWAYS);
-
-            // Đặt alignment của HBox dựa trên người gửi tin nhắn
-            if (receivedMessage.getSenderId() == userSingleton.getLoggedInUser().getUser_id()) {
-                messageBox.setAlignment(Pos.CENTER_RIGHT); // Hiển thị bên phải
-                messageBox.setStyle("    -fx-background-color: #445D48; \n" +
-                        "    -fx-text-fill:  #FFFFFF;\n" +
-                        "    -fx-padding: 5px;\n" +
-                        "    -fx-border-radius: 5px; \n" +
-                        "    -fx-background-radius: 5px; \n" +
-                        "   -fx-background-size: cover");
-            } else {
-                messageBox.setAlignment(Pos.CENTER_LEFT); // Hiển thị bên trái
-                messageBox.setStyle("    -fx-background-color: #B4B4B3; \n" +
-                        "    -fx-text-fill:  #FFFFFF;\n" +
-                        "    -fx-padding: 5px; \n" +
-                        "    -fx-border-radius: 5px; \n" +
-                        "    -fx-background-radius: 5px; \n" +
-                        "   -fx-background-size: cover");
-            }
-
-            messageVBox.getChildren().add(messageBox);
-        });
-    }
-
-
+    // Được gọi khi người dùng chọn một cuộc trò chuyện từ danh sách cuộc trò chuyện trên giao diện ứng dụng Messenger của bạn.
     @FXML
     private void conversationSelected() {
         ConversationModel selectedConversation = conversationListView.getSelectionModel().getSelectedItem();
@@ -214,6 +185,48 @@ public class MessengerController implements Initializable {
         }
     }
 
+    private void handleReceivedMessage(MessageModel receivedMessage) {
+        Platform.runLater(() -> {
+            String senderName = getSenderName(receivedMessage.getSenderId());
+            // Lấy thời gian hiện tại
+            Date currentTime = new Date();
+
+            // Định dạng thời gian thành giờ:phút:giây
+            SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
+            String formattedTime = dateFormat.format(currentTime);
+
+            String formattedMessage = senderName + ": " + receivedMessage.getMessageText() + " - " + formattedTime;
+
+            Label messageLabel = new Label(formattedMessage);
+            messageLabel.setStyle("  -fx-text-fill:  #FFFFFF;");
+            HBox messageBox = new HBox(messageLabel);
+
+            // Đặt HBox để có độ rộng vừa với nội dung trong Label
+            HBox.setHgrow(messageBox, Priority.ALWAYS);
+
+            // Đặt alignment của HBox dựa trên người gửi tin nhắn
+            if (receivedMessage.getSenderId() == userSingleton.getLoggedInUser().getUser_id()) {
+                messageBox.setAlignment(Pos.CENTER_RIGHT); // Hiển thị bên phải
+                messageBox.setStyle("    -fx-background-color: #445D48; \n" +
+                        "    -fx-text-fill:  #FFFFFF;\n" +
+                        "    -fx-padding: 5px;\n" +
+                        "    -fx-border-radius: 5px; \n" +
+                        "    -fx-background-radius: 5px; \n" +
+                        "   -fx-background-size: cover");
+            } else {
+                messageBox.setAlignment(Pos.CENTER_LEFT); // Hiển thị bên trái
+                messageBox.setStyle("    -fx-background-color: #B4B4B3; \n" +
+                        "    -fx-text-fill:  #FFFFFF;\n" +
+                        "    -fx-padding: 5px; \n" +
+                        "    -fx-border-radius: 5px; \n" +
+                        "    -fx-background-radius: 5px; \n" +
+                        "   -fx-background-size: cover");
+            }
+
+            messageVBox.getChildren().add(messageBox);
+        });
+    }
+
 
     private String getSenderName(int senderId) {
         UserModel userModel = userDao.getUserById(senderId);
@@ -224,42 +237,31 @@ public class MessengerController implements Initializable {
     public void sendMessage() {
         String messageText = messageTextField.getText().trim();
 
-        // Kiểm tra nếu tin nhắn không trống
         if (!messageText.isEmpty()) {
-            // Lấy cuộc trò chuyện hiện tại được chọn
             ConversationModel selectedConversation = conversationListView.getSelectionModel().getSelectedItem();
 
-            // Kiểm tra xem đã chọn cuộc trò chuyện nào chưa
             if (selectedConversation != null) {
                 int conversationId = selectedConversation.getConversationId();
-
-                // Tạo một đối tượng MessageModel
                 UserModel loggedInUser = userSingleton.getLoggedInUser();
                 int senderId = loggedInUser.getUser_id();
-                MessageModel messageModel = new MessageModel(conversationId, senderId, messageText);
+                MessageModel messageModel = new MessageModel(conversationId, senderId, messageText); // Tạo một object messagemodel để gửi tới server
 
                 try {
-                    Socket socket = new Socket("localhost", 8080);
-                    ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
-                    ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
-
                     // Gửi đối tượng tin nhắn đến máy chủ
                     out.writeObject(messageModel);
+                    out.flush(); // Đảm bảo dữ liệu được gửi ngay lập tức thay vì đợi đến khi bộ đệm đầy.
 
                     // Nhận phản hồi từ máy chủ (nếu cần)
                     String response = (String) in.readObject();
                     System.out.println("Phản hồi từ máy chủ: " + response);
 
-                    // Đóng kết nối
-                    socket.close();
                 } catch (IOException | ClassNotFoundException e) {
                     e.printStackTrace();
                 }
 
-                // Xóa nội dung trong ô nhập tin nhắn
                 messageTextField.clear();
             } else {
-                // Hiển thị thông báo hoặc xử lý nếu không có cuộc trò chuyện nào được chọn
+                ControllerUtils.showAlertDialog("Vui lòng chọn một cuộc trò chuyện trước khi gửi tin nhắn.", Alert.AlertType.ERROR, null);
                 System.out.println("Vui lòng chọn một cuộc trò chuyện trước khi gửi tin nhắn.");
             }
         }

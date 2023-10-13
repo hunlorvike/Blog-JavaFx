@@ -48,8 +48,8 @@ public class ToolbarController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         // Kiểm tra singleton đăng nhập
-        userSingleton = UserSingleton.getInstance();
-        UserModel loggedInUser = userSingleton.getLoggedInUser();
+        userSingleton = UserSingleton.getInstance(); //Phương thức getInstance() chịu trách nhiệm kiểm tra xem thể hiện đã được tạo chưa. Nếu chưa, nó sẽ tạo một thể hiện mới bằng cách sử dụng new. Sau đó, nó trả về thể hiện đã tạo.
+        UserModel loggedInUser = userSingleton.getLoggedInUser(); //  Cách này đảm bảo rằng luôn chỉ có một thể hiện duy nhất của lớp UserSingleton tồn tại trong ứng dụng, và nó sẽ được chia sẻ giữa các phần của ứng dụng khi cần thiết.
         userSingleton.setOnlineStatus(true);
 
         // Lấy ngày hiện tại

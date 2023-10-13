@@ -5,7 +5,8 @@ import hung.pj.login.model.UserModel;
 public class UserSingleton {
     private static UserSingleton instance;
     private UserModel loggedInUser;
-    private boolean onlineStatus; // Thêm trường trạng thái online/offline
+    private
+    boolean onlineStatus; // Thêm trường trạng thái online/offline
 
     private UserSingleton() {
         onlineStatus = false; // Ban đầu, người dùng offline

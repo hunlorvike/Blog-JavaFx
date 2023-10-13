@@ -177,7 +177,6 @@ public class PostController implements Initializable {
             int selectedId = selectedPost.getPost_id();
             postDao.increaseViewCount(selectedId);
             DataHolder.getInstance().setData(String.valueOf(selectedId));
-//            AppMain.setRoot("detail_post.fxml", Constants.CUSTOM_WIDTH, Constants.CUSTOM_HEIGHT, false);
             AppMain.setRoot("post_detail.fxml", Constants.CUSTOM_WIDTH, Constants.CUSTOM_HEIGHT, false);
 
         }
