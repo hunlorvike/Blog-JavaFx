@@ -181,6 +181,7 @@ public class ProfileDetailController implements Initializable {
                 e.printStackTrace();
             }
         } else {
+            ControllerUtils.showAlertDialog(platform + " không khả dụng", Alert.AlertType.INFORMATION, null);
             System.out.println(platform + " không khả dụng.");
         }
     }

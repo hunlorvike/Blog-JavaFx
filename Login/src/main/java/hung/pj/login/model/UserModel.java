@@ -27,6 +27,13 @@ public class UserModel {
         this.postCount = postCount;
     }
 
+    public UserModel(int id, String fullName, String email, int postCount) {
+        this.user_id = id;
+        this.fullname = fullName;
+        this.email = email;
+        this.postCount = postCount;
+    }
+
     public UserModel(String fullname, String email, String password, String role) {
         this.fullname = fullname;
         this.email = email;

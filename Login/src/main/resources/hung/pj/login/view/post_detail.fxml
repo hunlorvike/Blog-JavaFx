@@ -21,7 +21,7 @@
                 <Label fx:id="authorLabel" layoutX="33.0" layoutY="160.0" styleClass="b"
                        text="Được đăng bởi Nguyễn Việt Hưng" textFill="#486E66"/>
 
-                <Label fx:id="categoryLabel" styleClass="btn, btn-primary" layoutX="870.0" layoutY="130.0"
+                <Label fx:id="categoryLabel" styleClass="btn, btn-primary" layoutX="800.0" layoutY="130.0"
                        text="Category Name"/>
 
                 <ScrollPane fitToWidth="true" layoutX="33.0" layoutY="200.0" prefHeight="320.0" prefWidth="1030.0">

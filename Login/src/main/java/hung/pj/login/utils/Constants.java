@@ -12,6 +12,5 @@ public class Constants {
     public static final String UPLOAD_DIRECTORY = "Login/src/main/resources/hung/pj/login/upload";
     public static final String CONFIG_FILE = "rememberme.properties";
 
-
 }
 

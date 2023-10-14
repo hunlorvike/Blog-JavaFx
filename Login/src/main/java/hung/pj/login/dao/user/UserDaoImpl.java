@@ -159,9 +159,10 @@ public class UserDaoImpl implements IUserDao {
             while (resultSet.next()) {
                 int id = resultSet.getInt("user_id");
                 String fullname = resultSet.getString("fullname");
+                String email = resultSet.getString("email");
                 int postCount = resultSet.getInt("post_count");
 
-                UserModel userModel = new UserModel(id, fullname, postCount);
+                UserModel userModel = new UserModel(id, fullname, email, postCount);
                 users.add(userModel);
             }
         } catch (SQLException e) {

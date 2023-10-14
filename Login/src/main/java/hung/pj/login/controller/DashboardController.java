@@ -116,6 +116,7 @@ public class DashboardController implements Initializable {
 
     private void viewMemberDetail() throws IOException {
         UserModel selectedUser = tableViewMember.getSelectionModel().getSelectedItem();
+        System.out.println(selectedUser);
         if (selectedUser != null) {
             String selectedId = selectedUser.getEmail();
 
